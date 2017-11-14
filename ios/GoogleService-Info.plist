@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>49239710818-7h10jtp6bfpn91rdh3i3tuq2gr9fa5qq.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.49239710818-7h10jtp6bfpn91rdh3i3tuq2gr9fa5qq</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAn9XZsEOtrduAoUzJ5FAwgJhizFoc2rbY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>49239710818</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>saphier.WeRate</string>
+	<key>PROJECT_ID</key>
+	<string>werate-68084</string>
+	<key>STORAGE_BUCKET</key>
+	<string>werate-68084.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:49239710818:ios:718009924dce2754</string>
+	<key>DATABASE_URL</key>
+	<string>https://werate-68084.firebaseio.com</string>
+</dict>
+</plist>

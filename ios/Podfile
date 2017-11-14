@@ -1,0 +1,50 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '9.0'
+
+target 'WeRate' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Required by RNFirebase
+  pod 'Firebase/Core'
+  pod 'Firebase/Firestore'
+
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga/yoga.podspec'
+  pod 'React', :path => '../node_modules/react-native', :subspecs => [
+    'BatchedBridge', # Required For React Native 0.45.0+
+    'Core',
+    'DevSupport'
+    # Add any other subspecs you want to use in your project
+  ]
+
+  target 'WeRateTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'WeRate-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for WeRate-tvOS
+
+  target 'WeRate-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if target.name == "React"
+      target.remove_from_project
+    end
+  end
+end
