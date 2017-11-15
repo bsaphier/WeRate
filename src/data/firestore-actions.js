@@ -1,7 +1,5 @@
 // @flow
 import firebase from 'react-native-firebase';
-import type { ThunkAction } from 'redux-thunk';
-import type { ActionCreator } from 'react-redux';
 import type { placesTypes } from '../state/Places';
 type Place = placesTypes.Place;
 
@@ -13,30 +11,22 @@ const Places = Store.collection('places');
 // const Reviews = Store.collection('reviews');
 
 
-
-export const createPlace: ThunkAction = (place: Place, callback: ActionCreator) =>
-  dispatch =>
-    Places.add(place)
-      .then(docRef => docRef.get())
-      .then(documentRef => {
-        const { id } = documentRef;
-        const data = documentRef.data();
-        const newPlace: Place = {
-          id,
-          name: data.name,
-          description: data.description || ''
-        };
-        dispatch(callback(newPlace));
-        return data;
-      });
+function handlePlaceData(documentRef): Place {
+  const { id } = documentRef;
+  const { name, description } = documentRef.data();
+  return {
+    id,
+    name,
+    description: description || ''
+  };
+}
 
 
-/******* EXAMPLE ****** */
-// export const createPlaceAction = (place: Place) => {
-//   return dispatch => {
-//     createPlace(
-//       place,
-//       (newPlace) => dispatch(addPlace(newPlace))
-//     );
-//   };
-// };
+export const createPlaceInDb = (place: Place) => 
+  Places.add(place)
+    .then(docRef => docRef.get())
+    .then(handlePlaceData);
+
+
+export const deletePlaceFromDb = (placeId: string) =>
+  Places.doc(placeId).delete();

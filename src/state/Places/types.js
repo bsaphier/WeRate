@@ -10,13 +10,13 @@ export type AllIds = Array<Id>;
 // A place is the core object that users are concerned with but exists only within a group.
 // A place has many reviews
 export type Place = {|
-  id?: Id,
+  id: Id,
   createdBy?: Id,
   name: string,
-  tagIds: Array<Id>,
-  reviewIds: Array<Id>,
-  description: string,
-  address: Address,
+  tagIds?: Array<Id>,
+  reviewIds?: Array<Id>,
+  description?: string,
+  address?: Address,
   phone1?: string,
   phone2?: string,
   email?: string,

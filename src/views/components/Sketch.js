@@ -1,105 +1,83 @@
 // @flow
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import firebase from 'react-native-firebase';
 import { TouchableHighlight, View, Text, TextInput, Button, StyleSheet, FlatList } from 'react-native';
 import { actionCreators as placesActionCreators } from '../../state/Places';
 import type { placesTypes } from '../../state/Places';
-import { createPlace } from '../../data/firestore-actions';
-
-
-const Place = ({ name }) => (
-  <TouchableHighlight onPress={() => { }}>
-    <View style={styles.PlaceWrap}>
-      <View style={styles.PlaceTitle}>
-        <Text>{name}</Text>
-      </View>
-      <View style={styles.PlaceText}>
-        <Text>FILLER</Text>
-      </View>
-    </View>
-  </TouchableHighlight>
-);
 
 
 type sketchProps = {
   places: any,
   createPlace: any,
-  removePlace: any
+  deletePlace: any
 };
 type sketchState = {
-  textInput: string,
-  loading: boolean
+  name: string,
+  description: string
 };
 
 class Sketch extends Component<sketchProps, sketchState> {
   constructor(props) {
     super(props);
-    this.state = {
-      textInput: '',
-      loading: true
-    };
-    // this.ref = firebase.firestore().collection('places');
-    // this.unsubscribe = null;
+    this.state = { name: '', description: '' };
   }
 
-  componentDidMount() {
-    // this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+  updateName(name: string) {
+    this.setState({ name });
   }
 
-  componentWillUnmount() {
-    // this.unsubscribe();
-  }
-
-  // onCollectionUpdate = (querySnapshot) => {
-    // const places = [];
-    // querySnapshot.forEach(doc => {
-    //   const { name } = doc.data();
-    //   places.push({
-    //     key: doc.id,
-    //     doc,
-    //     name
-    //   });
-    // });
-  //   this.setState({
-  //     loading: false
-  //   });
-  // }
-
-  updateTextInput(value) {
-    this.setState({ textInput: value });
+  updateDescription(description: string) {
+    this.setState({ description });
   }
 
   addPlace() {
-    this.props.createPlace({ name: this.state.textInput })
-      .then(ref => {
-        this.updateTextInput('');
-      });
+    const { name, description } = this.state;
+    this.props.createPlace({ name, description })
+      .then(() => this.setState({ name: '', description: '' }));
   }
 
   render() {
-    // if (this.state.loading) {
-    //   return null;
-    // }
-
+    const { name, description } = this.state;
+    const { places, deletePlace } = this.props;
     return (
       <View style={styles.SketchContainter}>
         <Text style={styles.Sketch}>List of Places</Text>
-        <FlatList
-            data={this.props.places.allIds.map(id => ({key: id, id}))}
-            renderItem={({ item }) => <Place name={this.props.places.byId[item.id].name} />}
-        />
         <View style={styles.InputWrap}>
           <TextInput
               style={styles.Input}
               placeholder={'Add A Place'}
-              value={this.state.textInput}
-              onChangeText={(text) => this.updateTextInput(text)}
+              value={name}
+              onChangeText={(text) => this.updateName(text)}
+          />
+          <TextInput
+              style={styles.Input}
+              placeholder={'Describe the place'}
+              value={description}
+              onChangeText={(text) => this.updateDescription(text)}
           />
         </View>
+        <FlatList
+            data={places.allIds.map(id => ({ key: id, id }))}
+            renderItem={({ item }) => {
+              const place: placesTypes.Place = places.byId[item.id];
+              return (
+                <TouchableHighlight onPress={() => { }}>
+                  <View style={styles.PlaceWrap}>
+                    <View style={styles.PlaceTitle}>
+                      <Text>{place.name}</Text>
+                      <Text>{place.description}</Text>
+                    </View>
+                    <View style={styles.PlaceText}>
+                      <Button title="X" onPress={() => deletePlace(place)} />
+                    </View>
+                  </View>
+                </TouchableHighlight>
+              );
+            }}
+        />
         <Button
             title={'Add Place'}
-            disabled={!this.state.textInput.length}
+            disabled={!name.length}
             onPress={() => this.addPlace()}
         />
       </View>
@@ -116,7 +94,8 @@ const styles = StyleSheet.create({
   },
   InputWrap: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    margin: 13
   },
   Input: {
     fontWeight: 'bold',
@@ -126,24 +105,28 @@ const styles = StyleSheet.create({
   },
   PlaceWrap: {
     flex: 1,
-    height: 48,
+    height: 34,
     flexDirection: 'row',
     alignItems: 'center'
   },
-  PlaceTitle: { flex: 8 },
-  PlaceText: { flex: 2 }
+  PlaceTitle: {
+    flex: 8,
+    padding: 2,
+    flexDirection: 'column'
+  },
+  PlaceText: {
+    flex: 2,
+    margin: 2,
+    padding: 3
+  }
 });
 
 
-const mapState = ({ tags, places, reviews }) => ({
-  tags,
-  places,
-  reviews
-});
+const mapState = ({ tags, places, reviews }) => ({ tags, places, reviews });
 
 const mapDispatch = dispatch => ({
-  createPlace: (place: placesTypes.Place) => dispatch(createPlace(place, placesActionCreators.addPlace)),
-  removePlace: (place: placesTypes.Place) => dispatch(placesActionCreators.removePlace(place))
+  createPlace: (place: placesTypes.Place) => dispatch(placesActionCreators.createPlace(place)),
+  deletePlace: (place: placesTypes.Place) => dispatch(placesActionCreators.deletePlace(place))
 });
 
 
