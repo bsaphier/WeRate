@@ -7,14 +7,14 @@ import logger from 'redux-logger';
 import UserReducer from './User';
 import PlacesReducer from './Places';
 import ReviewsReducer from './Reviews';
-import CategoriesReducer from './Categories';
+import TagsReducer from './Tags';
 
 
 const rootReducer = combineReducers({
+  tags: TagsReducer,
   user: UserReducer,
   places: PlacesReducer,
-  reviews: ReviewsReducer,
-  categories: CategoriesReducer
+  reviews: ReviewsReducer
 });
 
 const middleware = applyMiddleware(thunk, logger);

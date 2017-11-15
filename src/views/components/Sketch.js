@@ -5,21 +5,8 @@ import firebase from 'react-native-firebase';
 import { TouchableHighlight, View, Text, TextInput, Button, StyleSheet, FlatList } from 'react-native';
 import { actionCreators as placesActionCreators } from '../../state/Places';
 import type { placesTypes } from '../../state/Places';
+import { createPlace } from '../../data/firestore-actions';
 
-
-let id = -1;
-function createPlace(name = 'A Place'): placesTypes.Place {
-  id++;
-  return {
-    id: `${id}`,
-    createdBy: '',
-    reviewIds: [],
-    categoryIds: [],
-    name,
-    description: '',
-    address: {}
-  };
-}
 
 const Place = ({ name }) => (
   <TouchableHighlight onPress={() => { }}>
@@ -35,11 +22,14 @@ const Place = ({ name }) => (
 );
 
 
-type sketchProps = { };
+type sketchProps = {
+  places: any,
+  createPlace: any,
+  removePlace: any
+};
 type sketchState = {
   textInput: string,
-  loading: boolean,
-  places: Array<any>
+  loading: boolean
 };
 
 class Sketch extends Component<sketchProps, sketchState> {
@@ -47,70 +37,66 @@ class Sketch extends Component<sketchProps, sketchState> {
     super(props);
     this.state = {
       textInput: '',
-      loading: true,
-      places: [{ key: '0', doc: {}, name: 'filler'}]
+      loading: true
     };
-    this.ref = firebase.firestore().collection('places');
-    this.unsubscribe = null;
+    // this.ref = firebase.firestore().collection('places');
+    // this.unsubscribe = null;
   }
 
   componentDidMount() {
-    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+    // this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
 
   componentWillUnmount() {
-    this.unsubscribe();
+    // this.unsubscribe();
   }
 
-  onCollectionUpdate = (querySnapshot) => {
-    const places = [];
-
-    querySnapshot.forEach(doc => {
-      const { name } = doc.data();
-
-      places.push({
-        key: doc.id,
-        doc,
-        name
-      });
-    });
-
-    this.setState({
-      places,
-      loading: false
-    });
-  }
+  // onCollectionUpdate = (querySnapshot) => {
+    // const places = [];
+    // querySnapshot.forEach(doc => {
+    //   const { name } = doc.data();
+    //   places.push({
+    //     key: doc.id,
+    //     doc,
+    //     name
+    //   });
+    // });
+  //   this.setState({
+  //     loading: false
+  //   });
+  // }
 
   updateTextInput(value) {
     this.setState({ textInput: value });
   }
 
   addPlace() {
-    this.ref.add(createPlace(this.state.textInput))
-      .then(docRef => {
-        console.log('************', docRef.id);
+    this.props.createPlace({ name: this.state.textInput })
+      .then(ref => {
         this.updateTextInput('');
       });
   }
 
   render() {
-    // const { places, addPlace, removePlace } = this.props;
-    if (this.state.loading) {
-      return null;
-    }
+    // if (this.state.loading) {
+    //   return null;
+    // }
 
     return (
       <View style={styles.SketchContainter}>
         <Text style={styles.Sketch}>List of Places</Text>
         <FlatList
-            data={this.state.places}
-            renderItem={({ item }) => <Place name={item.name} />}
+            data={this.props.places.allIds.map(id => ({key: id, id}))}
+            renderItem={({ item }) => <Place name={this.props.places.byId[item.id].name} />}
         />
-        <TextInput
-            placeholder={'Add A Place'}
-            value={this.state.textInput}
-            onChangeText={(text) => this.updateTextInput(text)}
-        />
+        <View style={styles.InputWrap}>
+          <TextInput
+              style={styles.Input}
+              placeholder={'Add A Place'}
+              value={this.state.textInput}
+              onChangeText={(text) => this.updateTextInput(text)}
+          />
+        </View>
         <Button
             title={'Add Place'}
             disabled={!this.state.textInput.length}
@@ -128,6 +114,16 @@ const styles = StyleSheet.create({
     fontSize: 21,
     color: '#666'
   },
+  InputWrap: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  Input: {
+    fontWeight: 'bold',
+    fontSize: 21,
+    color: '#69F',
+    margin: 5
+  },
   PlaceWrap: {
     flex: 1,
     height: 48,
@@ -139,14 +135,14 @@ const styles = StyleSheet.create({
 });
 
 
-const mapState = ({ places, reviews, categories }) => ({
+const mapState = ({ tags, places, reviews }) => ({
+  tags,
   places,
-  reviews,
-  categories
+  reviews
 });
 
 const mapDispatch = dispatch => ({
-  addPlace: (place: placesTypes.Place) => dispatch(placesActionCreators.addPlace(place)),
+  createPlace: (place: placesTypes.Place) => dispatch(createPlace(place, placesActionCreators.addPlace)),
   removePlace: (place: placesTypes.Place) => dispatch(placesActionCreators.removePlace(place))
 });
 

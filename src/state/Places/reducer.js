@@ -2,10 +2,10 @@
 import { combineReducers } from 'redux';
 import { ADD_PLACE, REMOVE_PLACE } from './types';
 import { ADD_REVIEW, REMOVE_REVIEW } from '../Reviews/types';
-import { ADD_CATEGORY, REMOVE_CATEGORY } from '../Categories/types';
+import { ADD_TAG, REMOVE_TAG } from '../Tags/types';
 import type { Reducer } from 'redux';
 import type { AddReviewAction, RemoveReviewAction } from '../Reviews/types';
-import type { AddCategoryAction, RemoveCategoryAction } from '../Categories/types';
+import type { AddTagAction, RemoveTagAction } from '../Tags/types';
 import type { AllIds, Place, Action, PlacesById, AddPlaceAction, RemovePlaceAction } from './types';
 
 
@@ -37,7 +37,7 @@ function removeReview(state: PlacesById, action: RemoveReviewAction): PlacesById
 }
 
 
-function addCategory(state: PlacesById, action: AddCategoryAction): PlacesById {
+function addTag(state: PlacesById, action: AddTagAction): PlacesById {
   const { payload } = action;
   const { id, placeIds } = payload;
 
@@ -48,7 +48,7 @@ function addCategory(state: PlacesById, action: AddCategoryAction): PlacesById {
       const place: Place = state[placeId];
       nextState[placeId] = {
         ...place,
-        categoryIds: place.categoryIds.concat(id)
+        tagIds: place.tagIds.concat(id)
       };
     });
     return nextState;
@@ -57,7 +57,7 @@ function addCategory(state: PlacesById, action: AddCategoryAction): PlacesById {
 }
 
 
-function removeCategory(state: PlacesById, action: RemoveCategoryAction): PlacesById {
+function removeTag(state: PlacesById, action: RemoveTagAction): PlacesById {
   const { payload } = action;
   const { id, placeIds } = payload;
 
@@ -68,7 +68,7 @@ function removeCategory(state: PlacesById, action: RemoveCategoryAction): Places
       const place: Place = state[placeId];
       nextState[placeId] = {
         ...place,
-        categoryIds: place.categoryIds.filter(categoryId => (categoryId !== id))
+        tagIds: place.tagIds.filter(tagId => (tagId !== id))
       };
     });
     return nextState;
@@ -93,16 +93,16 @@ function removePlace(state: PlacesById, action: RemovePlaceAction): PlacesById {
 }
 
 
-function placesById(state: PlacesById = {}, action: Action | AddReviewAction | AddCategoryAction | RemoveCategoryAction | RemoveReviewAction): PlacesById {
+function placesById(state: PlacesById = {}, action: Action | AddReviewAction | AddTagAction | RemoveTagAction | RemoveReviewAction): PlacesById {
   switch(action.type) {
     case ADD_REVIEW:
       return addReview(state, action);
     case REMOVE_REVIEW:
       return removeReview(state, action);
-    case ADD_CATEGORY:
-      return addCategory(state, action);
-    case REMOVE_CATEGORY:
-      return removeCategory(state, action);
+    case ADD_TAG:
+      return addTag(state, action);
+    case REMOVE_TAG:
+      return removeTag(state, action);
     case ADD_PLACE:
       return addPlace(state, action);
     case REMOVE_PLACE:
