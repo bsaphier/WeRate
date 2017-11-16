@@ -11,10 +11,10 @@ export type AllIds = Array<Id>;
 // A place has many reviews
 export type Place = {|
   id: Id,
-  createdBy?: Id,
+  createdBy?: any,
   name: string,
-  tagIds?: Array<Id>,
-  reviewIds?: Array<Id>,
+  tagIds?: Array<any>,
+  reviewIds?: Array<any>,
   description?: string,
   address?: Address,
   phone1?: string,

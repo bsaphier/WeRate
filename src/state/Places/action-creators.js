@@ -23,6 +23,7 @@ export const loadAllPlaces: ThunkAction = () => {
     return loadAllPlacesFromDb()
       .then((allPlaces: Places) => {
         allPlaces.forEach((place: Place) => {
+          console.log(place);
           dispatch(addPlace(place));
         });
       });
@@ -47,6 +48,7 @@ export const deletePlace: ThunkAction = (place: Place) => {
       .then(() => dispatch(removePlace(place)));
   };
 };
+
 
 export default {
    addPlace,

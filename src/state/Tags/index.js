@@ -1,6 +1,6 @@
-import categoriesReducer from './reducer';
+import tagsReducer from './reducer';
 
-export { default as categoriesTypes } from './types';
+export { default as tagsTypes } from './types';
 export { default as actionCreators } from './action-creators';
 
-export default categoriesReducer;
+export default tagsReducer;

@@ -7,15 +7,15 @@ export type Id = string;
 
 
 export type userState = {
-  +id: Id,
-  +admin: boolean,
+  id: Id,
+  admin: boolean,
   firstName: string,
   lastName: string,
   email: string,
   business: string,
   phone: string,
   website: string,
-  reviewIds: Array<Id>,
+  reviewIds: Array<any>,
 };
 
 export type Users = Array<userState>;

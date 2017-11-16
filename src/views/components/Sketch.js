@@ -2,20 +2,28 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { TouchableHighlight, View, Text, TextInput, Button, StyleSheet, FlatList } from 'react-native';
+import { actionCreators as tagsActionCreators } from '../../state/Tags';
 import { actionCreators as placesActionCreators } from '../../state/Places';
+import { actionCreators as reviewsActionCreators } from '../../state/Reviews';
+import type { tagsTypes } from '../../state/Tags';
 import type { placesTypes } from '../../state/Places';
-
-
+import type { reviewsTypes } from '../../state/Reviews';
 type sketchProps = {
+  tags: any,
   places: any,
+  reviews: any,
   createPlace: any,
   deletePlace: any,
-  loadAllPlaces: any
+  loadAllTags: any,
+  loadAllPlaces: any,
+  loadAllReviews: any
 };
 type sketchState = {
   name: string,
   description: string
 };
+
+
 
 class Sketch extends Component<sketchProps, sketchState> {
   constructor(props) {
@@ -24,7 +32,9 @@ class Sketch extends Component<sketchProps, sketchState> {
   }
 
   componentDidMount() {
+    this.props.loadAllTags();
     this.props.loadAllPlaces();
+    this.props.loadAllReviews();
   }
 
   updateName(name: string) {
@@ -43,7 +53,7 @@ class Sketch extends Component<sketchProps, sketchState> {
 
   render() {
     const { name, description } = this.state;
-    const { places, deletePlace } = this.props;
+    const { tags, places, reviews, deletePlace } = this.props;
     return (
       <View style={styles.SketchContainter}>
         <Text style={styles.Sketch}>List of Places</Text>
@@ -66,7 +76,7 @@ class Sketch extends Component<sketchProps, sketchState> {
             renderItem={({ item }) => {
               const place: placesTypes.Place = places.byId[item.id];
               return (
-                <TouchableHighlight onPress={() => { }}>
+                <TouchableHighlight underlayColor="#CDF" onPress={() => { }}>
                   <View style={styles.PlaceWrap}>
                     <View style={styles.PlaceTitle}>
                       <Text>{place.name}</Text>
@@ -84,6 +94,37 @@ class Sketch extends Component<sketchProps, sketchState> {
             title={'Add Place'}
             disabled={!name.length}
             onPress={() => this.addPlace()}
+        />
+        <FlatList
+            data={tags.allIds.map(id => ({ key: id, id }))}
+            renderItem={({ item }) => {
+              const tag: tagsTypes.Place = tags.byId[item.id];
+              return (
+                <TouchableHighlight underlayColor="#CDF" onPress={() => { }}>
+                  <View style={styles.PlaceWrap}>
+                    <View style={styles.PlaceTitle}>
+                      <Text>{tag.title}</Text>
+                    </View>
+                  </View>
+                </TouchableHighlight>
+              );
+            }}
+        />
+        <FlatList
+            data={reviews.allIds.map(id => ({ key: id, id }))}
+            renderItem={({ item }) => {
+              const review: reviewsTypes.Place = reviews.byId[item.id];
+              return (
+                <TouchableHighlight underlayColor="#CDF" onPress={() => { }}>
+                  <View style={styles.PlaceWrap}>
+                    <View style={styles.PlaceTitle}>
+                      <Text>{review.rating}</Text>
+                      <Text>{review.comment}</Text>
+                    </View>
+                  </View>
+                </TouchableHighlight>
+              );
+            }}
         />
       </View>
     );
@@ -131,7 +172,9 @@ const styles = StyleSheet.create({
 const mapState = ({ tags, places, reviews }) => ({ tags, places, reviews });
 
 const mapDispatch = dispatch => ({
+  loadAllTags: () => dispatch(tagsActionCreators.loadAllTags()),
   loadAllPlaces: () => dispatch(placesActionCreators.loadAllPlaces()),
+  loadAllReviews: () => dispatch(reviewsActionCreators.loadAllReviews()),
   createPlace: (place: placesTypes.Place) => dispatch(placesActionCreators.createPlace(place)),
   deletePlace: (place: placesTypes.Place) => dispatch(placesActionCreators.deletePlace(place))
 });

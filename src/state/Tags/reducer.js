@@ -10,14 +10,18 @@ import type { AllIds, Action, Tag, TagsById, AddTagAction, RemoveTagAction } fro
 function addPlace(state: TagsById, action: AddPlaceAction): TagsById {
   const { id, tagIds } = action.payload;
   
-  if (tagIds) {
+  if (tagIds && tagIds.length) {
     const nextState: TagsById = { ...state };
 
     tagIds.forEach(tagId => {
       const tag: Tag = state[tagId];
-      nextState[tagId] = {
+      nextState[tagId] = tag ? {
         ...tag,
         placeIds: tag.placeIds.concat(id)
+      } : {
+        id: tagId,
+        title: '',
+        placeIds: [ id ]
       };
     });
 
@@ -30,7 +34,7 @@ function addPlace(state: TagsById, action: AddPlaceAction): TagsById {
 function removePlace(state: TagsById, action: RemovePlaceAction): TagsById {
   const { id, tagIds } = action.payload;
   
-  if (tagIds) {
+  if (tagIds && tagIds.length) {
     const nextState: TagsById = { ...state };
 
     tagIds.forEach(tagId => {
@@ -38,7 +42,7 @@ function removePlace(state: TagsById, action: RemovePlaceAction): TagsById {
       nextState[tagId] = {
         ...tag,
         placeIds: tag.placeIds.filter(placeId => (placeId !== id))
-      }
+      };
     });
 
     return nextState;

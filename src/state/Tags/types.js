@@ -10,9 +10,9 @@ export type AllIds = Array<Id>;
 // A tag is a tag for places.
 // A tag can have many places & a place can have many tags.
 export type Tag = {|
-  +id: Id,
+  id: Id,
   title: string,
-  placeIds: Array<string>
+  placeIds: Array<any>
 |};
 
 export type Tags = Array<Tag>;

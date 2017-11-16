@@ -13,13 +13,16 @@ function addReview(state: PlacesById, action: AddReviewAction): PlacesById {
   const { id, placeId } = action.payload;
   const place: Place = state[placeId];
 
-  return {
-    ...state,
-    [placeId]: {
-      ...place,
-      reviewIds: place.reviewIds.concat(id)
-    }
-  };
+  if (place.reviewIds && place.reviewIds.length) {
+    return {
+      ...state,
+      [placeId]: {
+        ...place,
+        reviewIds: place.reviewIds.concat(id)
+      }
+    };
+  }
+  else return state;
 }
 
 
@@ -27,13 +30,16 @@ function removeReview(state: PlacesById, action: RemoveReviewAction): PlacesById
   const { id, placeId } = action.payload;
   const place: Place = state[placeId];
 
-  return {
-    ...state,
-    [placeId]: {
-      ...place,
-      reviewIds: place.reviewIds.filter(reviewId => (id !== reviewId))
-    }
-  };
+  if (place.reviewIds && place.reviewIds.length) {
+    return {
+      ...state,
+      [placeId]: {
+        ...place,
+        reviewIds: place.reviewIds.filter(reviewId => (id !== reviewId))
+      }
+    };
+  }
+  else return state;
 }
 
 
@@ -41,14 +47,15 @@ function addTag(state: PlacesById, action: AddTagAction): PlacesById {
   const { payload } = action;
   const { id, placeIds } = payload;
 
-  if (placeIds) {
+  if (placeIds && placeIds.length) {
     const nextState: PlacesById = { ...state };
   
     placeIds.forEach(placeId => {
       const place: Place = state[placeId];
+      const tagIds = (place.tagIds) ? place.tagIds.concat(id) : [id];
       nextState[placeId] = {
         ...place,
-        tagIds: place.tagIds.concat(id)
+        tagIds
       };
     });
     return nextState;
@@ -61,14 +68,15 @@ function removeTag(state: PlacesById, action: RemoveTagAction): PlacesById {
   const { payload } = action;
   const { id, placeIds } = payload;
 
-  if (placeIds) {
+  if (placeIds && placeIds.length) {
     const nextState: PlacesById = { ...state };
 
     placeIds.forEach(placeId => {
       const place: Place = state[placeId];
+      const tagIds = (place.tagIds) ? place.tagIds.filter(tagId => (tagId !== id)) : [];
       nextState[placeId] = {
         ...place,
-        tagIds: place.tagIds.filter(tagId => (tagId !== id))
+        tagIds
       };
     });
     return nextState;

@@ -9,9 +9,9 @@ export type AllIds = Array<Id>;
 // A review is for rating a place.
 // A review is created by a user and belongs to only one place. 
 export type Review = {
-  +id: Id,
-  +createdBy: Id,
-  +placeId: Id,
+  id: Id,
+  createdBy: any,
+  placeId: any,
   rating: number,
   comment: string
 };
