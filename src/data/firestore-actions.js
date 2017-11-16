@@ -11,15 +11,25 @@ const Places = Store.collection('places');
 // const Reviews = Store.collection('reviews');
 
 
+// TODO: extract to a utils/helpers file
 function handlePlaceData(documentRef): Place {
   const { id } = documentRef;
-  const { name, description } = documentRef.data();
-  return {
-    id,
-    name,
-    description: description || ''
-  };
+  return { id, ...documentRef.data() };
 }
+
+function handleLoadAllPlaces(querySnapshot): Array<Place> {
+  const allPlaces: Array<Place> = [];
+  querySnapshot.forEach(doc => {
+    allPlaces.push({ id: doc.id, ...doc.data() });
+  });
+  return allPlaces;
+}
+// *********
+
+
+export const loadAllPlacesFromDb = () =>
+  Places.get()
+    .then(handleLoadAllPlaces);
 
 
 export const createPlaceInDb = (place: Place) => 

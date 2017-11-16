@@ -9,7 +9,8 @@ import type { placesTypes } from '../../state/Places';
 type sketchProps = {
   places: any,
   createPlace: any,
-  deletePlace: any
+  deletePlace: any,
+  loadAllPlaces: any
 };
 type sketchState = {
   name: string,
@@ -20,6 +21,10 @@ class Sketch extends Component<sketchProps, sketchState> {
   constructor(props) {
     super(props);
     this.state = { name: '', description: '' };
+  }
+
+  componentDidMount() {
+    this.props.loadAllPlaces();
   }
 
   updateName(name: string) {
@@ -85,6 +90,7 @@ class Sketch extends Component<sketchProps, sketchState> {
   }
 }
 
+
 const styles = StyleSheet.create({
   SketchContainter: {},
   Sketch: {
@@ -125,6 +131,7 @@ const styles = StyleSheet.create({
 const mapState = ({ tags, places, reviews }) => ({ tags, places, reviews });
 
 const mapDispatch = dispatch => ({
+  loadAllPlaces: () => dispatch(placesActionCreators.loadAllPlaces()),
   createPlace: (place: placesTypes.Place) => dispatch(placesActionCreators.createPlace(place)),
   deletePlace: (place: placesTypes.Place) => dispatch(placesActionCreators.deletePlace(place))
 });

@@ -1,7 +1,7 @@
 // @flow
 import { ADD_PLACE, REMOVE_PLACE } from './types';
-import { createPlaceInDb, deletePlaceFromDb } from '../../data/firestore-actions';
-import type { Place, AddPlaceAction, RemovePlaceAction } from './types';
+import { createPlaceInDb, deletePlaceFromDb, loadAllPlacesFromDb } from '../../data/firestore-actions';
+import type { Place, Places, AddPlaceAction, RemovePlaceAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';
 
@@ -16,6 +16,18 @@ export const removePlace: ActionCreator = (place: Place): RemovePlaceAction => (
   type: REMOVE_PLACE,
   payload: place
 });
+
+
+export const loadAllPlaces: ThunkAction = () => {
+  return dispatch => {
+    return loadAllPlacesFromDb()
+      .then((allPlaces: Places) => {
+        allPlaces.forEach((place: Place) => {
+          dispatch(addPlace(place));
+        });
+      });
+  };
+};
 
 
 export const createPlace: ThunkAction = (place: Place) => {
@@ -39,5 +51,6 @@ export const deletePlace: ThunkAction = (place: Place) => {
 export default {
    addPlace,
    createPlace,
-   deletePlace
+   deletePlace,
+   loadAllPlaces
 };
