@@ -13,13 +13,6 @@ export default function(state: authState = initialState, action: Action): authSt
 
   switch (action.type) {
 
-    // case LOGIN_REQUEST:
-    //   return {
-    //     ...state,
-    //     email: action.payload.email,
-    //     password: action.payload.password
-    //   };
-
     case LOGIN_REQUEST_FAIL:
       return {
         isLoggedIn: false,

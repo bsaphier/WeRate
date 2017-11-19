@@ -2,7 +2,6 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { TouchableHighlight, View, Text, StyleSheet, FlatList } from 'react-native';
-import { actionCreators as placesActionCreators } from '../../state/Places';
 import type { tagsTypes } from '../../state/Tags';
 import type { placesTypes } from '../../state/Places';
 import type { reviewsTypes } from '../../state/Reviews';
@@ -102,10 +101,5 @@ const styles = StyleSheet.create({
 
 const mapState = ({ tags, places, reviews }) => ({ tags, places, reviews });
 
-const mapDispatch = dispatch => ({
-  createPlace: (place: placesTypes.Place) => dispatch(placesActionCreators.createPlace(place)),
-  deletePlace: (place: placesTypes.Place) => dispatch(placesActionCreators.deletePlace(place))
-});
 
-
-export default connect(mapState, mapDispatch)(Sketch);
+export default connect(mapState)(Sketch);

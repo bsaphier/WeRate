@@ -40,46 +40,51 @@ function handleCollectionSnapshot(querySnapshot): Array<Data> {
 export const loadAllTagsFromDb = async () =>
   handleCollectionSnapshot(await Tags.get());
 
-export const loadAllUsersFromDb = async () =>
-  handleCollectionSnapshot(await Users.get());
-
-export const loadAllPlacesFromDb = async () =>
-  handleCollectionSnapshot(await Places.get());
-
-export const loadAllReviewsFromDb = async () =>
-  handleCollectionSnapshot(await Reviews.get());
-
-
-
 export const createTagInDb = async (tag: Tag) => {
   const docRef = await Tags.add(tag);
   return insertId(docRef.get());
 };
 
-export const createUserInDb = async (user: User) => {
-  const docRef = await Users.add(user);
-  return insertId(docRef.get());
+export const deleteTagFromDb = (tagId: string) =>
+  Tags.doc(tagId).delete();
+
+// *********
+
+export const loadAllUsersFromDb = async () =>
+  handleCollectionSnapshot(await Users.get());
+
+export const getUserFromDb = async (id: string) => await Users.get(id);
+
+export const createUserInDb = async (uid: string, user: User) => {
+  await Users.doc(uid).set(user);
+  return insertId(await Users.doc(uid).get());
 };
+
+export const deleteUserFromDb = (userId: string) =>
+  Users.doc(userId).delete();
+
+// *********
+
+export const loadAllPlacesFromDb = async () =>
+  handleCollectionSnapshot(await Places.get());
 
 export const createPlaceInDb = async (place: Place) => {
   const docRef = await Places.add(place);
   return insertId(docRef.get());
 };
 
+export const deletePlaceFromDb = (placeId: string) =>
+  Places.doc(placeId).delete();
+
+// *********
+
+export const loadAllReviewsFromDb = async () =>
+  handleCollectionSnapshot(await Reviews.get());
+
 export const createReviewInDb = async (review: Review) => {
   const docRef = await Reviews.add(review);
   return insertId(docRef.get());
 };
-
-
-export const deleteTagFromDb = (tagId: string) =>
-  Tags.doc(tagId).delete();
-
-export const deleteUserFromDb = (userId: string) =>
-  Users.doc(userId).delete();
-
-export const deletePlaceFromDb = (placeId: string) =>
-  Places.doc(placeId).delete();
 
 export const deleteReviewFromDb = (reviewId: string) =>
   Reviews.doc(reviewId).delete();

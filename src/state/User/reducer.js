@@ -1,11 +1,11 @@
 // @flow
-import { FETCHING_USER_SUCCESS } from './types';
+import { LOGIN_REQUEST_SUCCESS } from '../Auth/types';
 import { ADD_REVIEW, REMOVE_REVIEW } from '../Reviews/types';
 import type { AddReviewAction, RemoveReviewAction } from '../Reviews/types';
-import type { Action, userState } from './types';
+import type { Action, User } from './types';
 
 
-const initialState: userState = {
+const initialState: User = {
   id: '',
   firstName: '',
   lastName: '',
@@ -18,7 +18,7 @@ const initialState: userState = {
 };
 
 
-function addReview(state: userState, action: AddReviewAction): userState {
+function addReview(state: User, action: AddReviewAction): User {
   const { id } = action.payload;
   const reviewIds = [ ...state.reviewIds, id ];
   return {
@@ -28,7 +28,7 @@ function addReview(state: userState, action: AddReviewAction): userState {
 }
 
 
-function removeReview(state: userState, action: RemoveReviewAction): userState {
+function removeReview(state: User, action: RemoveReviewAction): User {
   const { id } = action.payload;
   const reviewIds = state.reviewIds.filter(reviewId => (id !== reviewId));
   return {
@@ -38,14 +38,17 @@ function removeReview(state: userState, action: RemoveReviewAction): userState {
 }
 
 
-export default function(state: userState = initialState, action: Action): userState {
+export default function(state: User = initialState, action: Action): User {
   switch (action.type) {
     case ADD_REVIEW:
       return addReview(state, action);
     case REMOVE_REVIEW:
       return removeReview(state, action);
-    case FETCHING_USER_SUCCESS:
-      return action.payload;
+    case LOGIN_REQUEST_SUCCESS:
+      return {
+        ...state,
+        ...action.payload
+      };
     default:
       (action: empty);
       return state;
