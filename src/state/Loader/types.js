@@ -9,7 +9,8 @@ export type Err = string;
 export type loaderState = {
   +isFetching: boolean,
   +hasError: boolean,
-  +errorMessage: Err
+  +errorMessage: Err,
+  +initialStateLoaded: boolean
 };
 
 export type FetchDataAction = {| +type: typeof FETCHING_DATA |};

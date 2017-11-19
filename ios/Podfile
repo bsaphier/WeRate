@@ -7,6 +7,7 @@ target 'WeRate' do
 
   # Required by RNFirebase
   pod 'Firebase/Core'
+  pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
 
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase'

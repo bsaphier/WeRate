@@ -13,13 +13,11 @@ export type Login = {|
 |};
 
 
-export type authState = {
-  email: string,
-  password: string,
+export type authState = {|
   isLoggedIn: boolean,
   hasError: boolean,
   err?: Err
-};
+|};
 
 
 export type LoginRequestAction = {| +type: typeof LOGIN_REQUEST, payload: Login |};
@@ -29,6 +27,5 @@ export type LoginRequestSuccessAction = {| +type: typeof LOGIN_REQUEST_SUCCESS |
 
 export type Action =
   | empty
-  | LoginRequestAction
   | LoginRequestFailAction
   | LoginRequestSuccessAction;

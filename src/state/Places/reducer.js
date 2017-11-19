@@ -1,12 +1,12 @@
 // @flow
 import { combineReducers } from 'redux';
-import { ADD_PLACE, REMOVE_PLACE } from './types';
+import { ADD_PLACE, ADD_PLACES, REMOVE_PLACE } from './types';
 import { ADD_REVIEW, REMOVE_REVIEW } from '../Reviews/types';
 import { ADD_TAG, REMOVE_TAG } from '../Tags/types';
 import type { Reducer } from 'redux';
 import type { AddReviewAction, RemoveReviewAction } from '../Reviews/types';
 import type { AddTagAction, RemoveTagAction } from '../Tags/types';
-import type { AllIds, Place, Action, PlacesById, AddPlaceAction, RemovePlaceAction } from './types';
+import type { AllIds, Place, Action, PlacesById, AddPlaceAction, AddPlacesAction, RemovePlaceAction } from './types';
 
 
 function addReview(state: PlacesById, action: AddReviewAction): PlacesById {
@@ -101,6 +101,15 @@ function removePlace(state: PlacesById, action: RemovePlaceAction): PlacesById {
 }
 
 
+function addPlaces(state: PlacesById, action: AddPlacesAction): PlacesById {
+  const nextState: PlacesById = { ...state };
+  action.payload.forEach((place: Place) => {
+    nextState[place.id] = place;
+  });
+  return nextState;
+}
+
+
 function placesById(state: PlacesById = {}, action: Action | AddReviewAction | AddTagAction | RemoveTagAction | RemoveReviewAction): PlacesById {
   switch(action.type) {
     case ADD_REVIEW:
@@ -115,6 +124,8 @@ function placesById(state: PlacesById = {}, action: Action | AddReviewAction | A
       return addPlace(state, action);
     case REMOVE_PLACE:
       return removePlace(state, action);
+    case ADD_PLACES:
+      return addPlaces(state, action);
     default:
       (action: empty);
       return state;
@@ -128,6 +139,8 @@ function allPlaces(state: AllIds = [], action: Action): AllIds {
       return state.concat(action.payload.id);
     case REMOVE_PLACE:
       return state.filter(placeId => (placeId !== action.payload.id));
+    case ADD_PLACES:
+      return state.concat(action.payload.map((place: Place) => place.id));
     default:
       (action: empty);
       return state;

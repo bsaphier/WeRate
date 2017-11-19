@@ -4,6 +4,7 @@ import type { Action, loaderState } from './types';
 
 
 const initialState: loaderState = {
+  initialStateLoaded: false,
   isFetching: false,
   hasError: false,
   errorMessage: ''
@@ -22,6 +23,7 @@ export default function(state: loaderState = initialState, action: Action): load
 
     case FETCHING_DATA_FAIL:
       return {
+        ...state,
         isFetching: false,
         hasError: true,
         errorMessage: action.error
@@ -30,7 +32,8 @@ export default function(state: loaderState = initialState, action: Action): load
     case FETCHING_DATA_SUCCESS:
       return {
         ...state,
-        isFetching: false
+        isFetching: false,
+        initialStateLoaded: true
       };
 
     default:

@@ -1,5 +1,6 @@
 // @flow
 export const ADD_PLACE: 'ADD_PLACE' = 'ADD_PLACE';
+export const ADD_PLACES: 'ADD_PLACES' = 'ADD_PLACES';
 export const REMOVE_PLACE: 'REMOVE_PLACE' = 'REMOVE_PLACE';
 
 export type Id = string;
@@ -34,10 +35,12 @@ export type placesState = {|
 
 
 export type AddPlaceAction = {| +type: typeof ADD_PLACE, payload: Place |};
+export type AddPlacesAction = {| +type: typeof ADD_PLACES, payload: Places |};
 export type RemovePlaceAction = {| +type: typeof REMOVE_PLACE, payload: Place |};
 
 export type Action =
   | empty
   | AddPlaceAction
+  | AddPlacesAction
   | RemovePlaceAction;
 
