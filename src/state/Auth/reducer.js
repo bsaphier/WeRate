@@ -1,11 +1,12 @@
 // @flow
-import { LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS } from './types';
+import { LOGOUT_REQUEST, LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS } from './types';
 import type { Action, authState } from './types';
 
 
 const initialState: authState = {
   isLoggedIn: false,
-  hasError: false
+  hasError: false,
+  err: ''
 };
 
 
@@ -23,7 +24,15 @@ export default function(state: authState = initialState, action: Action): authSt
     case LOGIN_REQUEST_SUCCESS:
       return {
         isLoggedIn: true,
-        hasError: false
+        hasError: false,
+        err: ''
+      };
+    
+    case LOGOUT_REQUEST:
+      return {
+        isLoggedIn: false,
+        hasError: false,
+        err: ''
       };
 
     default:

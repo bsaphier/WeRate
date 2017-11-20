@@ -47,9 +47,8 @@ class Login extends Component<sketchProps, sketchState> {
             onChangeText={(password) => this.setState({ password })}
         />
         <Button
-            style={styles.button}
             title="Login"
-            color="#98F"
+            color="#85D"
             onPress={() => this.props.requestLogin(this.state.email, this.state.password)}
         />
       </View>
@@ -78,9 +77,8 @@ class Login extends Component<sketchProps, sketchState> {
             onChangeText={(password) => this.setState({ password })}
         />
         <Button
-            style={styles.button}
             title="Signup"
-            color="#98F"
+            color="#53D"
             onPress={() => this.props.requestSignup(this.state.email, this.state.password)}
         />
       </View>
@@ -92,9 +90,8 @@ class Login extends Component<sketchProps, sketchState> {
       <View style={styles.fullPage}>
         { this.state.signup ? this.renderSignup() : this.renderLogin() }
         <Button
-            style={styles.button}
             title={this.state.signup ? 'Login' : 'Signup'}
-            color="#35F"
+            color="#58D"
             onPress={() => this.signup(!this.state.signup)}
         />
       </View>
@@ -105,8 +102,7 @@ class Login extends Component<sketchProps, sketchState> {
 
 const styles = StyleSheet.create({
   fullPage: {
-    height: '100%',
-    display: 'flex',
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#eee'
@@ -130,9 +126,6 @@ const styles = StyleSheet.create({
   login: {
     fontSize: 13,
     color: '#444'
-  },
-  button: {
-    backgroundColor: '#cFF'
   }
 });
 

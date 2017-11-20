@@ -1,6 +1,6 @@
 // @flow
 import type { AddReviewAction, RemoveReviewAction } from '../Reviews/types';
-import type { LoginRequestSuccessAction } from "../Auth/types";
+import type { LogoutRequestAction, LoginRequestSuccessAction } from "../Auth/types";
 
 
 export type User = {
@@ -22,4 +22,5 @@ export type Action =
   | empty
   | AddReviewAction
   | RemoveReviewAction
+  | LogoutRequestAction
   | LoginRequestSuccessAction;

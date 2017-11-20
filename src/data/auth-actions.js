@@ -14,6 +14,8 @@ export const authenticateUser = async (login: Login): User => {
 };
 
 
-export const createUser = async (login: Login) => {
-  return await Auth.createUserWithEmailAndPassword(login.email, login.password);
+export const createAuthUser = async ({ email, password }: Login) => {
+  return await Auth.createUserWithEmailAndPassword(email, password);
 };
+
+export const logoutUser = async () => await Auth.signOut();

@@ -33,37 +33,35 @@ function handleCollectionSnapshot(querySnapshot): Array<Data> {
   });
   return data;
 }
-// *********
 
 
+// ********* TAGS
 
-export const loadAllTagsFromDb = async () =>
-  handleCollectionSnapshot(await Tags.get());
+export const deleteTagFromDb = (tagId: string) => Tags.doc(tagId).delete();
+
+export const loadAllTagsFromDb = async () => handleCollectionSnapshot(await Tags.get());
 
 export const createTagInDb = async (tag: Tag) => {
   const docRef = await Tags.add(tag);
   return insertId(docRef.get());
 };
 
-export const deleteTagFromDb = (tagId: string) =>
-  Tags.doc(tagId).delete();
 
-// *********
+// ********* USERS
 
-export const loadAllUsersFromDb = async () =>
-  handleCollectionSnapshot(await Users.get());
+export const getUserFromDb = async (uid: string) => insertId(await Users.doc(uid).get());
 
-export const getUserFromDb = async (id: string) => await Users.get(id);
+export const deleteUserFromDb = (uid: string) => Users.doc(uid).delete();
+
+export const loadAllUsersFromDb = async () => handleCollectionSnapshot(await Users.get());
 
 export const createUserInDb = async (uid: string, user: User) => {
   await Users.doc(uid).set(user);
   return insertId(await Users.doc(uid).get());
 };
 
-export const deleteUserFromDb = (userId: string) =>
-  Users.doc(userId).delete();
-
-// *********
+  
+// ********* PLACES
 
 export const loadAllPlacesFromDb = async () =>
   handleCollectionSnapshot(await Places.get());
@@ -76,7 +74,8 @@ export const createPlaceInDb = async (place: Place) => {
 export const deletePlaceFromDb = (placeId: string) =>
   Places.doc(placeId).delete();
 
-// *********
+
+// ********* REVIEWS
 
 export const loadAllReviewsFromDb = async () =>
   handleCollectionSnapshot(await Reviews.get());
