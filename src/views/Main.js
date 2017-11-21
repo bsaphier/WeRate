@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import { Login, Sketch, Header, Spinner } from './components';
+import { View, Text, StyleSheet } from 'react-native';
+import { LoginForm, Sketch, Header } from './components';
 import { connect } from 'react-redux';
 import { fetchInitialData } from '../state/Loader/action-creators';
+import { checkAuth } from '../state/Auth/action-creators';
 
 
 class Main extends Component {
+  componentDidMount() {
+    this.props.checkAuth();
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.loggedIn && !nextProps.initialized) {
       this.props.fetchInitialState();
@@ -21,12 +26,35 @@ class Main extends Component {
         </View>
       );
     } else if (this.props.loggedIn && !this.props.initialized) {
-      return (<Spinner />);
+      return (
+        <View style={styles.loadingScreen}>
+          <Text style={styles.loadingText}>LOADING</Text>
+        </View>
+      );
     } else {
-      return (<Login />);
+      return (<LoginForm />);
     }
   }
 }
+
+
+const styles = StyleSheet.create({
+  loadingScreen: {
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#eee'
+  },
+  loadingText: {
+    fontWeight: 'bold',
+    marginTop: 34,
+    marginBottom: 13,
+    fontSize: 55,
+    color: '#444'
+  }
+});
+
 
 const mapState = ({ auth, fetch }) => ({
   loggedIn: auth.isLoggedIn,
@@ -34,6 +62,7 @@ const mapState = ({ auth, fetch }) => ({
 });
 
 const mapDispatch = (dispatch) => ({
+  checkAuth: () => dispatch(checkAuth()),
   fetchInitialState: () => dispatch(fetchInitialData())
 });
 

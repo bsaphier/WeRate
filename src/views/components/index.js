@@ -1,6 +1,7 @@
-import Login from './Login';
 import Header from './Header';
 import Sketch from './Sketch';
 import Spinner from './Spinner';
+import LoginForm from './LoginForm';
+import TitledInput from './TitledInput';
 
-export { Login, Sketch, Header, Spinner };
+export { LoginForm, Sketch, Header, Spinner, TitledInput };

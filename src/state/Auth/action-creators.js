@@ -2,11 +2,10 @@
 import type { ActionCreator } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
 import type { Err, Login, LogoutRequestAction, LoginRequestFailAction, LoginRequestSuccessAction } from './types';
-import { LOGOUT_REQUEST, LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS } from './types';
-import { logoutUser, createAuthUser, authenticateUser } from '../../data/auth-actions';
-import { fetchingData, fetchingFailed, fetchSuccess } from '../Loader/action-creators';
-import { getUserFromDb, createUserInDb } from '../../data/firestore-actions';
 import type { User } from '../User/types';
+import { LOGOUT_REQUEST, LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS } from './types';
+import { whoAmI, logoutUser, createAuthUser, authenticateUser } from '../../data/auth-actions';
+import { getUserFromDb, createUserInDb } from '../../data/firestore-actions';
 
 
 
@@ -25,41 +24,49 @@ export const logoutRequest: ActionCreator = (): LogoutRequestAction => ({
 });
 
 
-export const loginRequest: ThunkAction = (login: Login) => {
+export const checkAuth: ThunkAction = () => {
   return async dispatch => {
-    dispatch(fetchingData());
+    const authenticatedUser = whoAmI();
+    if (authenticatedUser) {
+      dispatch(logInAuthenticatedUser(authenticatedUser));
+    }
+  };
+};
+
+
+export const logInAuthenticatedUser: ThunkAction = (authUser) => {
+  return async dispatch => {
     try {
-      const authenticatedUser = await authenticateUser(login);
-      const userFromDb = await getUserFromDb(authenticatedUser.uid);
+      const userFromDb = await getUserFromDb(authUser.uid);
       dispatch(loginRequestSuccess(userFromDb));
     } catch (error) {
       dispatch(loginRequestFail(error));
-      dispatch(fetchingFailed(error));
-      return;
     }
-    dispatch(fetchSuccess());
+  };
+};
+
+
+export const loginRequest: ThunkAction = (login: Login) => {
+  return async dispatch => {
+    try {
+      const authenticatedUser = await authenticateUser(login);
+      dispatch(logInAuthenticatedUser(authenticatedUser));
+    } catch (error) {
+      dispatch(loginRequestFail(error));
+    }
   };
 };
 
 
 export const signupRequest: ThunkAction = (signup: Login & User) => {
   return async dispatch => {
-    dispatch(fetchingData());
     try {
       const newAuthUser = await createAuthUser(signup);
-      const newUser = await createUserInDb(
-        newAuthUser.uid,
-        {
-          email: signup.email
-        }
-      );
+      const newUser = await createUserInDb(newAuthUser);
       dispatch(loginRequestSuccess(newUser));
     } catch (error) {
       dispatch(loginRequestFail(error));
-      dispatch(fetchingFailed(error));
-      return;
     }
-    dispatch(fetchSuccess());
   };
 };
 

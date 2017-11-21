@@ -55,9 +55,9 @@ export const deleteUserFromDb = (uid: string) => Users.doc(uid).delete();
 
 export const loadAllUsersFromDb = async () => handleCollectionSnapshot(await Users.get());
 
-export const createUserInDb = async (uid: string, user: User) => {
-  await Users.doc(uid).set(user);
-  return insertId(await Users.doc(uid).get());
+export const createUserInDb = async ({ uid, email }: any) => {
+  await Users.doc(uid).set({ email });
+  return getUserFromDb(uid);
 };
 
   

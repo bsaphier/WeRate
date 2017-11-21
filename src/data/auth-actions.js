@@ -19,3 +19,5 @@ export const createAuthUser = async ({ email, password }: Login) => {
 };
 
 export const logoutUser = async () => await Auth.signOut();
+
+export const whoAmI = () => Auth.currentUser;

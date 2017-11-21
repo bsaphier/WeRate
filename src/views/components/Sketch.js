@@ -95,7 +95,7 @@ class Sketch extends Component<sketchProps, sketchState> {
 
 const styles = StyleSheet.create({
   SketchContainter: {
-    flex: 1
+    // flex: 1
   },
   block: {
     // flex: 3
