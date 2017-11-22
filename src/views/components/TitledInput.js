@@ -24,6 +24,7 @@ const TitledInput = ({ label, value, onChangeText, autoCorrect, placeholder, sec
 const styles = StyleSheet.create({
   containerStyle: {
     height: 45,
+    marginBottom: 20,
     flexDirection: 'column',
     alignItems: 'flex-start',
     width: '100%',
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
 
 
 export default TitledInput;
+
 
 type TitledInputProps = {
   label: string;

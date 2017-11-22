@@ -1,18 +1,23 @@
 // @flow
 import { Platform } from 'react-native';
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import devTools from 'remote-redux-devtools';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+import RootReducer from './App';
+import TagsReducer from './Tags';
 import UserReducer from './User';
 import AuthReducer from './Auth';
-import PlacesReducer from './Places';
 import FetchReducer from './Loader';
+import PlacesReducer from './Places';
 import ReviewsReducer from './Reviews';
-import TagsReducer from './Tags';
+
+
+const middleware = applyMiddleware(thunk, logger);
 
 
 const rootReducer = combineReducers({
+  root: RootReducer,
   tags: TagsReducer,
   user: UserReducer,
   auth: AuthReducer,
@@ -20,8 +25,6 @@ const rootReducer = combineReducers({
   places: PlacesReducer,
   reviews: ReviewsReducer
 });
-
-const middleware = applyMiddleware(thunk, logger);
 
 const Store = createStore(
   rootReducer,

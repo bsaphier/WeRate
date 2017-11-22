@@ -6,24 +6,18 @@ import { logout } from '../../state/Auth/action-creators';
 import type { tagsTypes } from '../../state/Tags';
 import type { placesTypes } from '../../state/Places';
 import type { reviewsTypes } from '../../state/Reviews';
-type sketchProps = {
-  tags: any,
-  places: any,
-  reviews: any,
-  logout: any
-};
-type sketchState = {
-  name: string,
-  description: string
-};
 
 
 
 class Sketch extends Component<sketchProps, sketchState> {
   render() {
-    const { tags, places, reviews } = this.props;
+    const { tags, user, places, reviews } = this.props;
     return (
       <View style={styles.SketchContainter}>
+        <View style={styles.block}>
+          <Text style={styles.Welcome}>{`Welcome ${user.email}`}</Text>
+          <Text style={styles.Welcome}>{`${user.admin ? 'Admin' : ''} User`}</Text>
+        </View>
         <View style={styles.block}>
           <Text style={styles.Sketch}>List of Places</Text>
           <FlatList
@@ -32,10 +26,10 @@ class Sketch extends Component<sketchProps, sketchState> {
                 const place: placesTypes.Place = places.byId[item.id];
                 return (
                   <TouchableHighlight underlayColor="#CDF" onPress={() => { }}>
-                    <View style={styles.PlaceWrap}>
-                      <View style={styles.PlaceTitle}>
-                        <Text>{place.name}</Text>
-                        <Text>{place.description}</Text>
+                    <View style={styles.itemWrap}>
+                      <View style={styles.itemContent}>
+                        <Text>{`Place: ${place.name}`}</Text>
+                        <Text>{`Description: ${place.description}`}</Text>
                       </View>
                     </View>
                   </TouchableHighlight>
@@ -51,8 +45,8 @@ class Sketch extends Component<sketchProps, sketchState> {
                 const tag: tagsTypes.Place = tags.byId[item.id];
                 return (
                   <TouchableHighlight underlayColor="#CDF" onPress={() => { }}>
-                    <View style={styles.PlaceWrap}>
-                      <View style={styles.PlaceTitle}>
+                    <View style={styles.itemWrap}>
+                      <View style={styles.itemContent}>
                         <Text>{tag.title}</Text>
                       </View>
                     </View>
@@ -69,10 +63,10 @@ class Sketch extends Component<sketchProps, sketchState> {
                 const review: reviewsTypes.Place = reviews.byId[item.id];
                 return (
                   <TouchableHighlight underlayColor="#CDF" onPress={() => { }}>
-                    <View style={styles.PlaceWrap}>
-                      <View style={styles.PlaceTitle}>
-                        <Text>{review.rating}</Text>
-                        <Text>{review.comment}</Text>
+                    <View style={styles.itemWrap}>
+                      <View style={styles.itemContent}>
+                        <Text>{`Rating: ${review.rating}`}</Text>
+                        <Text>{`Comment: ${review.comment}`}</Text>
                       </View>
                     </View>
                   </TouchableHighlight>
@@ -95,31 +89,36 @@ class Sketch extends Component<sketchProps, sketchState> {
 
 const styles = StyleSheet.create({
   SketchContainter: {
-    // flex: 1
+    flex: 1,
+    justifyContent: 'space-between'
   },
   block: {
-    // flex: 3
+    flex: 1
   },
   Sketch: {
     fontWeight: 'bold',
     fontSize: 21,
     color: '#666'
   },
-  PlaceWrap: {
+  itemWrap: {
     flex: 2,
     height: 34,
     flexDirection: 'row',
     alignItems: 'center'
   },
-  PlaceTitle: {
+  itemContent: {
     flex: 8,
     padding: 2,
+    alignItems: 'stretch',
     flexDirection: 'column'
+  },
+  Welcome: {
+    height: 55,
   }
 });
 
 
-const mapState = ({ tags, places, reviews }) => ({ tags, places, reviews });
+const mapState = ({ tags, user, places, reviews }) => ({ tags, user, places, reviews });
 
 const mapDispatch = dispatch => ({
   logout: () => dispatch(logout())
@@ -127,3 +126,16 @@ const mapDispatch = dispatch => ({
 
 
 export default connect(mapState, mapDispatch)(Sketch);
+
+
+
+type sketchProps = {
+  tags: any,
+  user: any,
+  places: any,
+  reviews: any,
+  logout: any
+};
+
+type sketchState = {
+};

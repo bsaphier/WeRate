@@ -1,58 +1,56 @@
 // @flow
 import type { ActionCreator } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
-import type { Err, Login, LogoutRequestAction, LoginRequestFailAction, LoginRequestSuccessAction } from './types';
+import type { Err, Login, LoginRequestAction, LogoutRequestAction, LoginRequestFailAction, LoginRequestSuccessAction } from './types';
 import type { User } from '../User/types';
-import { LOGOUT_REQUEST, LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS } from './types';
-import { whoAmI, logoutUser, createAuthUser, authenticateUser } from '../../data/auth-actions';
+import { LOGIN_REQUEST, LOGOUT_REQUEST, LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS } from './types';
+import { whoAmI, logoutUser, createAuthUser, signInWithEmailAndPassword } from '../../data/auth-actions';
 import { getUserFromDb, createUserInDb } from '../../data/firestore-actions';
+import { LOGIN_ROOT } from '../App/types';
+import { changeAppRoot } from '../App/action-creators';
 
 
 
-export const loginRequestFail: ActionCreator = (err: Err): LoginRequestFailAction => ({
-  type: LOGIN_REQUEST_FAIL,
-  payload: err
-});
-
-export const loginRequestSuccess: ActionCreator = (user: User): LoginRequestSuccessAction => ({
-  type: LOGIN_REQUEST_SUCCESS,
-  payload: user
+export const loginRequest: ActionCreator = (): LoginRequestAction => ({
+  type: LOGIN_REQUEST
 });
 
 export const logoutRequest: ActionCreator = (): LogoutRequestAction => ({
   type: LOGOUT_REQUEST
 });
 
+export const loginFail: ActionCreator = (err: Err): LoginRequestFailAction => ({
+  type: LOGIN_REQUEST_FAIL,
+  payload: err
+});
 
-export const checkAuth: ThunkAction = () => {
-  return async dispatch => {
-    const authenticatedUser = whoAmI();
-    if (authenticatedUser) {
-      dispatch(logInAuthenticatedUser(authenticatedUser));
-    }
-  };
-};
+export const loginSuccess: ActionCreator = (user: User): LoginRequestSuccessAction => ({
+  type: LOGIN_REQUEST_SUCCESS,
+  payload: user
+});
 
 
-export const logInAuthenticatedUser: ThunkAction = (authUser) => {
+
+export const setUser: ThunkAction = (authUser) => {
   return async dispatch => {
     try {
       const userFromDb = await getUserFromDb(authUser.uid);
-      dispatch(loginRequestSuccess(userFromDb));
+      dispatch(loginSuccess(userFromDb));
     } catch (error) {
-      dispatch(loginRequestFail(error));
+      dispatch(loginFail(error));
     }
   };
 };
 
 
-export const loginRequest: ThunkAction = (login: Login) => {
+export const signInRequest: ThunkAction = (login: Login) => {
   return async dispatch => {
+    dispatch(loginRequest());
     try {
-      const authenticatedUser = await authenticateUser(login);
-      dispatch(logInAuthenticatedUser(authenticatedUser));
+      const signedInUser = await signInWithEmailAndPassword(login);
+      dispatch(setUser(signedInUser));
     } catch (error) {
-      dispatch(loginRequestFail(error));
+      dispatch(loginFail(error));
     }
   };
 };
@@ -60,13 +58,16 @@ export const loginRequest: ThunkAction = (login: Login) => {
 
 export const signupRequest: ThunkAction = (signup: Login & User) => {
   return async dispatch => {
+    dispatch(loginRequest());
     try {
       const newAuthUser = await createAuthUser(signup);
       const newUser = await createUserInDb(newAuthUser);
-      dispatch(loginRequestSuccess(newUser));
+      dispatch(loginSuccess(newUser));
     } catch (error) {
-      dispatch(loginRequestFail(error));
+      dispatch(loginFail(error));
+      return false;
     }
+    return true;
   };
 };
 
@@ -74,13 +75,25 @@ export const signupRequest: ThunkAction = (signup: Login & User) => {
 export const logout: ThunkAction = () => dispatch => {
   logoutUser();
   dispatch(logoutRequest());
+  dispatch(changeAppRoot(LOGIN_ROOT));
+};
+
+
+export const checkAuth: ThunkAction = () => {
+  return async dispatch => {
+    const authenticatedUser = whoAmI();
+    if (authenticatedUser) {
+      dispatch(setUser(authenticatedUser));
+    }
+  };
 };
 
 
 export default {
   logout,
+  loginFail,
+  loginSuccess,
   loginRequest,
   signupRequest,
-  loginRequestFail,
-  loginRequestSuccess
+  signInRequest
 };

@@ -1,26 +1,22 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text,Button, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
+import { View, Text, Button, StyleSheet } from 'react-native';
 import { TitledInput, Spinner } from '../components';
-import { actionCreators as authActionCreators } from '../../state/Auth';
 
 
 
 class Login extends Component<sketchProps, sketchState> {
-  state = { email: '', password: '', loading: false };
+  state = { email: '', password: '' };
 
   renderButtonOrSpinner() {
-    const { email, password, loading } = this.state;
-    if (loading) {
-      return <Spinner />;
-    }
-    return <Button onPress={() => this.props.requestLogin(email, password)} title="Log in" />;
+    const { email, password } = this.state;
+    const { login, isLoading } = this.props;
+    return isLoading ? <Spinner /> : <Button onPress={() => login(email, password)} title="Log in" />;
   }
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <TitledInput
             label='Email Address'
             placeholder='you@domain.com'
@@ -35,8 +31,8 @@ class Login extends Component<sketchProps, sketchState> {
             value={this.state.password}
             onChangeText={password => this.setState({ password })}
         />
-        <Text style={styles.errorTextStyle}>{this.props.err}</Text>
-        { this.renderButtonOrSpinner() }
+        {this.props.err ? <Text style={styles.errorTextStyle}>{this.props.err}</Text> : null}
+        {this.renderButtonOrSpinner()}
       </View>
     );
   }
@@ -44,6 +40,12 @@ class Login extends Component<sketchProps, sketchState> {
 
 
 const styles = StyleSheet.create({
+  container: {
+    paddingTop: 10,
+    paddingRight: 20,
+    paddingLeft: 20,
+    backgroundColor: '#FFF'
+  },
   errorTextStyle: {
     color: '#E64A19',
     alignSelf: 'center',
@@ -53,26 +55,16 @@ const styles = StyleSheet.create({
 });
 
 
-const mapState = ({ auth }) => ({
-  err: auth.err
-});
-
-const mapDispatch = dispatch => ({
-  requestLogin: (email, password) => dispatch(authActionCreators.loginRequest({ email, password })),
-  requestSignup: (email, password) => dispatch(authActionCreators.signupRequest({ email, password }))
-});
-
-export default connect(mapState, mapDispatch)(Login);
+export default Login;
 
 
 type sketchProps = {
-  err: any;
-  requestLogin: any;
-  requestSignup: any;
+  err: any,
+  login: any,
+  isLoading: boolean
 };
 
 type sketchState = {
-  loading: boolean;
-  email: string;
-  password: string;
+  email: string,
+  password: string
 };

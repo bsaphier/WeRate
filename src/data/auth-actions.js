@@ -9,7 +9,7 @@ type User = userTypes.User;
 const Auth = firebase.auth();
 
 
-export const authenticateUser = async (login: Login): User => {
+export const signInWithEmailAndPassword = async (login: Login): User => {
   return await Auth.signInWithEmailAndPassword(login.email, login.password);
 };
 

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { LoginForm, Sketch, Header } from './components';
+import { LoginForm, Sketch } from './components';
 import { connect } from 'react-redux';
 import { fetchInitialData } from '../state/Loader/action-creators';
 import { checkAuth } from '../state/Auth/action-creators';
 
 
-class Main extends Component {
+class App extends Component {
   componentDidMount() {
     this.props.checkAuth();
   }
@@ -19,21 +19,15 @@ class Main extends Component {
 
   render() {
     if (this.props.loggedIn && this.props.initialized) {
-      return (
-        <View>
-          <Header />
-          <Sketch />
-        </View>
-      );
+      return (<Sketch />);
     } else if (this.props.loggedIn && !this.props.initialized) {
       return (
         <View style={styles.loadingScreen}>
           <Text style={styles.loadingText}>LOADING</Text>
         </View>
       );
-    } else {
-      return (<LoginForm />);
     }
+    return (<LoginForm loading={!this.props.loggedIn} />);
   }
 }
 
@@ -66,4 +60,4 @@ const mapDispatch = (dispatch) => ({
   fetchInitialState: () => dispatch(fetchInitialData())
 });
 
-export default connect(mapState, mapDispatch)(Main);
+export default connect(mapState, mapDispatch)(App);

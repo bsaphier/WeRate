@@ -1,13 +1,3 @@
-import { Navigation } from 'react-native-navigation';
+import App from './src/app';
 
-import { registerScreens } from './src/screens';
-
-registerScreens(); // this registers all of the app's screens
-
-// start the app
-Navigation.startSingleScreenApp({
-  screen: {
-    screen: 'werate.Main', // this is a registered name for a screen
-    title: 'WeRate'
-  }
-});
+export const app = new App();

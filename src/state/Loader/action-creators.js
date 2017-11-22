@@ -23,7 +23,7 @@ export const fetchSuccess: ActionCreator = (): FetchDataSuccessAction => ({
 });
 
 
-export const fetchInitialData = (): ThunkAction => {
+export const fetchInitialData: ThunkAction = () => {
   return async (dispatch) => {
     dispatch(fetchingData());
     
