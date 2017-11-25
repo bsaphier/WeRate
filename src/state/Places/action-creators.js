@@ -1,6 +1,6 @@
 // @flow
 import { ADD_PLACE, ADD_PLACES, REMOVE_PLACE } from './types';
-import { createPlaceInDb, deletePlaceFromDb, loadAllPlacesFromDb } from '../../data/firestore-actions';
+import { createPlaceInDb, deletePlaceFromDb, loadAllPlacesFromDb } from '../../utils/firestore-actions';
 import type { Place, Places, AddPlaceAction, AddPlacesAction, RemovePlaceAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';

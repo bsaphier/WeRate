@@ -3,7 +3,7 @@ import { FETCHING_DATA, FETCHING_DATA_FAIL, FETCHING_DATA_SUCCESS } from './type
 import { tagsTypes, actionCreators as tagActions } from '../Tags';
 import { placesTypes, actionCreators as placeActions } from '../Places';
 import { reviewsTypes, actionCreators as reviewActions } from '../Reviews';
-import { loadAllTagsFromDb, loadAllPlacesFromDb, loadAllReviewsFromDb } from '../../data/firestore-actions';
+import { loadAllTagsFromDb, loadAllPlacesFromDb, loadAllReviewsFromDb } from '../../utils/firestore-actions';
 import type { Err, FetchDataAction, FetchDataFailAction, FetchDataSuccessAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';

@@ -20,6 +20,8 @@ target 'WeRate' do
     # Add any other subspecs you want to use in your project
   ]
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'WeRateTests' do
     inherit! :search_paths
     # Pods for testing

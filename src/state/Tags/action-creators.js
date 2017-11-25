@@ -1,6 +1,6 @@
 // @flow
 import { ADD_TAG, ADD_TAGS, REMOVE_TAG } from './types';
-import { createTagInDb, deleteTagFromDb, loadAllTagsFromDb } from '../../data/firestore-actions';
+import { createTagInDb, deleteTagFromDb, loadAllTagsFromDb } from '../../utils/firestore-actions';
 import type { Tag, Tags, AddTagAction, AddTagsAction, RemoveTagAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';

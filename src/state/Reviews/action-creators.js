@@ -1,6 +1,6 @@
 // @flow
 import { ADD_REVIEW, ADD_REVIEWS, REMOVE_REVIEW } from './types';
-import { createReviewInDb, deleteReviewFromDb, loadAllReviewsFromDb } from '../../data/firestore-actions';
+import { createReviewInDb, deleteReviewFromDb, loadAllReviewsFromDb } from '../../utils/firestore-actions';
 import type { Review, Reviews, AddReviewAction, AddReviewsAction, RemoveReviewAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';
