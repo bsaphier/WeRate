@@ -3,13 +3,14 @@ import { Provider } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 import store from './state/store';
 import { registerScreens } from './views/screens';
+import { iconsMap, loadIcons } from './utils/icons-loader';
 import { appInitialized } from './state/App/action-creators';
 import { APP_ROOT, LOGIN_ROOT } from './state/App/types';
 
 
 
 registerScreens(store, Provider);
-
+loadIcons();
 
 export default class App extends Component {
   
