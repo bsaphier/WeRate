@@ -41,7 +41,8 @@ let loadIcons = () => {
         );
       }
       catch (err) {
-        iconsMap[iconName] = null;
+        // TODO: handle this
+        console.log(err);
       }
     }
   );
