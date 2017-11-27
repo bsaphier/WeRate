@@ -19,13 +19,7 @@ export const changeAppRoot: ActionCreator = (root: Root): AppRootChangedAction =
 export const appInitialized: ThunkAction = () => {
   return dispatch => {
     // this is a good place for app initialization code
-    const alreadyLoggedIn = dispatch(checkAuth());
-    if (alreadyLoggedIn) {
-      dispatch(fetchInitialData());
-      dispatch(changeAppRoot(APP_ROOT));
-    } else {
-      dispatch(changeAppRoot(LOGIN_ROOT));
-    }
+    dispatch(changeAppRoot(LOGIN_ROOT));
   };
 };
 
@@ -39,4 +33,24 @@ export const login: ThunkAction = (login: Login) => {
       dispatch(changeAppRoot(APP_ROOT));
     }
   };
-}
+};
+
+
+export const checkIfLoggedIn: ThunkAction = () => {
+  return dispatch => {
+    const loggedInUser = dispatch(checkAuth());
+    if (loggedInUser) {
+      dispatch(fetchInitialData());
+      dispatch(changeAppRoot(APP_ROOT));
+    }
+    return loggedInUser;
+  };
+};
+
+
+export default {
+  login,
+  changeAppRoot,
+  appInitialized,
+  checkIfLoggedIn
+};

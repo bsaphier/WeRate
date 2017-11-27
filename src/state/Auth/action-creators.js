@@ -93,6 +93,8 @@ export const checkAuth: ThunkAction = () => {
 
 export default {
   logout,
+  setUser,
+  checkAuth,
   loginFail,
   loginSuccess,
   loginRequest,

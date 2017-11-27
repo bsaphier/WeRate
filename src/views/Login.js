@@ -3,17 +3,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import { LoginForm } from './components';
-import { login } from '../state/App/action-creators';
-// import { checkAuth } from '../state/Auth/action-creators';
-
+import { login, checkIfLoggedIn } from '../state/App/action-creators';
 
 
 
 class Login extends Component<sketchProps> {
 
-  // componentDidMount() {
-  //   this.props.checkAuth();
-  // }
+  componentDidMount() {
+    this.props.checkIfLoggedIn();
+  }
 
   render() {
     return (
@@ -35,7 +33,7 @@ const mapState = ({ auth }) => ({
 });
 
 const mapDispatch = dispatch => ({
-  // checkAuth: () => dispatch(checkAuth()),
+  checkIfLoggedIn: () => dispatch(checkIfLoggedIn()),
   login: (email, password) => dispatch(login({ email, password }))
 });
 
@@ -55,5 +53,6 @@ const styles = StyleSheet.create({
 type sketchProps = {
   err: any,
   login: any,
+  checkIfLoggedIn: any,
   isLoading: boolean
 };
