@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, Text, View } from 'react-native';
-import { Sketch } from './components';
 
 
 
-class HomeTab extends Component {
+class Moretab extends Component {
 
   render() {
     return (
       <View style={styles.container}>
-        <Sketch />
+        <Text style={styles.welcome}>
+          MORE
+        </Text>
       </View>
     );
   }
 }
 
 
-export default connect()(HomeTab);
+export default connect()(Moretab);
 
 
 const styles = StyleSheet.create({

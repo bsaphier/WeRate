@@ -80,11 +80,13 @@ export const logout: ThunkAction = () => dispatch => {
 
 
 export const checkAuth: ThunkAction = () => {
-  return async dispatch => {
+  return dispatch => {
     const authenticatedUser = whoAmI();
     if (authenticatedUser) {
       dispatch(setUser(authenticatedUser));
+      return authenticatedUser;
     }
+    return false;
   };
 };
 

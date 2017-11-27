@@ -9,13 +9,13 @@ import { APP_ROOT, LOGIN_ROOT } from './state/App/types';
 
 
 
+loadIcons();
 registerScreens(store, Provider);
 
 export default class App extends Component {
   
   constructor(props) {
     super(props);
-    loadIcons();
     store.subscribe(this.onStoreUpdate);
     store.dispatch(appInitialized());
   }
@@ -47,19 +47,27 @@ export default class App extends Component {
         Navigation.startTabBasedApp({
           tabs: [
             {
-              // label: 'Home',
-              screen: 'werate.HomeTab',
               title: 'Home',
+              label: 'Home',
+              screen: 'werate.HomeTab',
               icon: iconsMap['ios-home-outline'],
               overrideBackPress: false,
               navigatorStyle: {},
               navigatorButtons: {}
             },
             {
-              // label: 'Profile',
-              screen: 'werate.ProfileTab',
               title: 'Profile',
+              label: 'Profile',
+              screen: 'werate.ProfileTab',
               icon: iconsMap['ios-body-outline'],
+              navigatorStyle: {},
+              navigatorButtons: {}
+            },
+            {
+              title: 'More',
+              label: 'More',
+              screen: 'werate.MoreTab',
+              icon: iconsMap['ios-more-outline'],
               navigatorStyle: {},
               navigatorButtons: {}
             }

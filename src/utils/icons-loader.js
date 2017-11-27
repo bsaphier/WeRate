@@ -16,6 +16,13 @@ const icons = {
   'ios-home-outline--active--big': [50, '#fff'],
   'ios-home-outline--active--very-big': [100, '#fff'],
 
+  'ios-more-outline': [30, '#bbb'],
+  'ios-more-outline--big': [50, '#bbb'],
+
+  'ios-more-outline--active': [30, '#fff'],
+  'ios-more-outline--active--big': [50, '#fff'],
+  'ios-more-outline--active--very-big': [100, '#fff'],
+
   'ios-body-outline': [30, '#bbb'],
   'ios-body-outline--big': [50, '#bbb'],
 
@@ -29,8 +36,8 @@ const defaultIconProvider = Ionicons;
 
 let iconsMap = {};
 
-let loadIcons = () => {
-  Object.keys(icons).forEach(
+let loadIcons = async () => {
+  await Object.keys(icons).forEach(
     async (iconName) => {
       const Provider = icons[iconName][2] || defaultIconProvider; // this logic is in case another icon provider is needed
       try {
