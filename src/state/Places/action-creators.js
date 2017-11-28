@@ -24,6 +24,7 @@ export const addPlaces: ActionCreator = (places: Places): AddPlacesAction => ({
 });
 
 
+
 export const loadAllPlaces: ThunkAction = () => {
   return dispatch => {
     return loadAllPlacesFromDb()

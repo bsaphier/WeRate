@@ -24,6 +24,7 @@ export const addTags: ActionCreator = (tags: Tags): AddTagsAction => ({
 });
 
 
+
 export const loadAllTags: ThunkAction = () => {
   return dispatch => {
     return loadAllTagsFromDb()

@@ -6,13 +6,18 @@ import { logout } from '../../state/Auth/action-creators';
 import type { tagsTypes } from '../../state/Tags';
 import type { placesTypes } from '../../state/Places';
 import type { reviewsTypes } from '../../state/Reviews';
+import Spinner from './Spinner';
 
 
 
 class Sketch extends Component<sketchProps, sketchState> {
   render() {
-    const { tags, user, places, reviews } = this.props;
-    return (
+    const { tags, user, isFetching, places, reviews } = this.props;
+    return isFetching ? (
+      <View style={styles.SketchContainter}>
+        <Spinner large />
+      </View>
+    ) : (
       <View style={styles.SketchContainter}>
         <View style={styles.block}>
           <Text style={styles.Welcome}>{`Welcome ${user.email}`}</Text>
@@ -90,7 +95,7 @@ class Sketch extends Component<sketchProps, sketchState> {
 const styles = StyleSheet.create({
   SketchContainter: {
     flex: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'space-around'
   },
   block: {
     flex: 1
@@ -118,7 +123,13 @@ const styles = StyleSheet.create({
 });
 
 
-const mapState = ({ tags, user, places, reviews }) => ({ tags, user, places, reviews });
+const mapState = ({ tags, user, fetch, places, reviews }) => ({
+  tags,
+  user,
+  places,
+  reviews,
+  isFetching: fetch.isFetching
+});
 
 const mapDispatch = dispatch => ({
   logout: () => dispatch(logout())
@@ -134,7 +145,8 @@ type sketchProps = {
   user: any,
   places: any,
   reviews: any,
-  logout: any
+  logout: any,
+  isFetching: boolean
 };
 
 type sketchState = {

@@ -72,10 +72,12 @@ export const signupRequest: ThunkAction = (signup: Login & User) => {
 };
 
 
-export const logout: ThunkAction = () => dispatch => {
-  logoutUser();
-  dispatch(logoutRequest());
-  dispatch(changeAppRoot(LOGIN_ROOT));
+export const logout: ThunkAction = () => {
+  return async dispatch => {
+    await logoutUser();
+    dispatch(logoutRequest());
+    dispatch(changeAppRoot(LOGIN_ROOT));
+  };
 };
 
 

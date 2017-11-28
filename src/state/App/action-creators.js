@@ -16,6 +16,7 @@ export const changeAppRoot: ActionCreator = (root: Root): AppRootChangedAction =
 });
 
 
+
 export const appInitialized: ThunkAction = () => {
   return dispatch => {
     // this is a good place for app initialization code
