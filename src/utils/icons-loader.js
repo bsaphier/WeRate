@@ -10,11 +10,13 @@ const replaceSuffixPattern = /--(active|big|small|very-big)/g;
 
 const icons = {
   'ios-home-outline': [30, '#bbb'],
-  'ios-home-outline--big': [50, '#bbb'],
-
   'ios-home-outline--active': [30, '#fff'],
-  'ios-home-outline--active--big': [50, '#fff'],
-  'ios-home-outline--active--very-big': [100, '#fff'],
+
+  'ios-body-outline': [30, '#bbb'],
+  'ios-body-outline--active': [30, '#fff'],
+  
+  'ios-pin-outline': [30, '#bbb'],
+  'ios-pin-outline--active': [30, '#fff'],
 
   'ios-more-outline': [30, '#bbb'],
   'ios-more-outline--big': [50, '#bbb'],
@@ -23,12 +25,7 @@ const icons = {
   'ios-more-outline--active--big': [50, '#fff'],
   'ios-more-outline--active--very-big': [100, '#fff'],
 
-  'ios-body-outline': [30, '#bbb'],
-  'ios-body-outline--big': [50, '#bbb'],
-
-  'ios-body-outline--active': [30, '#fff'],
-  'ios-body-outline--active--big': [50, '#fff'],
-  'ios-body-outline--active--very-big': [100, '#fff']
+  'ios-images-outline': [30, '#bbb']
 };
 
 const defaultIconProvider = Ionicons;

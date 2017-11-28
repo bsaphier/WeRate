@@ -56,6 +56,14 @@ export default class App extends Component {
               navigatorButtons: {}
             },
             {
+              title: 'Places',
+              label: 'Places',
+              screen: 'werate.PlacesTab',
+              icon: iconsMap['ios-pin-outline'],
+              navigatorStyle: {},
+              navigatorButtons: {}
+            },
+            {
               title: 'Profile',
               label: 'Profile',
               screen: 'werate.ProfileTab',
