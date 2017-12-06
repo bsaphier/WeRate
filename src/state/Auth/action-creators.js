@@ -49,9 +49,11 @@ export const signInRequest: ThunkAction = (login: Login) => {
     try {
       const signedInUser = await signInWithEmailAndPassword(login);
       await dispatch(setUser(signedInUser));
+      return true;
     } catch (error) {
       dispatch(loginFail(`${error}`));
     }
+    return false;
   };
 };
 
@@ -86,11 +88,12 @@ export const checkAuth: ThunkAction = () => {
     const authenticatedUser = whoAmI();
     if (authenticatedUser) {
       await dispatch(setUser(authenticatedUser));
-      return authenticatedUser;
+      return true;
     }
     return false;
   };
 };
+
 
 
 export default {

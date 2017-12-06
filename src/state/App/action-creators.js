@@ -30,7 +30,7 @@ export const login: ThunkAction = (login: Login) => {
     // login logic would go here, and when it's done, we switch app roots
     const signInSuccess = await dispatch(signInRequest(login));
     if (signInSuccess) {
-      await dispatch(fetchInitialData());
+      dispatch(fetchInitialData()); // no need to wait for this as loading screen will display
       dispatch(changeAppRoot(APP_ROOT));
     }
   };
@@ -41,7 +41,7 @@ export const checkIfLoggedIn: ThunkAction = () => {
   return async dispatch => {
     const loggedInUser = await dispatch(checkAuth());
     if (loggedInUser) {
-      await dispatch(fetchInitialData());
+      dispatch(fetchInitialData()); // no need to wait for this as loading screen will display
       dispatch(changeAppRoot(APP_ROOT));
     }
     return loggedInUser;
