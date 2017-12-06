@@ -10,7 +10,7 @@ class PlacesTab extends Component {
   showNewPlaceForm = () => {
     this.props.navigator.showModal({
       screen: 'werate.modal.Place',
-      title: 'New Place'
+      title: 'Place Modal'
     });
   }
 

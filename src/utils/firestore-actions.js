@@ -47,7 +47,7 @@ export const loadAllTagsFromDb = async () => handleCollectionSnapshot(await Tags
 
 export const createTagInDb = async (tag: Tag) => {
   const docRef = await Tags.add(tag);
-  return insertId(docRef.get());
+  return insertId(await docRef.get());
 };
 
 
@@ -71,8 +71,12 @@ export const loadAllPlacesFromDb = async () =>
   handleCollectionSnapshot(await Places.get());
 
 export const createPlaceInDb = async (place: Place) => {
-  const docRef = await Places.add(place);
-  return insertId(docRef.get());
+  try {    
+    const docRef = await Places.add(place);
+    return insertId(await docRef.get());
+  } catch (err) {
+    console.log('createPlaceInDb', err);
+  }
 };
 
 export const deletePlaceFromDb = (placeId: string) =>
@@ -86,7 +90,7 @@ export const loadAllReviewsFromDb = async () =>
 
 export const createReviewInDb = async (review: Review) => {
   const docRef = await Reviews.add(review);
-  return insertId(docRef.get());
+  return insertId(await docRef.get());
 };
 
 export const deleteReviewFromDb = (reviewId: string) =>

@@ -30,9 +30,13 @@ export const createPlace: ThunkAction = (place: Place) => {
   return async (dispatch, getState) => {
     const { user } = getState();
     const newPlace = { ...place, createdBy: user.id };
-    const newPlaceInDb = await createPlaceInDb(newPlace);
-    dispatch(addPlace(newPlaceInDb));
-    return newPlaceInDb;
+    try {
+      const newPlaceInDb = await createPlaceInDb(newPlace);
+      dispatch(addPlace(newPlaceInDb));
+      return newPlaceInDb;
+    } catch (error) {
+      console.log('createPlace', error);
+    }
   };
 };
 
