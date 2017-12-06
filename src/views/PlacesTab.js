@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, FlatList, StyleSheet } from 'react-native';
+import { Button, View, FlatList, StyleSheet } from 'react-native';
 import { PlaceCard } from './components';
 
 
 
 class PlacesTab extends Component {
+
+  showNewPlaceForm = () => {
+    this.props.navigator.showModal({
+      screen: 'werate.modal.Place',
+      title: 'New Place'
+    });
+  }
 
   renderPlaceCard = ({ item: { placeId } }) => {
     const { name, phone1, address, website, description } = this.props.allPlaces[placeId];
@@ -26,6 +33,7 @@ class PlacesTab extends Component {
   render() {
     return (
       <View>
+          <Button onPress={this.showNewPlaceForm} title="New Place" />
           <FlatList
               style={styles.contentContainer}
               data={this.props.placesById.map(placeId => ({ key: placeId, placeId }))}

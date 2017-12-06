@@ -26,11 +26,11 @@ export const appInitialized: ThunkAction = () => {
 
 
 export const login: ThunkAction = (login: Login) => {
-  return dispatch => {
+  return async dispatch => {
     // login logic would go here, and when it's done, we switch app roots
-    const signInSuccess = dispatch(signInRequest(login));
+    const signInSuccess = await dispatch(signInRequest(login));
     if (signInSuccess) {
-      dispatch(fetchInitialData());
+      await dispatch(fetchInitialData());
       dispatch(changeAppRoot(APP_ROOT));
     }
   };
@@ -38,15 +38,16 @@ export const login: ThunkAction = (login: Login) => {
 
 
 export const checkIfLoggedIn: ThunkAction = () => {
-  return dispatch => {
-    const loggedInUser = dispatch(checkAuth());
+  return async dispatch => {
+    const loggedInUser = await dispatch(checkAuth());
     if (loggedInUser) {
-      dispatch(fetchInitialData());
+      await dispatch(fetchInitialData());
       dispatch(changeAppRoot(APP_ROOT));
     }
     return loggedInUser;
   };
 };
+
 
 
 export default {

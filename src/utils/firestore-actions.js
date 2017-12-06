@@ -20,11 +20,15 @@ const Users = Store.collection('users');
 const Places = Store.collection('places');
 const Reviews = Store.collection('reviews');
 
+
+
 // TODO: extract to a utils/helpers file
 function insertId(documentRef): Data {
   const { id } = documentRef;
   return { id, ...documentRef.data() };
 }
+
+
 
 function handleCollectionSnapshot(querySnapshot): Array<Data> {
   const data: Array<Data> = [];

@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '200',
     flex: 1,
-    height: 40
+    height: 40,
+    width: '100%'
   }
 });
 

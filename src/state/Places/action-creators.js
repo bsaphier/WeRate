@@ -1,9 +1,10 @@
 // @flow
 import { ADD_PLACE, ADD_PLACES, REMOVE_PLACE } from './types';
-import { createPlaceInDb, deletePlaceFromDb, loadAllPlacesFromDb } from '../../utils/firestore-actions';
+import { createPlaceInDb, deletePlaceFromDb } from '../../utils/firestore-actions';
 import type { Place, Places, AddPlaceAction, AddPlacesAction, RemovePlaceAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';
+
 
 
 export const addPlace: ActionCreator = (place: Place): AddPlaceAction => ({
@@ -25,40 +26,29 @@ export const addPlaces: ActionCreator = (places: Places): AddPlacesAction => ({
 
 
 
-export const loadAllPlaces: ThunkAction = () => {
-  return dispatch => {
-    return loadAllPlacesFromDb()
-      .then((allPlaces: Places) => {
-        dispatch(addPlaces(allPlaces));
-        return allPlaces;
-      });
-  };
-};
-
-
 export const createPlace: ThunkAction = (place: Place) => {
-  return dispatch => {
-    return createPlaceInDb(place)
-      .then((newPlace: Place): Place => {
-        dispatch(addPlace(newPlace));
-        return newPlace;
-      });
+  return async (dispatch, getState) => {
+    const { user } = getState();
+    const newPlace = { ...place, createdBy: user.id };
+    const newPlaceInDb = await createPlaceInDb(newPlace);
+    dispatch(addPlace(newPlaceInDb));
+    return newPlaceInDb;
   };
 };
 
 
 export const deletePlace: ThunkAction = (place: Place) => {
-  return dispatch => {
-    return deletePlaceFromDb(place.id)
-      .then(() => dispatch(removePlace(place)));
+  return async dispatch => {
+    await deletePlaceFromDb(place.id);
+    dispatch(removePlace(place));
   };
 };
+
 
 
 export default {
    addPlace,
    addPlaces,
    createPlace,
-   deletePlace,
-   loadAllPlaces
+   deletePlace
 };

@@ -1,9 +1,10 @@
 // @flow
 import { ADD_REVIEW, ADD_REVIEWS, REMOVE_REVIEW } from './types';
-import { createReviewInDb, deleteReviewFromDb, loadAllReviewsFromDb } from '../../utils/firestore-actions';
+import { createReviewInDb, deleteReviewFromDb } from '../../utils/firestore-actions';
 import type { Review, Reviews, AddReviewAction, AddReviewsAction, RemoveReviewAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';
+
 
 
 export const addReview: ActionCreator = (review: Review): AddReviewAction => ({
@@ -25,33 +26,21 @@ export const addReviews: ActionCreator = (reviews: Reviews): AddReviewsAction =>
 
 
 
-export const loadAllReviews: ThunkAction = () => {
-  return dispatch => {
-    return loadAllReviewsFromDb()
-      .then((allReviews: Reviews) => {
-        allReviews.forEach((review: Review) => {
-          dispatch(addReview(review));
-        });
-      });
-  };
-};
-
-
 export const createReview: ThunkAction = (review: Review) => {
-  return dispatch => {
-    return createReviewInDb(review)
-      .then((newReview: Review): Review => {
-        dispatch(addReview(newReview));
-        return newReview;
-      });
+  return async (dispatch, getState) => {
+    const { user } = getState();
+    const newReview = { ...review, createdBy: user.id };
+    const newReviewInDb = await createReviewInDb(newReview);
+    dispatch(addReview(newReviewInDb));
+    return newReviewInDb;
   };
 };
 
 
 export const deleteReview: ThunkAction = (review: Review) => {
-  return dispatch => {
-    return deleteReviewFromDb(review.id)
-      .then(() => dispatch(removeReview(review)));
+  return async dispatch => {
+    await deleteReviewFromDb(review.id);
+    dispatch(removeReview(review));
   };
 };
 
@@ -62,6 +51,5 @@ export default {
   addReviews,
   removeReview,
   deleteReview,
-  createReview,
-  loadAllReviews
+  createReview
 };

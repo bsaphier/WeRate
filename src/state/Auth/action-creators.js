@@ -37,7 +37,7 @@ export const setUser: ThunkAction = (authUser) => {
       const userFromDb = await getUserFromDb(authUser.uid);
       dispatch(loginSuccess(userFromDb));
     } catch (error) {
-      dispatch(loginFail(error));
+      dispatch(loginFail(`${error}`));
     }
   };
 };
@@ -48,9 +48,9 @@ export const signInRequest: ThunkAction = (login: Login) => {
     dispatch(loginRequest());
     try {
       const signedInUser = await signInWithEmailAndPassword(login);
-      dispatch(setUser(signedInUser));
+      await dispatch(setUser(signedInUser));
     } catch (error) {
-      dispatch(loginFail(error));
+      dispatch(loginFail(`${error}`));
     }
   };
 };
@@ -64,7 +64,7 @@ export const signupRequest: ThunkAction = (signup: Login & User) => {
       const newUser = await createUserInDb(newAuthUser);
       dispatch(loginSuccess(newUser));
     } catch (error) {
-      dispatch(loginFail(error));
+      dispatch(loginFail(`${error}`));
       return false;
     }
     return true;
@@ -82,10 +82,10 @@ export const logout: ThunkAction = () => {
 
 
 export const checkAuth: ThunkAction = () => {
-  return dispatch => {
+  return async dispatch => {
     const authenticatedUser = whoAmI();
     if (authenticatedUser) {
-      dispatch(setUser(authenticatedUser));
+      await dispatch(setUser(authenticatedUser));
       return authenticatedUser;
     }
     return false;

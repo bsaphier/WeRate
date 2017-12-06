@@ -47,6 +47,7 @@ export const fetchInitialData: ThunkAction = () => {
 };
 
 
+
 export default {
   fetchingData,
   fetchSuccess,
