@@ -1,7 +1,7 @@
 // @flow
-import { ADD_PLACE, ADD_PLACES, REMOVE_PLACE } from './types';
-import { createPlaceInDb, deletePlaceFromDb } from '../../utils/firestore-actions';
-import type { Place, Places, AddPlaceAction, AddPlacesAction, RemovePlaceAction } from './types';
+import { ADD_PLACE, EDIT_PLACE, ADD_PLACES, REMOVE_PLACE } from './types';
+import { createPlaceInDb, modifyPlaceInDb, deletePlaceFromDb } from '../../utils/firestore-actions';
+import type { Place, Places, AddPlaceAction, EditPlaceAction, AddPlacesAction, RemovePlaceAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';
 
@@ -9,6 +9,12 @@ import type { ActionCreator } from 'redux';
 
 export const addPlace: ActionCreator = (place: Place): AddPlaceAction => ({
   type: ADD_PLACE,
+  payload: place
+});
+
+
+export const modifyPlace: ActionCreator = (place: Place): EditPlaceAction => ({
+  type: EDIT_PLACE,
   payload: place
 });
 
@@ -41,6 +47,18 @@ export const createPlace: ThunkAction = (place: Place) => {
 };
 
 
+export const editPlace: ThunkAction = (place: Place) => {
+  return async dispatch => {
+    try {
+      await modifyPlaceInDb(place);
+      dispatch(modifyPlace(place));
+    } catch (error) {
+      console.log('editPlace', error);
+    }
+  };
+};
+
+
 export const deletePlace: ThunkAction = (place: Place) => {
   return async dispatch => {
     await deletePlaceFromDb(place.id);
@@ -52,7 +70,9 @@ export const deletePlace: ThunkAction = (place: Place) => {
 
 export default {
    addPlace,
+   editPlace,
    addPlaces,
+   modifyPlace,
    createPlace,
    deletePlace
 };

@@ -1,12 +1,12 @@
 // @flow
 import { combineReducers } from 'redux';
-import { ADD_PLACE, ADD_PLACES, REMOVE_PLACE } from './types';
+import { ADD_PLACE, EDIT_PLACE, ADD_PLACES, REMOVE_PLACE } from './types';
 import { ADD_REVIEW, REMOVE_REVIEW } from '../Reviews/types';
 import { ADD_TAG, REMOVE_TAG } from '../Tags/types';
 import type { Reducer } from 'redux';
 import type { AddReviewAction, RemoveReviewAction } from '../Reviews/types';
 import type { AddTagAction, RemoveTagAction } from '../Tags/types';
-import type { AllIds, Place, Action, PlacesById, AddPlaceAction, AddPlacesAction, RemovePlaceAction } from './types';
+import type { AllIds, Place, Action, PlacesById, AddPlaceAction, EditPlaceAction, AddPlacesAction, RemovePlaceAction } from './types';
 
 
 function addReview(state: PlacesById, action: AddReviewAction): PlacesById {
@@ -94,6 +94,19 @@ function addPlace(state: PlacesById, action: AddPlaceAction): PlacesById {
 }
 
 
+function editPlace(state: PlacesById, action: EditPlaceAction): PlacesById {
+  const { id } = action.payload;
+  const prevPlace = state[id];
+  return {
+    ...state,
+    [id]: {
+      ...prevPlace,
+      ...action.payload
+    }
+  };
+}
+
+
 function removePlace(state: PlacesById, action: RemovePlaceAction): PlacesById {
   const nextState: PlacesById = { ...state };
   delete nextState[action.payload.id];
@@ -122,6 +135,8 @@ function placesById(state: PlacesById = {}, action: Action | AddReviewAction | A
       return removeTag(state, action);
     case ADD_PLACE:
       return addPlace(state, action);
+    case EDIT_PLACE:
+      return editPlace(state, action);
     case REMOVE_PLACE:
       return removePlace(state, action);
     case ADD_PLACES:
@@ -137,6 +152,8 @@ function allPlaces(state: AllIds = [], action: Action): AllIds {
   switch(action.type) {
     case ADD_PLACE:
       return state.concat(action.payload.id);
+    case EDIT_PLACE:
+      return state;
     case REMOVE_PLACE:
       return state.filter(placeId => (placeId !== action.payload.id));
     case ADD_PLACES:

@@ -1,40 +1,61 @@
 // @flow
 import { combineReducers } from 'redux';
 import type { Reducer } from 'redux';
-import { ADD_PLACE, REMOVE_PLACE } from '../Places/types';
+import { ADD_PLACE, EDIT_PLACE, REMOVE_PLACE } from '../Places/types';
 import { ADD_TAG, ADD_TAGS, REMOVE_TAG } from './types';
-import type { AddPlaceAction, RemovePlaceAction } from '../Places/types';
+import type { AddPlaceAction, EditPlaceAction, RemovePlaceAction } from '../Places/types';
 import type { AllIds, Action, Tag, TagsById, AddTagAction, AddTagsAction, RemoveTagAction } from './types';
+
 
 
 function addPlace(state: TagsById, action: AddPlaceAction): TagsById {
   const { id, tagIds } = action.payload;
   
-  if (tagIds && tagIds.length) {
+  if (tagIds && tagIds.length > 0) {
     const nextState: TagsById = { ...state };
 
     tagIds.forEach(tagId => {
       const tag: Tag = state[tagId];
-      nextState[tagId] = tag ? {
-        ...tag,
-        placeIds: tag.placeIds.concat(id)
-      } : {
-        id: tagId,
-        title: '',
-        placeIds: [ id ]
-      };
-    });
 
+      // this check prevents adding tags that shouldn't exist
+      if (tag) {
+        const placeIds: Array<string> = (tag.placeIds && tag.placeIds.length > 0) ? tag.placeIds.concat(id) : [ id ];
+        nextState[tagId] = { ...tag, placeIds };
+      }
+    });
     return nextState;
+  } else {
+    return state;
   }
-  else return state;
 }
 
+function editPlace(state: TagsById, action: EditPlaceAction): TagsById {
+  const nextState: TagsById = { ...state };
+  const { id, tagIds } = action.payload;
+
+  Object.keys(state).forEach(tagId => {
+    const tag: Tag = state[tagId];
+    let placeIds: Array<string> = [ ...tag.placeIds ];
+    
+    if (tagIds) {
+      const actionPlaceIncludesThisTag: boolean = tagIds.includes(tagId);
+      const tagReferenceToActionPlace: boolean = placeIds.includes(id);
+
+      if (actionPlaceIncludesThisTag && !tagReferenceToActionPlace) {
+        placeIds = placeIds.concat(id);
+      } else if (!actionPlaceIncludesThisTag && tagReferenceToActionPlace) {
+        placeIds = placeIds.filter(placeId => (placeId !== id));
+      }
+    }
+    nextState[tagId] = { ...tag, placeIds };
+  });
+  return nextState;
+}
 
 function removePlace(state: TagsById, action: RemovePlaceAction): TagsById {
   const { id, tagIds } = action.payload;
   
-  if (tagIds && tagIds.length) {
+  if (tagIds && tagIds.length > 0) {
     const nextState: TagsById = { ...state };
 
     tagIds.forEach(tagId => {
@@ -46,11 +67,12 @@ function removePlace(state: TagsById, action: RemovePlaceAction): TagsById {
     });
 
     return nextState;
+  } else {
+    return state;
   }
-  else return state;
 }
 
-
+// Admin
 function addTag(state: TagsById, action: AddTagAction): TagsById {
   const { id } = action.payload;
   return {
@@ -59,14 +81,14 @@ function addTag(state: TagsById, action: AddTagAction): TagsById {
   };
 }
 
-
+// Admin
 function removeTag(state: TagsById, action: RemoveTagAction): TagsById {
   const nextState: TagsById = { ...state };
   delete nextState[action.payload.id];
   return nextState;
 }
 
-
+// Admin
 function addTags(state: TagsById, action: AddTagsAction): TagsById {
   const nextState: TagsById = { ...state };
   action.payload.forEach((tag: Tag) => {
@@ -76,10 +98,12 @@ function addTags(state: TagsById, action: AddTagsAction): TagsById {
 }
 
 
-function tagsById(state: TagsById = {}, action: Action | AddPlaceAction | RemovePlaceAction): TagsById {
+function tagsById(state: TagsById = {}, action: Action | AddPlaceAction | EditPlaceAction | RemovePlaceAction): TagsById {
   switch (action.type) {
     case ADD_PLACE:
       return addPlace(state, action);
+    case EDIT_PLACE:
+      return editPlace(state, action);
     case REMOVE_PLACE:
       return removePlace(state, action);
     case ADD_TAG:
@@ -114,5 +138,6 @@ const tagsReducer: Reducer = combineReducers({
   byId: tagsById,
   allIds: allTags
 });
+
 
 export default tagsReducer;

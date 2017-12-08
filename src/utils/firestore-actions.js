@@ -28,15 +28,12 @@ function insertId(documentRef): Data {
   return { id, ...documentRef.data() };
 }
 
-
-
 function handleCollectionSnapshot(querySnapshot): Array<Data> {
   const data: Array<Data> = [];
-  querySnapshot.forEach(doc => {
-    data.push({ id: doc.id, ...doc.data() });
-  });
+  querySnapshot.forEach(doc => data.push({ id: doc.id, ...doc.data() }));
   return data;
 }
+
 
 
 // ********* TAGS
@@ -53,11 +50,11 @@ export const createTagInDb = async (tag: Tag) => {
 
 // ********* USERS
 
-export const getUserFromDb = async (uid: string) => insertId(await Users.doc(uid).get());
-
 export const deleteUserFromDb = (uid: string) => Users.doc(uid).delete();
 
 export const loadAllUsersFromDb = async () => handleCollectionSnapshot(await Users.get());
+
+export const getUserFromDb = async (uid: string) => insertId(await Users.doc(uid).get());
 
 export const createUserInDb = async ({ uid, email }: any) => {
   await Users.doc(uid).set({ email });
@@ -67,8 +64,17 @@ export const createUserInDb = async ({ uid, email }: any) => {
   
 // ********* PLACES
 
-export const loadAllPlacesFromDb = async () =>
-  handleCollectionSnapshot(await Places.get());
+export const deletePlaceFromDb = (placeId: string) => Places.doc(placeId).delete();
+
+export const loadAllPlacesFromDb = async () => handleCollectionSnapshot(await Places.get());
+
+export const modifyPlaceInDb = async (place: Place) => {
+  try {
+    await Places.doc(place.id).update(place);
+  } catch (err) {
+    console.log('modifyPlaceInDb', err);
+  }
+};
 
 export const createPlaceInDb = async (place: Place) => {
   try {    
@@ -79,19 +85,14 @@ export const createPlaceInDb = async (place: Place) => {
   }
 };
 
-export const deletePlaceFromDb = (placeId: string) =>
-  Places.doc(placeId).delete();
-
 
 // ********* REVIEWS
 
-export const loadAllReviewsFromDb = async () =>
-  handleCollectionSnapshot(await Reviews.get());
+export const deleteReviewFromDb = (reviewId: string) => Reviews.doc(reviewId).delete();
+
+export const loadAllReviewsFromDb = async () => handleCollectionSnapshot(await Reviews.get());
 
 export const createReviewInDb = async (review: Review) => {
   const docRef = await Reviews.add(review);
   return insertId(await docRef.get());
 };
-
-export const deleteReviewFromDb = (reviewId: string) =>
-  Reviews.doc(reviewId).delete();
