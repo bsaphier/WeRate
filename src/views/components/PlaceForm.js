@@ -19,54 +19,76 @@ class PlaceForm extends Component {
     reviewIds: []
   }
 
+  componentWillMount() {
+    if (this.props.edit && (this.state.tagIds.length != this.props.place.tagIds.length)) {
+      this.setState({ tagIds: this.props.place.tagIds });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.edit && (this.state.tagIds.length != nextProps.place.tagIds.length)) {
+      this.setState({ tagIds: nextProps.place.tagIds });
+    }
+  }
+
   handleSubmit = async () => {
-    const dismissModal = this.props.handleSubmit;
-    await this.props.createPlace(this.state);
+    const { edit, createPlace, handleSubmit } = this.props;
+    const dismissModal = handleSubmit;
+    try {
+      if (!edit) {
+        await createPlace(this.state);
+      } else {
+        // TODO...
+      }
+    } catch (err) {
+      console.log(err);
+    }
     dismissModal();
   }
 
   render() {
+    const { edit, place } = this.props;
     return (
       <View style={styles.containerStyle}>
           <TitledInput
               label="Name"
-              placeholder="A Business"
+              placeholder={edit ? place.name : 'A Business'}
               value={this.state.name}
               onChangeText={name => this.setState({ name })}
           />
           <TitledInput
               label="Description"
-              placeholder="A description of a business"
+              placeholder={edit ? place.description : 'A description of a business'}
               value={this.state.description}
               onChangeText={description => this.setState({ description })}
           />
           <TitledInput
               label="Address"
-              placeholder="123 Main St."
+              placeholder={edit ? place.address : '123 Main St.'}
               value={this.state.address}
               onChangeText={address => this.setState({ address })}
           />
           <TitledInput
               label="Phone"
-              placeholder="000 000 0000"
+              placeholder={edit ? place.phone1 : '000 000 0000'}
               value={this.state.phone1}
               onChangeText={phone1 => this.setState({ phone1 })}
           />
           <TitledInput
               label="Phone alt"
-              placeholder="000 000 0000"
+              placeholder={edit ? place.phone2 : '000 000 0000'}
               value={this.state.phone2}
               onChangeText={phone2 => this.setState({ phone2 })}
           />
           <TitledInput
               label="Email"
-              placeholder="email@website.com"
+              placeholder={edit ? place.email : 'email@website.com'}
               value={this.state.email}
               onChangeText={email => this.setState({ email })}
           />
           <TitledInput
               label="Website"
-              placeholder="www.website.com"
+              placeholder={edit ? place.website : 'www.website.com'}
               value={this.state.website}
               onChangeText={website => this.setState({ website })}
           />

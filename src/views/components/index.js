@@ -1,3 +1,4 @@
+import Tag from './Tag';
 import Sketch from './Sketch';
 import Spinner from './Spinner';
 import LoginForm from './LoginForm';
@@ -6,4 +7,4 @@ import PlaceForm from './PlaceForm';
 import TitledInput from './TitledInput';
 import MultiSelect from './MultiSelect';
 
-export { Sketch, Spinner, LoginForm, PlaceCard, PlaceForm, MultiSelect, TitledInput };
+export { Tag, Sketch, Spinner, LoginForm, PlaceCard, PlaceForm, MultiSelect, TitledInput };

@@ -49,7 +49,7 @@ export default class App extends Component {
             {
               title: 'Home',
               label: 'Home',
-              screen: 'werate.HomeTab',
+              screen: 'werate.tab.home',
               icon: iconsMap['ios-home-outline'],
               overrideBackPress: false,
               navigatorStyle: {},
@@ -58,15 +58,22 @@ export default class App extends Component {
             {
               title: 'Places',
               label: 'Places',
-              screen: 'werate.PlacesTab',
+              screen: 'werate.tab.places',
               icon: iconsMap['ios-pin-outline'],
               navigatorStyle: {},
-              navigatorButtons: {}
+              navigatorButtons: {
+                rightButtons: [
+                  {
+                    title: 'New Place',
+                    id: 'tab.place.event.new'
+                  }
+                ]
+              }
             },
             {
               title: 'Profile',
               label: 'Profile',
-              screen: 'werate.ProfileTab',
+              screen: 'werate.tab.profile',
               icon: iconsMap['ios-body-outline'],
               navigatorStyle: {},
               navigatorButtons: {}
@@ -74,7 +81,7 @@ export default class App extends Component {
             {
               title: 'More',
               label: 'More',
-              screen: 'werate.MoreTab',
+              screen: 'werate.tab.more',
               icon: iconsMap['ios-more-outline'],
               navigatorStyle: {},
               navigatorButtons: {}

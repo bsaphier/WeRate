@@ -5,14 +5,16 @@ import MoreTab from './MoreTab';
 import PlacesTab from './PlacesTab';
 import ProfileTab from './ProfileTab';
 import PlaceModal from './PlaceModal';
+import PlaceScreen from './PlaceScreen';
 
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
   Navigation.registerComponent('werate.Login', () => Login, store, Provider);
-  Navigation.registerComponent('werate.HomeTab', () => HomeTab, store, Provider);
-  Navigation.registerComponent('werate.MoreTab', () => MoreTab, store, Provider);
-  Navigation.registerComponent('werate.PlacesTab', () => PlacesTab, store, Provider);
-  Navigation.registerComponent('werate.ProfileTab', () => ProfileTab, store, Provider);
-  Navigation.registerComponent('werate.modal.Place', () => PlaceModal, store, Provider);
+  Navigation.registerComponent('werate.tab.home', () => HomeTab, store, Provider);
+  Navigation.registerComponent('werate.tab.more', () => MoreTab, store, Provider);
+  Navigation.registerComponent('werate.tab.places', () => PlacesTab, store, Provider);
+  Navigation.registerComponent('werate.tab.profile', () => ProfileTab, store, Provider);
+  Navigation.registerComponent('werate.modal.place', () => PlaceModal, store, Provider);
+  Navigation.registerComponent('werate.screen.place', () => PlaceScreen, store, Provider);
 }

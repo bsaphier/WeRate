@@ -10,7 +10,7 @@ class PlaceModal extends Component {
     rightButtons: [
       {
         title: 'cancel',
-        id: 'modal.place.cancel'
+        id: 'modal.place.event.cancel'
       }
     ]
   }
@@ -22,7 +22,7 @@ class PlaceModal extends Component {
 
   onNavigatorEvent = (event) => {
     if (event.type == 'NavBarButtonPress') {
-      if (event.id == 'modal.place.cancel') {
+      if (event.id == 'modal.place.event.cancel') {
         this.handleCancel();
       }
     }
@@ -37,9 +37,14 @@ class PlaceModal extends Component {
   }
 
   render() {
+    const { edit, place } = this.props;
     return (
       <View style={styles.container}>
-          <PlaceForm handleSubmit={this.handleSubmit} />
+          <PlaceForm
+              edit={edit}
+              place={place}
+              handleSubmit={this.handleSubmit}
+          />
       </View>
     );
   }
