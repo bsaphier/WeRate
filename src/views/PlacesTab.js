@@ -15,11 +15,13 @@ class PlacesTab extends Component {
   }
 
   renderPlaceCard = ({ item: { placeId } }) => {
-    const { name, phone1, address, website, description } = this.props.allPlaces[placeId];
+    const { name, phone1, tagIds, address, website, description } = this.props.allPlaces[placeId];
+    const tags = tagIds.length ? tagIds.map(tagId => this.props.tagsById[tagId]) : [];
     return (
       <PlaceCard
           key={placeId + 'placeCard'}
           name={name}
+          tags={tags}
           phone={phone1}
           icon={'ios-images-outline'}
           address={address}
@@ -45,7 +47,8 @@ class PlacesTab extends Component {
 }
 
 
-const mapState = ({ places: { byId, allIds } }) => ({
+const mapState = ({ tags, places: { byId, allIds } }) => ({
+  tagsById: tags.byId,
   allPlaces: byId,
   placesById: allIds
 });

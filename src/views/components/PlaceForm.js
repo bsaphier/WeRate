@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { TitledInput } from '../components';
+import { TitledInput, MultiSelect } from '../components';
 import { createPlace } from '../../state/Places/action-creators';
 
 
@@ -28,8 +28,6 @@ class PlaceForm extends Component {
   render() {
     return (
       <View style={styles.containerStyle}>
-          <Text>Place Form</Text>
-
           <TitledInput
               label="Name"
               placeholder="A Business"
@@ -73,8 +71,16 @@ class PlaceForm extends Component {
               onChangeText={website => this.setState({ website })}
           />
 
+          <View style={styles.scrollContainerStyle}>
+            <Text style={styles.labelStyle}>{'TYPE OF BUSINESS (select all that apply)'}</Text>
+            <MultiSelect
+                data={this.props.tags.allIds.map(id => ({ key: id, ...this.props.tags.byId[id] }))}
+                onValueChange={tagIds => this.setState({ tagIds })}
+                selectedItemIds={this.state.tagIds}
+            />
+          </View>
           <View style={styles.buttonWrapper}>
-              <Button title="submit" onPress={this.handleSubmit} />
+            <Button title="submit" onPress={this.handleSubmit} />
           </View>
       </View>
     );
@@ -100,9 +106,20 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     width: '100%',
   },
+  scrollContainerStyle: {
+    height: 90,
+    flexDirection: 'column',
+    width: '100%',
+    borderColor: '#D4D4D4',
+    borderBottomWidth: 1,
+  },
   buttonWrapper: {
     width: '100%',
-    justifyContent: 'center',
     alignItems: 'center'
+  },
+  labelStyle: {
+    fontSize: 12,
+    color: '#7F7D7D',
+    fontWeight: '200'
   }
 });

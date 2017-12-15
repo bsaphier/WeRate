@@ -4,7 +4,7 @@ import { iconsMap } from '../../utils/icons-loader';
 
 
 
-const PlaceCard = ({ name, icon, phone, address, website, reviewCount, description }) => (
+const PlaceCard = ({ tags, name, icon, phone, address, website, reviewCount, description }) => (
   <View style={styles.container}>
     
       <View style={styles.headerContainer}>
@@ -13,7 +13,10 @@ const PlaceCard = ({ name, icon, phone, address, website, reviewCount, descripti
               source={iconsMap[icon]}
           />
           <Text style={styles.headerTitle}>{name}</Text>
-          {/* List of tags below name */}
+          {
+            // List of tags below name
+            tags.map(tag => (tag && <Text key={tag.id}>{tag.title}</Text>))
+          }
           {/* A count of how many reviews have been added */}
           <Text style={styles.reviewCount}>{reviewCount}</Text>
           

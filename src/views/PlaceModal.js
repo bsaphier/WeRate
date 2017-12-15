@@ -6,6 +6,27 @@ import { PlaceForm } from './components';
 
 
 class PlaceModal extends Component {
+  static navigatorButtons = {
+    rightButtons: [
+      {
+        title: 'cancel',
+        id: 'modal.place.cancel'
+      }
+    ]
+  }
+
+  constructor(props) {
+    super(props);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+  }
+
+  onNavigatorEvent = (event) => {
+    if (event.type == 'NavBarButtonPress') {
+      if (event.id == 'modal.place.cancel') {
+        this.handleCancel();
+      }
+    }
+  }
 
   handleCancel = () => {
     this.props.navigator.dismissModal();
@@ -18,7 +39,6 @@ class PlaceModal extends Component {
   render() {
     return (
       <View style={styles.container}>
-          <Button title="cancel" onPress={this.handleCancel} />
           <PlaceForm handleSubmit={this.handleSubmit} />
       </View>
     );
