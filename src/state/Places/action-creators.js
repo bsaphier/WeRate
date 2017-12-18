@@ -1,6 +1,6 @@
 // @flow
 import { ADD_PLACE, EDIT_PLACE, ADD_PLACES, REMOVE_PLACE } from './types';
-import { createPlaceInDb, modifyPlaceInDb, deletePlaceFromDb } from '../../utils/firestore-actions';
+import { modifyTagInDb, createPlaceInDb, modifyPlaceInDb, deletePlaceFromDb } from '../../utils/firestore-actions';
 import type { Place, Places, AddPlaceAction, EditPlaceAction, AddPlacesAction, RemovePlaceAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';
@@ -48,10 +48,27 @@ export const createPlace: ThunkAction = (place: Place) => {
 
 
 export const editPlace: ThunkAction = (place: Place) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const { tags } = getState();
     try {
       await modifyPlaceInDb(place);
       dispatch(modifyPlace(place));
+      tags.allIds.forEach(async tagId => {
+        let updatedTag, updatedPlaceIds;
+        const tag = tags.byId[tagId];
+        const { placeIds } = tag;
+        const tagHoldsReferenceToPlace: boolean = placeIds.includes(place.id);
+        const placeHoldsReferenceToTag: boolean = place.tagIds.includes(tagId);
+
+        if (tagHoldsReferenceToPlace && !placeHoldsReferenceToTag) {
+          updatedPlaceIds = placeIds.filter(placeId => (placeId !== place.id));
+          updatedTag = { ...tag, placeIds: updatedPlaceIds };
+        } else if (!tagHoldsReferenceToPlace && placeHoldsReferenceToTag) {
+          updatedPlaceIds = placeIds.concat(place.id);
+          updatedTag = { ...tag, placeIds: updatedPlaceIds };
+        }
+        await modifyTagInDb(updatedTag);
+      });
     } catch (error) {
       console.log('editPlace', error);
     }

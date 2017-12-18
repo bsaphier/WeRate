@@ -42,6 +42,14 @@ export const deleteTagFromDb = (tagId: string) => Tags.doc(tagId).delete();
 
 export const loadAllTagsFromDb = async () => handleCollectionSnapshot(await Tags.get());
 
+export const modifyTagInDb = async (tag: Tag) => {
+  try {
+    await Tags.doc(tag.id).update(tag);
+  } catch (err) {
+    console.log('modifyTagInDb', err);
+  }
+};
+
 export const createTagInDb = async (tag: Tag) => {
   const docRef = await Tags.add(tag);
   return insertId(await docRef.get());
@@ -104,3 +112,11 @@ export const createReviewInDb = async (review: Review) => {
   const docRef = await Reviews.add(review);
   return insertId(await docRef.get());
 };
+
+
+
+// ********* FILTERS
+
+// export const filterPlacesByTags = (tagName) => {
+//   return Places.where('')
+// };

@@ -38,6 +38,18 @@ class PlacesTab extends Component {
     });
   }
 
+  // TODO: do this in a Redux action
+  // filterPlacesByTags = (tagIds) => {
+  //   const { tagsById, allPlaces } = this.props;
+  //   const placeList = allPlaces.filter(placeId => {
+  //     return tagIds.some(tagId => {
+  //       const tag = tagsById[tagId];
+  //       return tag.placeIds.includes(placeId);
+  //     });
+  //   });
+  //   this.setState({ placeList });
+  // }
+
   renderPlaceCard = ({ item: { placeId } }) => {
     const { name, phone1, tagIds, address, website, reviewIds, description } = this.props.allPlaces[placeId];
     const tags = tagIds.length ? tagIds.map(tagId => this.props.tagsById[tagId]) : [];
