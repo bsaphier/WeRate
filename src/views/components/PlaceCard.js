@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     paddingLeft: 8,
     paddingRight: 8,
-    alignItems: 'flex-start'
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
   },
   bodyContainer: {
     display: 'flex',

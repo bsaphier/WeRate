@@ -22,7 +22,8 @@ class PlacesTab extends Component {
   showNewPlaceForm = () => {
     this.props.navigator.showModal({
       screen: 'werate.modal.place',
-      title: 'Place Modal'
+      title: 'New Place Modal',
+      passProps: { edit: false }
     });
   }
 
@@ -38,7 +39,7 @@ class PlacesTab extends Component {
   }
 
   renderPlaceCard = ({ item: { placeId } }) => {
-    const { name, phone1, tagIds, address, website, description } = this.props.allPlaces[placeId];
+    const { name, phone1, tagIds, address, website, reviewIds, description } = this.props.allPlaces[placeId];
     const tags = tagIds.length ? tagIds.map(tagId => this.props.tagsById[tagId]) : [];
     return (
       <PlaceCard
@@ -49,7 +50,7 @@ class PlacesTab extends Component {
           icon={'ios-images-outline'}
           address={address}
           website={website}
-          reviewCount={1}
+          reviewCount={reviewIds.length}
           onSelect={() => this.showPlaceDetail(placeId)}
           description={description}
       />
@@ -70,10 +71,10 @@ class PlacesTab extends Component {
 }
 
 
-const mapState = ({ tags, places: { byId, allIds } }) => ({
+const mapState = ({ tags, places }) => ({
   tagsById: tags.byId,
-  allPlaces: byId,
-  placesById: allIds
+  allPlaces: places.byId,
+  placesById: places.allIds
 });
 
 

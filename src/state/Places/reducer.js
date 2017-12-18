@@ -13,7 +13,7 @@ function addReview(state: PlacesById, action: AddReviewAction): PlacesById {
   const { id, placeId } = action.payload;
   const place: Place = state[placeId];
 
-  if (place.reviewIds && place.reviewIds.length) {
+  if (place.reviewIds) {
     return {
       ...state,
       [placeId]: {
@@ -30,7 +30,7 @@ function removeReview(state: PlacesById, action: RemoveReviewAction): PlacesById
   const { id, placeId } = action.payload;
   const place: Place = state[placeId];
 
-  if (place.reviewIds && place.reviewIds.length) {
+  if (place.reviewIds) {
     return {
       ...state,
       [placeId]: {
@@ -47,7 +47,7 @@ function addTag(state: PlacesById, action: AddTagAction): PlacesById {
   const { payload } = action;
   const { id, placeIds } = payload;
 
-  if (placeIds && placeIds.length) {
+  if (placeIds) {
     const nextState: PlacesById = { ...state };
   
     placeIds.forEach(placeId => {
@@ -68,7 +68,7 @@ function removeTag(state: PlacesById, action: RemoveTagAction): PlacesById {
   const { payload } = action;
   const { id, placeIds } = payload;
 
-  if (placeIds && placeIds.length) {
+  if (placeIds) {
     const nextState: PlacesById = { ...state };
 
     placeIds.forEach(placeId => {
@@ -86,23 +86,22 @@ function removeTag(state: PlacesById, action: RemoveTagAction): PlacesById {
 
 
 function addPlace(state: PlacesById, action: AddPlaceAction): PlacesById {
-  const { id } = action.payload;
+  const { payload } = action;
+  const { id } = payload;
   return {
     ...state,
-    [id]: action.payload
+    [id]: payload
   };
 }
 
 
 function editPlace(state: PlacesById, action: EditPlaceAction): PlacesById {
-  const { id } = action.payload;
+  const { payload } = action;
+  const { id } = payload;
   const prevPlace = state[id];
   return {
     ...state,
-    [id]: {
-      ...prevPlace,
-      ...action.payload
-    }
+    [id]: { ...prevPlace, ...payload }
   };
 }
 

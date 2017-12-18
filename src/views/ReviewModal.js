@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
-import { PlaceForm } from './components';
+import { ReviewForm } from './components';
 
 
 
-class PlaceModal extends Component {
+class ReviewModal extends Component {
   static navigatorButtons = {
     rightButtons: [
       {
         title: 'cancel',
-        id: 'modal.place.event.cancel'
+        id: 'modal.review.event.cancel'
       }
     ]
   }
@@ -22,7 +22,7 @@ class PlaceModal extends Component {
 
   onNavigatorEvent = (event) => {
     if (event.type == 'NavBarButtonPress') {
-      if (event.id == 'modal.place.event.cancel') {
+      if (event.id == 'modal.review.event.cancel') {
         this.handleCancel();
       }
     }
@@ -37,21 +37,22 @@ class PlaceModal extends Component {
   }
 
   render() {
-    const { edit, place } = this.props;
+    const { edit, place, review } = this.props;
     return (
       <View style={styles.container}>
-          <PlaceForm
-              edit={edit}
-              place={place}
-              handleSubmit={this.handleSubmit}
-          />
+        <ReviewForm
+            edit={edit}
+            review={review}
+            place={place}
+            handleSubmit={this.handleSubmit}
+        />
       </View>
     );
   }
 }
 
 
-export default connect()(PlaceModal);
+export default ReviewModal;
 
 
 const styles = StyleSheet.create({

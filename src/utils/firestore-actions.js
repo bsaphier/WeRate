@@ -92,6 +92,14 @@ export const deleteReviewFromDb = (reviewId: string) => Reviews.doc(reviewId).de
 
 export const loadAllReviewsFromDb = async () => handleCollectionSnapshot(await Reviews.get());
 
+export const modifyReviewInDb = async (review: Review) => {
+  try {
+    await Reviews.doc(review.id).update(review);
+  } catch (err) {
+    console.log('modifyReviewInDb', err);
+  }
+};
+
 export const createReviewInDb = async (review: Review) => {
   const docRef = await Reviews.add(review);
   return insertId(await docRef.get());

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { TitledInput, MultiSelect } from '../components';
-import { createPlace } from '../../state/Places/action-creators';
+import { editPlace, createPlace } from '../../state/Places/action-creators';
 
 
 
@@ -20,25 +20,25 @@ class PlaceForm extends Component {
   }
 
   componentWillMount() {
-    if (this.props.edit && (this.state.tagIds.length != this.props.place.tagIds.length)) {
-      this.setState({ tagIds: this.props.place.tagIds });
+    if (this.props.edit) { // && (this.state.tagIds.length != this.props.place.tagIds.length)
+      this.setState({ ...this.props.place });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.edit && (this.state.tagIds.length != nextProps.place.tagIds.length)) {
-      this.setState({ tagIds: nextProps.place.tagIds });
+    if (nextProps.edit) {
+      this.setState({ ...nextProps.place });
     }
   }
 
   handleSubmit = async () => {
-    const { edit, createPlace, handleSubmit } = this.props;
+    const { edit, place, editPlace, createPlace, handleSubmit } = this.props;
     const dismissModal = handleSubmit;
     try {
-      if (!edit) {
-        await createPlace(this.state);
+      if (edit && place) {
+        await editPlace({ ...this.state, id: place.id });
       } else {
-        // TODO...
+        await createPlace(this.state);
       }
     } catch (err) {
       console.log(err);
@@ -70,18 +70,21 @@ class PlaceForm extends Component {
           />
           <TitledInput
               label="Phone"
+              keyboardType="phone-pad"
               placeholder={edit ? place.phone1 : '000 000 0000'}
               value={this.state.phone1}
               onChangeText={phone1 => this.setState({ phone1 })}
           />
           <TitledInput
               label="Phone alt"
+              keyboardType="phone-pad"
               placeholder={edit ? place.phone2 : '000 000 0000'}
               value={this.state.phone2}
               onChangeText={phone2 => this.setState({ phone2 })}
           />
           <TitledInput
               label="Email"
+              keyboardType="email-address"
               placeholder={edit ? place.email : 'email@website.com'}
               value={this.state.email}
               onChangeText={email => this.setState({ email })}
@@ -114,6 +117,7 @@ class PlaceForm extends Component {
 const mapState = ({ tags }) => ({ tags });
 
 const mapDispatch = dispatch => ({
+  editPlace: async place => await dispatch(editPlace(place)),
   createPlace: async place => await dispatch(createPlace(place))
 });
 

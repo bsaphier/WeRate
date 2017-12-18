@@ -1,6 +1,7 @@
 // @flow
 export const ADD_REVIEW: 'ADD_REVIEW' = 'ADD_REVIEW';
 export const ADD_REVIEWS: 'ADD_REVIEWS' = 'ADD_REVIEWS';
+export const EDIT_REVIEW: 'EDIT_REVIEW' = 'EDIT_REVIEW';
 export const REMOVE_REVIEW: 'REMOVE_REVIEW' = 'REMOVE_REVIEW';
 
 
@@ -27,10 +28,12 @@ export type reviewsState = {|
 
 export type AddReviewAction = {| +type: typeof ADD_REVIEW, payload: Review |};
 export type AddReviewsAction = {| +type: typeof ADD_REVIEWS, payload: Reviews |};
+export type EditReviewAction = {| +type: typeof EDIT_REVIEW, payload: Review |};
 export type RemoveReviewAction = {| +type: typeof REMOVE_REVIEW, payload: Review |};
 
 export type Action =
   | empty
   | AddReviewAction
   | AddReviewsAction
+  | EditReviewAction
   | RemoveReviewAction;

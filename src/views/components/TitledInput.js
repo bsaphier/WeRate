@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 
 
-const TitledInput = ({ label, value, onChangeText, autoCorrect, placeholder, secureTextEntry }: TitledInputProps) => {
+const TitledInput = ({ label, value, onChangeText, autoCorrect, placeholder, secureTextEntry, keyboardType = 'default' }: TitledInputProps) => {
   return (
     <View style={styles.containerStyle}>
       <Text style={styles.labelStyle}>{label.toUpperCase()}</Text>
@@ -12,6 +12,7 @@ const TitledInput = ({ label, value, onChangeText, autoCorrect, placeholder, sec
           placeholder={placeholder}
           autoCorrect={autoCorrect}
           onChangeText={onChangeText}
+          keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
           style={styles.inputStyle}
       />
@@ -60,5 +61,6 @@ type TitledInputProps = {
   onChangeText: any;
   autoCorrect: boolean;
   placeholder: string;
+  keyboardType: string; // TODO: make this an ENUM
   secureTextEntry: boolean;
 };

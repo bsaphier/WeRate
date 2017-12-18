@@ -14,12 +14,13 @@ const Tag = ({ name }) => {
 
 const styles = StyleSheet.create({
   tagContainer: {
+    marginRight: 3,
     borderWidth: 1,
     borderColor: '#444',
     borderRadius: 6,
     paddingTop: 2,
     paddingBottom: 2,
-    backgroundColor: '#FE9'
+    backgroundColor: '#CEF'
   },
   tagText: {
     marginLeft: 6,
