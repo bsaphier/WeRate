@@ -4,7 +4,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import devTools from 'remote-redux-devtools';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import RootReducer from './App';
+import AppReducer from './App';
 import TagsReducer from './Tags';
 import UserReducer from './User';
 import AuthReducer from './Auth';
@@ -17,7 +17,7 @@ const middleware = applyMiddleware(thunk, logger);
 
 
 const rootReducer = combineReducers({
-  root: RootReducer,
+  root: AppReducer,
   tags: TagsReducer,
   user: UserReducer,
   auth: AuthReducer,

@@ -3,6 +3,7 @@ export const ADD_PLACE: 'ADD_PLACE' = 'ADD_PLACE';
 export const EDIT_PLACE: 'EDIT_PLACE' = 'EDIT_PLACE';
 export const ADD_PLACES: 'ADD_PLACES' = 'ADD_PLACES';
 export const REMOVE_PLACE: 'REMOVE_PLACE' = 'REMOVE_PLACE';
+export const FILTER_PLACES_BY_TAG: 'FILTER_PLACES_BY_TAG' = 'FILTER_PLACES_BY_TAG';
 
 export type Id = string;
 export type Address = {};
@@ -39,6 +40,7 @@ export type AddPlaceAction = {| +type: typeof ADD_PLACE, payload: Place |};
 export type EditPlaceAction = {| +type: typeof EDIT_PLACE, payload: Place |};
 export type AddPlacesAction = {| +type: typeof ADD_PLACES, payload: Places |};
 export type RemovePlaceAction = {| +type: typeof REMOVE_PLACE, payload: Place |};
+export type FilterPlacesByTagAction = {| +type: typeof FILTER_PLACES_BY_TAG, payload: string |};
 
 export type Action =
   | empty

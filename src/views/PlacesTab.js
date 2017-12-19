@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, FlatList, StyleSheet } from 'react-native';
+import { View, Button, FlatList, StyleSheet } from 'react-native';
+import { resetPlaceFilter, setPlaceFilterByTags } from '../state/App/action-creators';
+import { getFilteredPlaces } from '../state/Places/selectors';
 import { PlaceCard } from './components';
 
 
@@ -38,18 +40,6 @@ class PlacesTab extends Component {
     });
   }
 
-  // TODO: do this in a Redux action
-  // filterPlacesByTags = (tagIds) => {
-  //   const { tagsById, allPlaces } = this.props;
-  //   const placeList = allPlaces.filter(placeId => {
-  //     return tagIds.some(tagId => {
-  //       const tag = tagsById[tagId];
-  //       return tag.placeIds.includes(placeId);
-  //     });
-  //   });
-  //   this.setState({ placeList });
-  // }
-
   renderPlaceCard = ({ item: { placeId } }) => {
     const { name, phone1, tagIds, address, website, reviewIds, description } = this.props.allPlaces[placeId];
     const tags = tagIds.length ? tagIds.map(tagId => this.props.tagsById[tagId]) : [];
@@ -70,11 +60,17 @@ class PlacesTab extends Component {
   }
 
   render() {
+    const { tagsById, placesById, onResetPlaceFilter, onFilterPlaceByTag } = this.props;
+    const sampleTag = tagsById['VqE0ZQEfUoDZBnzl4w20']
     return (
-      <View>
+      <View style={styles.viewContainer}>
+          <View style={styles.buttonContainer}>
+              <Button title="reset" onPress={onResetPlaceFilter} />
+              <Button title="filter" onPress={() => onFilterPlaceByTag([ sampleTag ])} />
+          </View>
           <FlatList
-              style={styles.contentContainer}
-              data={this.props.placesById.map(placeId => ({ key: placeId, placeId }))}
+              style={styles.listContainer}
+              data={placesById.map(placeId => ({ key: placeId, placeId }))}
               renderItem={this.renderPlaceCard}
           />
       </View>
@@ -83,20 +79,31 @@ class PlacesTab extends Component {
 }
 
 
-const mapState = ({ tags, places }) => ({
-  tagsById: tags.byId,
-  allPlaces: places.byId,
-  placesById: places.allIds
+const mapState = (state) => ({
+  tagsById: state.tags.byId,
+  allPlaces: state.places.byId,
+  placesById: getFilteredPlaces(state)
 });
 
 
-export default connect(mapState)(PlacesTab);
+const mapDispatch = dispatch => ({
+  onResetPlaceFilter: () => dispatch(resetPlaceFilter()),
+  onFilterPlaceByTag: (tags, order) => dispatch(setPlaceFilterByTags(tags, order))
+});
+
+
+export default connect(mapState, mapDispatch)(PlacesTab);
 
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    paddingBottom: 100,
-    paddingTop: 13,
+  viewContainer: {
     height: '100%'
+  },
+  listContainer: {
+    paddingBottom: 100
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   }
 });
