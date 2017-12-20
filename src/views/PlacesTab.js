@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Button, FlatList, StyleSheet } from 'react-native';
-import { resetPlaceFilter, setPlaceFilterByTags } from '../state/App/action-creators';
+import { resetPlaceFilter } from '../state/App/action-creators';
 import { getFilteredPlaces } from '../state/Places/selectors';
 import { PlaceCard } from './components';
 
@@ -19,6 +19,12 @@ class PlacesTab extends Component {
         this.showNewPlaceForm();
       }
     }
+  }
+
+  showSearchDrawer = () => {
+    this.props.navigator.toggleDrawer({
+      side: 'right'
+    });
   }
 
   showNewPlaceForm = () => {
@@ -60,13 +66,13 @@ class PlacesTab extends Component {
   }
 
   render() {
-    const { tagsById, placesById, onResetPlaceFilter, onFilterPlaceByTag } = this.props;
-    const sampleTag = tagsById['VqE0ZQEfUoDZBnzl4w20']
+    const { placesById, onResetPlaceFilter } = this.props;
+    console.log('******PlaceTab', placesById);
     return (
       <View style={styles.viewContainer}>
           <View style={styles.buttonContainer}>
-              <Button title="reset" onPress={onResetPlaceFilter} />
-              <Button title="filter" onPress={() => onFilterPlaceByTag([ sampleTag ])} />
+              <Button title="show all" onPress={onResetPlaceFilter} />
+              <Button title="search" onPress={this.showSearchDrawer} />
           </View>
           <FlatList
               style={styles.listContainer}
@@ -82,13 +88,12 @@ class PlacesTab extends Component {
 const mapState = (state) => ({
   tagsById: state.tags.byId,
   allPlaces: state.places.byId,
-  placesById: getFilteredPlaces(state)
+  placesById: getFilteredPlaces(state),
 });
 
 
 const mapDispatch = dispatch => ({
-  onResetPlaceFilter: () => dispatch(resetPlaceFilter()),
-  onFilterPlaceByTag: (tags, order) => dispatch(setPlaceFilterByTags(tags, order))
+  onResetPlaceFilter: () => dispatch(resetPlaceFilter())
 });
 
 

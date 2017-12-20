@@ -7,6 +7,7 @@ import ProfileTab from './ProfileTab';
 import PlaceModal from './PlaceModal';
 import PlaceScreen from './PlaceScreen';
 import ReviewModal from './ReviewModal';
+import SearchDrawer from './SearchDrawer';
 
 
 // register all screens of the app (including internal ones)
@@ -19,4 +20,5 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent('werate.modal.place', () => PlaceModal, store, Provider);
   Navigation.registerComponent('werate.modal.review', () => ReviewModal, store, Provider);
   Navigation.registerComponent('werate.screen.place', () => PlaceScreen, store, Provider);
+  Navigation.registerComponent('werate.drawer.search', () => SearchDrawer, store, Provider);
 }

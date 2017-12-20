@@ -19,7 +19,7 @@ const PlaceCard = ({ tags, name, icon, phone, address, website, onSelect, review
       </View>
 
       <View style={styles.tagsContainer}>
-          { tags.map(tag => (tag && <Tag key={tag.id} name={tag.title} />)) }
+          { tags.map(tag => (tag && <Tag key={tag.id + name} name={tag.title} />)) }
       </View>
 
       <View style={styles.bodyContainer}>
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     paddingLeft: 8,
     paddingRight: 8,
+    flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'flex-start'
   },
