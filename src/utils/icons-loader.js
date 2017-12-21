@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 
-const replaceSuffixPattern = /--(active|big|small|very-big)/g;
+const replaceSuffixPattern = /--(active|big|small|very-small|very-big)/g;
 
 const icons = {
   'ios-home-outline': [30, '#bbb'],
@@ -24,6 +24,8 @@ const icons = {
   'ios-more-outline--active': [30, '#fff'],
   'ios-more-outline--active--big': [50, '#fff'],
   'ios-more-outline--active--very-big': [100, '#fff'],
+
+  'ios-close-circle': [20, '#444'],
 
   'ios-images-outline': [30, '#bbb']
 };

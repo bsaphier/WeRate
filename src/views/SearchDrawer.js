@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Button, Picker, StyleSheet, TouchableHighlight } from 'react-native';
+import { View, Text, Button, Picker, StyleSheet } from 'react-native';
 import { setPlaceFilterByTags } from '../state/App/action-creators';
+import { ActionTag } from './components';
 
 
 
@@ -23,59 +24,46 @@ class SearchDrawer extends Component {
     navigator.toggleDrawer({ side: 'right' });
   }
 
+  handleRemoveSelectedTag = (tagId) => {
+    this.setState({
+      selectedTags: this.state.selectedTags.filter(selectedTagId => selectedTagId != tagId)
+    });
+  }
+
   render() {
     const { tagsById, allTagIds, navigator } = this.props;
     return (
       <View style={styles.viewContainer}>
-
         <View style={styles.header}>
-          <Button
-              title="cancel"
-              onPress={() => navigator.toggleDrawer({ side: 'right' })}
-          />
-          <Button
-              title="clear"
-              onPress={() => this.setState({ selectedTags: [] })}
-          />
+          <Button title="clear" onPress={() => this.setState({ selectedTags: [] })} />
         </View>
 
         <View style={styles.tagsContainer}>
           {
             this.state.selectedTags.map(tagId => (
-              <View key={`tag_${tagId}`} style={styles.tagContainer}>
-                <TouchableHighlight
-                    style={styles.tagCloseBtn}
-                    onPress={() => this.setState({ selectedTags: this.state.selectedTags.filter(selectedTagId => selectedTagId != tagId) })}
-                >
-                  <Text>{tagsById[tagId].title}</Text>
-                </TouchableHighlight>
-              </View>
+              <ActionTag
+                  key={`tag_${tagId}`}
+                  label={tagsById[tagId].title}
+                  action={() => this.handleRemoveSelectedTag(tagId)}
+              />
             ))
           }
         </View>
 
         <View style={styles.contentContainer}>
-          <Picker selectedValue={this.state.selectedTag} onValueChange={this.handlePickerChange}>
+          <Text>select categories to view</Text>
+          <View style={styles.foot}>
+            <Button title="cancel" onPress={() => navigator.toggleDrawer({ side: 'right' })} />
+            <Button title="search" onPress={() => this.handleSubmit()} />
+          </View>
+          <Picker style={styles.picker} selectedValue={this.state.selectedTag} onValueChange={this.handlePickerChange}>
             {
               allTagIds.map(tagId => (
-                <Picker.Item
-                    key={`picker_${tagId}`}
-                    value={tagId}
-                    label={tagsById[tagId].title}
-                />
+                <Picker.Item key={`picker_${tagId}`} value={tagId} label={tagsById[tagId].title} />
               ))
             }
           </Picker>
-          <Text>select categories to view</Text>
         </View>
-
-        <View style={styles.foot}>
-          <Button
-              title="submit"
-              onPress={() => this.handleSubmit()}
-          />
-        </View>
-
       </View>
     );
   }
@@ -99,36 +87,46 @@ export default connect(mapState, mapDispatch)(SearchDrawer);
 
 const styles = StyleSheet.create({
   viewContainer: {
-    height: '100%'
+    height: '100%',
+    backgroundColor: '#EEE'
   },
   header: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 26,
-    width: '100%'
+    justifyContent: 'flex-end',
+    paddingTop: 26,
+    width: '100%',
+    height: 63.5,
+    backgroundColor: '#FFF',
+    shadowColor: '#ddd',
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 0 }
   },
   contentContainer: {
     flex: 1,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-end'
+  },
+  picker: {
+    backgroundColor: '#FCFCFC'
   },
   tagsContainer: {
     flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginBottom: 5
-  },
-  tagContainer: {
-    flexDirection: 'row'
-  },
-  tagCloseBtn: {
-    margin: 3,
-    padding: 5,
-    borderRadius: 2
+    marginVertical: 5
   },
   foot: {
+    zIndex: 10,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     width: '100%',
-    borderTopWidth: 1,
-    borderColor: '#D4D4D4'
+    borderBottomWidth: 1,
+    borderColor: '#eee',
+    backgroundColor: '#fefefe',
+    shadowColor: '#eee',
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 15 }
   }
 });

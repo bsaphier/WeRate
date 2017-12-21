@@ -15,6 +15,7 @@ const Tag = ({ name }) => {
 const styles = StyleSheet.create({
   tagContainer: {
     marginRight: 3,
+    marginBottom: 3,
     borderWidth: 1,
     borderColor: '#444',
     borderRadius: 6,

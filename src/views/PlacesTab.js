@@ -67,7 +67,6 @@ class PlacesTab extends Component {
 
   render() {
     const { placesById, onResetPlaceFilter } = this.props;
-    console.log('******PlaceTab', placesById);
     return (
       <View style={styles.viewContainer}>
           <View style={styles.buttonContainer}>
