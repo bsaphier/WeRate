@@ -1,0 +1,27 @@
+Features
+• user profile
+    • edit
+    • can edit their own review
+    • click on info to open up apps like phone, browser, etc.
+
+• list of all users
+    • message/email a user (open up messages/email app)
+    
+• review
+    • click on user who created review
+
+• places
+    • search by name
+    • order by review avg. or alphabetically (default)
+    • add createdBy to Place in db
+    • when new place is created send an email to the admin with detail about the place
+
+• admin
+    • only one admin per "group"
+    • can edit anything
+    • send message to an admin
+
+
+U.I.
+• 5 "Star" rating
+• Rating avg. on Place created

@@ -86,16 +86,7 @@ export default class App extends Component {
               navigatorStyle: {},
               navigatorButtons: {}
             }
-          ],
-          drawer: {
-            right: {
-              screen: 'werate.drawer.search'
-            },
-            style: {
-             drawerShadow: false
-            },
-            disableOpenGesture: true
-          }
+          ]
         });
         return;
     

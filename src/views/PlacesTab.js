@@ -22,8 +22,9 @@ class PlacesTab extends Component {
   }
 
   showSearchDrawer = () => {
-    this.props.navigator.toggleDrawer({
-      side: 'right'
+    this.props.navigator.showModal({
+      screen: 'werate.modal.search',
+      title: 'Search'
     });
   }
 

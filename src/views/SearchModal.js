@@ -6,7 +6,7 @@ import { ActionTag } from './components';
 
 
 
-class SearchDrawer extends Component {
+class SearchModal extends Component {
   state = { selectedTag: '', selectedTags: [] }
 
   handlePickerChange = (itemValue) => {
@@ -21,7 +21,7 @@ class SearchDrawer extends Component {
     const { tagsById, navigator, onFilterPlaceByTag } = this.props;
     const tagsToSetFilterBy = this.state.selectedTags.map(tagId => tagsById[tagId]);
     onFilterPlaceByTag(tagsToSetFilterBy);
-    navigator.toggleDrawer({ side: 'right' });
+    navigator.dismissModal();
   }
 
   handleRemoveSelectedTag = (tagId) => {
@@ -53,7 +53,7 @@ class SearchDrawer extends Component {
         <View style={styles.contentContainer}>
           <Text>select categories to view</Text>
           <View style={styles.foot}>
-            <Button title="cancel" onPress={() => navigator.toggleDrawer({ side: 'right' })} />
+            <Button title="cancel" onPress={() => navigator.dismissModal()} />
             <Button title="search" onPress={() => this.handleSubmit()} />
           </View>
           <Picker style={styles.picker} selectedValue={this.state.selectedTag} onValueChange={this.handlePickerChange}>
@@ -82,7 +82,7 @@ const mapDispatch = dispatch => ({
 });
 
 
-export default connect(mapState, mapDispatch)(SearchDrawer);
+export default connect(mapState, mapDispatch)(SearchModal);
 
 
 const styles = StyleSheet.create({
