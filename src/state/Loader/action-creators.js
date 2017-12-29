@@ -1,9 +1,10 @@
 // @flow
 import { FETCHING_DATA, FETCHING_DATA_FAIL, FETCHING_DATA_SUCCESS } from './types';
 import { actionCreators as tagActions } from '../Tags';
+import { actionCreators as usersActions } from '../Users';
 import { actionCreators as placeActions } from '../Places';
 import { actionCreators as reviewActions } from '../Reviews';
-import { loadAllTagsFromDb, loadAllPlacesFromDb, loadAllReviewsFromDb } from '../../utils/firestore-actions';
+import { loadAllTagsFromDb, loadAllUsersFromDb, loadAllPlacesFromDb, loadAllReviewsFromDb } from '../../utils/firestore-actions';
 import type { Err, FetchDataAction, FetchDataFailAction, FetchDataSuccessAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';
@@ -37,6 +38,9 @@ export const fetchInitialData: ThunkAction = () => {
   
       const allReviews = await loadAllReviewsFromDb();
       dispatch(reviewActions.addReviews(allReviews));
+
+      const allUsers = await loadAllUsersFromDb();
+      dispatch(usersActions.addUsers(allUsers));
   
       const allTags = await loadAllTagsFromDb();
       dispatch(tagActions.addTags(allTags));

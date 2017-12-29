@@ -8,6 +8,7 @@ import AppReducer from './App';
 import TagsReducer from './Tags';
 import UserReducer from './User';
 import AuthReducer from './Auth';
+import UsersReducer from './Users';
 import FetchReducer from './Loader';
 import PlacesReducer from './Places';
 import ReviewsReducer from './Reviews';
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   tags: TagsReducer,
   user: UserReducer,
   auth: AuthReducer,
+  users: UsersReducer,
   fetch: FetchReducer,
   places: PlacesReducer,
   reviews: ReviewsReducer
