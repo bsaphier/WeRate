@@ -52,7 +52,6 @@ export const login: ThunkAction = (login: Login) => {
 
 export const signup: ThunkAction = (newUser: User) => {
   return async dispatch => {
-    console.log('SIGNUP', newUser);
     const signupSuccess = await dispatch(signupRequest(newUser));
     if (signupSuccess) {
       dispatch(fetchInitialData()); // no need to wait for this as loading screen will display
