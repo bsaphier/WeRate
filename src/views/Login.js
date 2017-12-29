@@ -2,25 +2,58 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
-import { LoginForm } from './components';
-import { login, checkIfLoggedIn } from '../state/App/action-creators';
+import { LoginForm, SignupForm } from './components';
+import { login, signup, checkIfLoggedIn } from '../state/App/action-creators';
 
 
 
-class Login extends Component<sketchProps> {
+class Login extends Component<loginProps, loginState> {
+  constructor(props) {
+    super(props);
+    this.state = { signup: false };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+  }
 
   componentDidMount() {
     this.props.checkIfLoggedIn();
   }
 
+  onNavigatorEvent = (event) => {
+    if (event.type == 'NavBarButtonPress') {
+      if (event.id == 'login.event.toggleSignup') {
+        this.toggleSignupForm();
+      }
+    }
+  }
+
+  toggleSignupForm = () => {
+    this.setState({ signup: !this.state.signup });
+    this.props.navigator.setButtons({
+      rightButtons: [
+        {
+          title: this.state.signup ? 'cancel' : 'sign up',
+          id: 'login.event.toggleSignup'
+        }
+      ]
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <LoginForm
-            err={this.props.err}
-            login={this.props.login}
-            isLoading={this.props.isLoading}
-        />
+        { this.state.signup ? (
+          <SignupForm
+              err={this.props.err}
+              signup={this.props.signup}
+              isLoading={this.props.isLoading}
+          />
+        ) : (
+          <LoginForm
+              err={this.props.err}
+              login={this.props.login}
+              isLoading={this.props.isLoading}
+          />
+        )}
       </View>
     );
   }
@@ -34,6 +67,7 @@ const mapState = ({ auth }) => ({
 
 const mapDispatch = dispatch => ({
   checkIfLoggedIn: () => dispatch(checkIfLoggedIn()),
+  signup: (newUser) => dispatch(signup(newUser)),
   login: (email, password) => dispatch(login({ email, password }))
 });
 
@@ -50,9 +84,15 @@ const styles = StyleSheet.create({
 });
 
 
-type sketchProps = {
+type loginProps = {
   err: any,
   login: any,
+  signup: any,
+  navigator: any,
   checkIfLoggedIn: any,
   isLoading: boolean
 };
+
+type loginState = {
+  signup: boolean
+}
