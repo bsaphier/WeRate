@@ -1,6 +1,6 @@
 // @flow
 import { ADD_REVIEW, ADD_REVIEWS, EDIT_REVIEW, REMOVE_REVIEW } from './types';
-import { createReviewInDb, modifyPlaceInDb, modifyReviewInDb, deleteReviewFromDb } from '../../utils/firestore-actions';
+import { createReviewInDb, modifyPlaceInDb, modifyUserInDb, modifyReviewInDb, deleteReviewFromDb } from '../../utils/firestore-actions';
 import type { Review, Reviews, AddReviewAction, AddReviewsAction, EditReviewAction, RemoveReviewAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';
@@ -42,6 +42,10 @@ export const createReview: ThunkAction = (review: Review) => {
       ...place,
       reviewIds: place.reviewIds.concat(newReviewInDb.id)
     });
+    await modifyUserInDb({
+      ...user,
+      reviewIds: user.reviewIds ? user.reviewIds.concat(newReviewInDb.id) : [newReviewInDb.id]
+    });
     dispatch(addReview(newReviewInDb));
     return newReviewInDb;
   };
@@ -62,11 +66,15 @@ export const editReview: ThunkAction = (review: Review) => {
 
 export const deleteReview: ThunkAction = (review: Review) => {
   return async (dispatch, getState) => {
-    const { places } = getState();
+    const { user, places } = getState();
     const place = places.byId[review.placeId];
     await modifyPlaceInDb({
       ...place,
       reviewIds: place.reviewIds.filter(reviewId => (review.id !== reviewId))
+    });
+    await modifyUserInDb({
+      ...user,
+      reviewIds: user.reviewIds.filter(reviewId => (review.id !== reviewId))
     });
     await deleteReviewFromDb(review.id);
     dispatch(removeReview(review));
