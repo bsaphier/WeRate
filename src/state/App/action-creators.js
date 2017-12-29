@@ -5,7 +5,7 @@ import type { Login } from '../Auth/types';
 import type { User } from '../User/types';
 import type { Root, PlaceFilter, FilterOrder, PlacesFilterAction, PlacesFilterOrderAction, AppRootChangedAction } from './types';
 import { LOGIN_ROOT, ROOT_CHANGED, APP_ROOT, SET_PLACE_FILTER, SET_PLACE_FILTER_ORDER, FILTER_DESCENDING, FILTER_PLACES_SHOW_ALL, FILTER_PLACES_BY_TAGS, FILTER_PLACES_BY_REVIEW_COUNT } from './types';
-import { checkAuth, signInRequest } from '../Auth/action-creators';
+import { checkAuth, signupRequest, signInRequest } from '../Auth/action-creators';
 import { fetchInitialData } from '../Loader/action-creators';
 
 
@@ -52,8 +52,12 @@ export const login: ThunkAction = (login: Login) => {
 
 export const signup: ThunkAction = (newUser: User) => {
   return async dispatch => {
-    const { email, password, confirmPassword, firstName, lastName, business, phone, website } = newUser;
-    // const signInSuccess = await dispatch(signInRequest(newUser));
+    console.log('SIGNUP', newUser);
+    const signupSuccess = await dispatch(signupRequest(newUser));
+    if (signupSuccess) {
+      dispatch(fetchInitialData()); // no need to wait for this as loading screen will display
+      dispatch(changeAppRoot(APP_ROOT));
+    }
   };
 };
 

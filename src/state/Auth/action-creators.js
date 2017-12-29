@@ -58,12 +58,16 @@ export const signInRequest: ThunkAction = (login: Login) => {
 };
 
 
-export const signupRequest: ThunkAction = (signup: Login & User) => {
+export const signupRequest: ThunkAction = (signupUser: Login & User) => {
   return async dispatch => {
     dispatch(loginRequest());
     try {
-      const newAuthUser = await createAuthUser(signup);
-      const newUser = await createUserInDb(newAuthUser);
+      console.log('SIGNUP_REQUEST', signupUser);
+      const { email, password, confirmPassword, firstName, lastName, business, phone, website } = signupUser;
+      if (password != confirmPassword) throw `'Password' must match 'Confirm Password'`;
+      const user = { email, password, firstName, lastName, business, phone, website };
+      const newAuthUser = await createAuthUser(user);
+      const newUser = await createUserInDb({ ...user, ...newAuthUser });
       dispatch(loginSuccess(newUser));
     } catch (error) {
       dispatch(loginFail(`${error}`));

@@ -12,7 +12,8 @@ export type Err = any;
 
 export type Login = {|
   email: string,
-  password: string
+  password: string,
+  confirmPassword?: string
 |};
 
 
