@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { LabeledValue } from './components';
 import { editUser } from '../state/User/action-creators';
 
 
@@ -40,11 +41,15 @@ class ProfileTab extends Component {
   }
 
   render() {
+    const { email, firstName, lastName, business, phone, website } = this.props.user;
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          PROFILE
-        </Text>
+        <LabeledValue label="First Name" value={firstName} />
+        <LabeledValue label="Last Name" value={lastName} />
+        <LabeledValue label="Email" value={email} />
+        <LabeledValue label="Business" value={business} />
+        <LabeledValue label="Phone" value={phone} />
+        <LabeledValue label="Website" value={website} />
       </View>
     );
   }

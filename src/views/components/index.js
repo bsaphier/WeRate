@@ -10,5 +10,6 @@ import ReviewForm from './ReviewForm';
 import ProfileForm from './ProfileForm';
 import TitledInput from './TitledInput';
 import MultiSelect from './MultiSelect';
+import LabeledValue from './LabeledValue';
 
-export { Tag, Sketch, Spinner, ActionTag, LoginForm, PlaceCard, PlaceForm, SignupForm, ReviewForm, ProfileForm, MultiSelect, TitledInput };
+export { Tag, Sketch, Spinner, ActionTag, LoginForm, PlaceCard, PlaceForm, SignupForm, ReviewForm, ProfileForm, MultiSelect, TitledInput, LabeledValue };
