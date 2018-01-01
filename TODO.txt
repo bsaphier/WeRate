@@ -1,6 +1,6 @@
 Features
 • user profile
-    • edit
+√   • edit
     • can edit their own review
     • click on info to open up apps like phone, browser, etc.
 

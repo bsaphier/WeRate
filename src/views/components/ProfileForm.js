@@ -26,7 +26,7 @@ class ProfileForm extends Component<profileFormProps, profileFormState> {
     try {
       await handleSubmit({ ...this.state, id: user.id });
     } catch (err) {
-      console.log(err);
+      console.log('handleSubmitForm', err);
     }
   }
 
@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
 
 type profileFormProps = {
   user: User,
-  editUser: any,
   handleSubmit: any
 };
 

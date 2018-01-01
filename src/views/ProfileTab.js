@@ -26,18 +26,9 @@ class ProfileTab extends Component {
       title: 'Edit Profile',
       passProps: {
         user: this.props.user,
-        handleSubmit: this.onEditUserSubmit
+        onEditUser: this.props.onEditUser
       }
     });
-  }
-
-  onEditUserSubmit = async (user) => {
-    try {
-      await this.props.onEditUser(user);
-    } catch (err) {
-      console.log('onEditUserSubmit', err);
-    }
-    this.props.navigator.dismissModal();
   }
 
   render() {
@@ -73,10 +64,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
+  }
 });
