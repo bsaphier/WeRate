@@ -83,7 +83,14 @@ export default class App extends Component {
               screen: 'werate.tab.profile',
               icon: iconsMap['ios-body-outline'],
               navigatorStyle: {},
-              navigatorButtons: {}
+              navigatorButtons: {
+                rightButtons: [
+                  {
+                    title: 'edit',
+                    id: 'tab.profile.event.edit'
+                  }
+                ]
+              }
             },
             {
               title: 'More',

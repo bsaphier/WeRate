@@ -1,15 +1,30 @@
 // @flow
-// import { FETCHING_USER_SUCCESS } from './types';
-// import type { userState, FetchUserSuccessAction } from './types';
-// import type { ActionCreator } from 'redux';
+import { UPDATE_USER } from './types';
+import { modifyUserInDb } from '../../utils/firestore-actions';
+import type { User, UpdateUserAction } from './types';
+import type { ThunkAction } from 'redux-thunk';
+import type { ActionCreator } from 'redux';
 
 
-// export const logInSuccess: ActionCreator = (user: userState): FetchUserSuccessAction => ({
-//   type: FETCHING_USER_SUCCESS,
-//   payload: user
-// });
+export const modifyUser: ActionCreator = (user: User): UpdateUserAction => ({
+  type: UPDATE_USER,
+  payload: user
+});
 
 
-// export default {
-//   logInSuccess
-// };
+export const editUser: ThunkAction = (user: User) => {
+  return async dispatch => {
+    try {
+      await modifyUserInDb(user);
+      dispatch(modifyUser(user));
+    } catch (error) {
+      console.log('editUser', error);
+    }
+  };
+};
+
+
+export default {
+  editUser,
+  modifyUser
+};

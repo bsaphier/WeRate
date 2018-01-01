@@ -1,4 +1,5 @@
 // @flow
+import { UPDATE_USER } from './types';
 import { LOGOUT_REQUEST, LOGIN_REQUEST_SUCCESS } from '../Auth/types';
 import { ADD_REVIEW, REMOVE_REVIEW } from '../Reviews/types';
 import type { AddReviewAction, RemoveReviewAction } from '../Reviews/types';
@@ -44,6 +45,8 @@ export default function(state: User = initialState, action: Action): User {
       return addReview(state, action);
     case REMOVE_REVIEW:
       return removeReview(state, action);
+    case UPDATE_USER:
+      return action.payload;
     case LOGIN_REQUEST_SUCCESS:
       return {
         ...state,
