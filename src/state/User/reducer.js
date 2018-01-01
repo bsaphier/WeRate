@@ -46,7 +46,7 @@ export default function(state: User = initialState, action: Action): User {
     case REMOVE_REVIEW:
       return removeReview(state, action);
     case UPDATE_USER:
-      return action.payload;
+      return { ...state, ...action.payload };
     case LOGIN_REQUEST_SUCCESS:
       return {
         ...state,

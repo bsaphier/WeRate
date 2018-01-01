@@ -5,7 +5,7 @@ import { TitledInput, Spinner } from '../components';
 
 
 
-class Login extends Component<sketchProps, sketchState> {
+class LoginForm extends Component<loginFormProps, loginFormState> {
   state = { email: '', password: '' };
 
   renderButtonOrSpinner() {
@@ -55,16 +55,16 @@ const styles = StyleSheet.create({
 });
 
 
-export default Login;
+export default LoginForm;
 
 
-type sketchProps = {
+type loginFormProps = {
   err: any,
   login: any,
   isLoading: boolean
 };
 
-type sketchState = {
+type loginFormState = {
   email: string,
   password: string
 };

@@ -1,15 +1,14 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import { TitledInput, Spinner } from '../components';
+import { View, Button, StyleSheet } from 'react-native';
+import { TitledInput } from '../components';
+import type { User } from '../../state/User/types';
 
 
 
-class SignupForm extends Component<signupFormProps, signupFormState> {
+class ProfileForm extends Component<profileFormProps, profileFormState> {
   state = {
     email: '',
-    password: '',
-    confirmPassword: '',
     firstName: '',
     lastName: '',
     business: '',
@@ -17,14 +16,23 @@ class SignupForm extends Component<signupFormProps, signupFormState> {
     website: ''
   };
 
-  renderButtonOrSpinner() {
-    const { signup, isLoading } = this.props;
-    return isLoading ? <Spinner /> : <Button onPress={() => signup(this.state)} title="Sign Up" />;
+  componentWillMount() {
+    const { email, firstName, lastName, business, phone, website } = this.props.user;
+    this.setState({ email, firstName, lastName, business, phone, website });
+  }
+
+  handleSubmitForm = async () => {
+    const { user, handleSubmit } = this.props;
+    try {
+      await handleSubmit({ ...this.state, id: user.id });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.containerStyle}>
         <TitledInput
             label='First Name'
             placeholder='First Name'
@@ -61,59 +69,39 @@ class SignupForm extends Component<signupFormProps, signupFormState> {
             value={this.state.phone}
             onChangeText={phone => this.setState({ phone })}
         />
-        <TitledInput
-            label='Password'
-            autoCorrect={false}
-            placeholder='*******'
-            secureTextEntry
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-        />
-        <TitledInput
-            label='Confirm Password'
-            autoCorrect={false}
-            placeholder='*******'
-            secureTextEntry
-            value={this.state.confirmPassword}
-            onChangeText={confirmPassword => this.setState({ confirmPassword })}
-        />
-        {this.props.err ? <Text style={styles.errorTextStyle}>{this.props.err}</Text> : null}
-        {this.renderButtonOrSpinner()}
+        <View style={styles.buttonWrapper}>
+          <Button title="submit" onPress={this.handleSubmitForm} />
+        </View>
       </View>
     );
   }
 }
 
-
-export default SignupForm;
+export default ProfileForm;
 
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 10,
-    paddingRight: 20,
-    paddingLeft: 20,
-    backgroundColor: '#FFF'
+  containerStyle: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    width: '100%',
   },
-  errorTextStyle: {
-    color: '#E64A19',
-    alignSelf: 'center',
-    paddingTop: 10,
-    paddingBottom: 10
-  }
+  buttonWrapper: {
+    width: '100%',
+    alignItems: 'center'
+  },
 });
 
 
-type signupFormProps = {
-  err: any,
-  signup: any,
-  isLoading: boolean
+type profileFormProps = {
+  user: User,
+  editUser: any,
+  handleSubmit: any
 };
 
-type signupFormState = {
+type profileFormState = {
   email: string,
-  password: string,
-  confirmPassword: string,
   firstName: string,
   lastName: string,
   business: string,
