@@ -1,9 +1,9 @@
 // @flow
 import { combineReducers } from 'redux';
-import { ADD_USERS } from './types';
+import { ADD_USERS, SELECTED_USER } from './types';
 import type { Reducer } from 'redux';
 import type { User } from '../User/types';
-import type { AllIds, Action, UsersById, AddUsersAction } from './types';
+import type { Id, AllIds, UsersById, AddUsersAction, SelectUserAction } from './types';
 
 
 
@@ -16,7 +16,7 @@ function addUsers(state: UsersById, action: AddUsersAction): UsersById {
 }
 
 
-function usersById(state: UsersById = {}, action: Action): UsersById {
+function usersById(state: UsersById = {}, action: AddUsersAction): UsersById {
   switch(action.type) {
     case ADD_USERS:
       return addUsers(state, action);
@@ -27,7 +27,7 @@ function usersById(state: UsersById = {}, action: Action): UsersById {
 }
 
 
-function allUsers(state: AllIds = [], action: Action): AllIds {
+function allUsers(state: AllIds = [], action: AddUsersAction): AllIds {
   switch (action.type) {
     case ADD_USERS:
       return state.concat(action.payload.map((user: User) => user.id));
@@ -38,9 +38,22 @@ function allUsers(state: AllIds = [], action: Action): AllIds {
 }
 
 
+function selectUser(state: Id, action: SelectUserAction): Id {
+  switch (action.type) {
+    case SELECTED_USER:
+      return action.payload;
+    default:
+      (action: empty);
+      return state;
+  }
+}
+
+
+
 const usersReducer: Reducer = combineReducers({
   byId: usersById,
-  allIds: allUsers
+  allIds: allUsers,
+  selectedUser: selectUser
 });
 
 export default usersReducer;
