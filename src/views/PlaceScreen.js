@@ -72,10 +72,10 @@ class PlaceScreen extends Component {
         const review = reviewsById[reviewId];
         return (
           <View key={review.id}>
-              <Text>{`Comment: ${review.comment}`}</Text>
-              <Text>{`Rating: ${review.rating}`}</Text>
-              <Button title="Edit Review" onPress={() => this.showEditRatingForm(reviewId)} />
-              <Button title="Delete Review" onPress={async () => { await deleteReview(review); }} />
+            <Text>{`Comment: ${review.comment}`}</Text>
+            <Text>{`Rating: ${review.rating}`}</Text>
+            <Button title="Edit Review" onPress={() => this.showEditRatingForm(reviewId)} />
+            <Button title="Delete Review" onPress={async () => { await deleteReview(review); }} />
           </View>
         );
       });
@@ -84,7 +84,7 @@ class PlaceScreen extends Component {
   
   render() {
     const { place, usersById } = this.props;
-    const { createdBy } = usersById[place.createdBy];
+    const createdBy = usersById[place.createdBy];
     return (
       <View>
         <Text>{place.name}</Text>

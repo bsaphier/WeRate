@@ -50,7 +50,7 @@ class PlacesTab extends Component {
   renderPlaceCard = ({ item: { placeId } }) => {
     const { name, phone1, tagIds, address, website, createdBy, reviewIds, description } = this.props.allPlaces[placeId];
     const tags = tagIds.length ? tagIds.map(tagId => this.props.tagsById[tagId]) : [];
-    return (
+    return this.props.loading && (
       <PlaceCard
           key={placeId + 'placeCard'}
           icon={'ios-images-outline'}
@@ -87,6 +87,7 @@ class PlacesTab extends Component {
 
 
 const mapState = (state) => ({
+  loading: state.fetch.initialStateLoaded,
   tagsById: state.tags.byId,
   usersById: state.users.byId,
   allPlaces: state.places.byId,

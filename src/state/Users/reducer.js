@@ -38,7 +38,7 @@ function allUsers(state: AllIds = [], action: AddUsersAction): AllIds {
 }
 
 
-function selectUser(state: Id, action: SelectUserAction): Id {
+function selectUser(state: Id = '', action: SelectUserAction): Id {
   switch (action.type) {
     case SELECTED_USER:
       return action.payload;
