@@ -5,7 +5,7 @@ import { iconsMap } from '../../utils/icons-loader';
 
 
 
-const PlaceCard = ({ tags, name, icon, phone, address, website, onSelect, reviewCount, description }) => (
+const PlaceCard = ({ tags, name, icon, phone, address, website, onSelect, createdBy, reviewCount, description }) => (
   <TouchableOpacity style={styles.container} onPress={onSelect}>
     
       <View style={styles.headerContainer}>
@@ -34,6 +34,9 @@ const PlaceCard = ({ tags, name, icon, phone, address, website, onSelect, review
           </Text>
           <Text style={styles.detailContainer}>Website:
               <Text style={styles.detailContent}> {website} </Text>
+          </Text>
+          <Text style={styles.detailContainer}>Created By:
+              <Text style={styles.detailContent}> {`${createdBy.firstName} ${createdBy.lastName}`} </Text>
           </Text>
       </View>
 

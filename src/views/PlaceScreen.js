@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Text, View, StyleSheet } from 'react-native';
 import { deleteReview } from '../state/Reviews/action-creators';
+import { selectUser } from '../state/Users/action-creators';
 
 
 
@@ -55,6 +56,14 @@ class PlaceScreen extends Component {
     });
   }
 
+  showUserDetail = (userId) => {
+    const { onSelectUser, navigator } = this.props;
+    onSelectUser(userId);
+    navigator.push({
+      screen: 'werate.screen.profile'
+    });
+  }
+
   renderReviews = () => {
     const { place, placesById, deleteReview, reviewsById } = this.props;
     const _place = placesById[place.id];
@@ -74,30 +83,34 @@ class PlaceScreen extends Component {
   }
   
   render() {
-    const { place } = this.props;
+    const { place, usersById } = this.props;
+    const { createdBy } = usersById[place.createdBy];
     return (
       <View>
-          <Text>{place.name}</Text>
-          <Text>{place.description}</Text>
-          <Text>{place.email}</Text>
-          <Text>{place.website}</Text>
-          { this.renderReviews() }
-          <View style={styles.buttonWrapper}>
-              <Button title="Add Review" onPress={this.showCreateRatingForm} />
-          </View>
+        <Text>{place.name}</Text>
+        <Text>{place.description}</Text>
+        <Text>{place.email}</Text>
+        <Text>{place.website}</Text>
+        <Button title={`${createdBy.firstName} ${createdBy.lastName}`} onPress={() => this.showUserDetail(createdBy.id)} />
+        { this.renderReviews() }
+        <View style={styles.buttonWrapper}>
+          <Button title="Add Review" onPress={this.showCreateRatingForm} />
+        </View>
       </View>
     );
   }
 }
 
 
-const mapState = ({ tags, places, reviews }) => ({
+const mapState = ({ tags, users, places, reviews }) => ({
   tagsById: tags.byId,
+  usersById: users.byId,
   placesById: places.byId,
   reviewsById: reviews.byId
 });
 
 const mapDispatch = dispatch => ({
+  onSelectUser: (userId) => dispatch(selectUser(userId)),
   deleteReview: async review => await dispatch(deleteReview(review))
 });
 

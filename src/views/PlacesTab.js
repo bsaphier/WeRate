@@ -48,20 +48,21 @@ class PlacesTab extends Component {
   }
 
   renderPlaceCard = ({ item: { placeId } }) => {
-    const { name, phone1, tagIds, address, website, reviewIds, description } = this.props.allPlaces[placeId];
+    const { name, phone1, tagIds, address, website, createdBy, reviewIds, description } = this.props.allPlaces[placeId];
     const tags = tagIds.length ? tagIds.map(tagId => this.props.tagsById[tagId]) : [];
     return (
       <PlaceCard
           key={placeId + 'placeCard'}
+          icon={'ios-images-outline'}
           name={name}
           tags={tags}
           phone={phone1}
-          icon={'ios-images-outline'}
           address={address}
           website={website}
-          reviewCount={reviewIds.length}
-          onSelect={() => this.showPlaceDetail(placeId)}
           description={description}
+          reviewCount={reviewIds.length}
+          createdBy={this.props.usersById[createdBy]}
+          onSelect={() => this.showPlaceDetail(placeId)}
       />
     );
   }
@@ -87,8 +88,9 @@ class PlacesTab extends Component {
 
 const mapState = (state) => ({
   tagsById: state.tags.byId,
+  usersById: state.users.byId,
   allPlaces: state.places.byId,
-  placesById: getFilteredPlaces(state),
+  placesById: getFilteredPlaces(state)
 });
 
 
