@@ -1,6 +1,7 @@
 import Tag from './Tag';
 import Sketch from './Sketch';
 import Spinner from './Spinner';
+import UserCard from './UserCard';
 import ActionTag from './ActionTag';
 import LoginForm from './LoginForm';
 import PlaceCard from './PlaceCard';
@@ -12,4 +13,4 @@ import TitledInput from './TitledInput';
 import MultiSelect from './MultiSelect';
 import LabeledValue from './LabeledValue';
 
-export { Tag, Sketch, Spinner, ActionTag, LoginForm, PlaceCard, PlaceForm, SignupForm, ReviewForm, ProfileForm, MultiSelect, TitledInput, LabeledValue };
+export { Tag, Sketch, Spinner, ActionTag, LoginForm, UserCard, PlaceCard, PlaceForm, SignupForm, ReviewForm, ProfileForm, MultiSelect, TitledInput, LabeledValue };

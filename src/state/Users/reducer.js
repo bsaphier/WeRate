@@ -1,8 +1,10 @@
 // @flow
 import { combineReducers } from 'redux';
 import { ADD_USERS, SELECTED_USER } from './types';
+import { ADD_REVIEW, REMOVE_REVIEW } from '../Reviews/types';
 import type { Reducer } from 'redux';
 import type { User } from '../User/types';
+import type { AddReviewAction, RemoveReviewAction } from '../Reviews/types';
 import type { Id, AllIds, UsersById, AddUsersAction, SelectUserAction } from './types';
 
 
@@ -16,10 +18,42 @@ function addUsers(state: UsersById, action: AddUsersAction): UsersById {
 }
 
 
-function usersById(state: UsersById = {}, action: AddUsersAction): UsersById {
+function addReview(state: UsersById, action: AddReviewAction): UsersById {
+  const { id, createdBy } = action.payload;
+  const user = state[createdBy];
+  const reviewIds = [...user.reviewIds, id];
+  return {
+    ...state,
+    [createdBy]: {
+      ...user,
+      reviewIds
+    }
+  };
+}
+
+
+function removeReview(state: UsersById, action: RemoveReviewAction): UsersById {
+  const { id, createdBy } = action.payload;
+  const user = state[createdBy];
+  const reviewIds = user.reviewIds.filter(reviewId => (id !== reviewId));
+  return {
+    ...state,
+    [createdBy]: {
+      ...user,
+      reviewIds
+    }
+  };
+}
+
+
+function usersById(state: UsersById = {}, action: AddUsersAction | RemoveReviewAction | AddReviewAction): UsersById {
   switch(action.type) {
     case ADD_USERS:
       return addUsers(state, action);
+    case ADD_REVIEW:
+      return addReview(state, action);
+    case REMOVE_REVIEW:
+      return removeReview(state, action);
     default:
       (action: empty);
       return state;

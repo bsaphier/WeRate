@@ -65,15 +65,17 @@ class PlaceScreen extends Component {
   }
 
   renderReviews = () => {
-    const { place, placesById, deleteReview, reviewsById } = this.props;
+    const { place, placesById, usersById, deleteReview, reviewsById } = this.props;
     const _place = placesById[place.id];
     if (_place.reviewIds) {
       return _place.reviewIds.map(reviewId => {
         const review = reviewsById[reviewId];
+        const createdBy = usersById[review.createdBy];
         return (
           <View key={review.id}>
             <Text>{`Comment: ${review.comment}`}</Text>
             <Text>{`Rating: ${review.rating}`}</Text>
+            <Text>{`Created By: ${createdBy.firstName} ${createdBy.lastName}`}</Text>
             <Button title="Edit Review" onPress={() => this.showEditRatingForm(reviewId)} />
             <Button title="Delete Review" onPress={async () => { await deleteReview(review); }} />
           </View>

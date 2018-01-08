@@ -13,7 +13,6 @@ loadIcons();
 registerScreens(store, Provider);
 
 export default class App extends Component {
-  
   constructor(props) {
     super(props);
     store.subscribe(this.onStoreUpdate);
@@ -60,7 +59,14 @@ export default class App extends Component {
               icon: iconsMap['ios-home-outline'],
               overrideBackPress: false,
               navigatorStyle: {},
-              navigatorButtons: {}
+              navigatorButtons: {
+                leftButtons: [
+                  {
+                    title: 'logout',
+                    id: 'global.event.logout'
+                  }
+                ]
+              }
             },
             {
               title: 'Places',
@@ -69,6 +75,12 @@ export default class App extends Component {
               icon: iconsMap['ios-pin-outline'],
               navigatorStyle: {},
               navigatorButtons: {
+                leftButtons: [
+                  {
+                    title: 'logout',
+                    id: 'global.event.logout'
+                  }
+                ],
                 rightButtons: [
                   {
                     title: 'New Place',
@@ -84,6 +96,12 @@ export default class App extends Component {
               icon: iconsMap['ios-body-outline'],
               navigatorStyle: {},
               navigatorButtons: {
+                leftButtons: [
+                  {
+                    title: 'logout',
+                    id: 'global.event.logout'
+                  }
+                ],
                 rightButtons: [
                   {
                     title: 'edit',
@@ -98,7 +116,14 @@ export default class App extends Component {
               screen: 'werate.tab.more',
               icon: iconsMap['ios-more-outline'],
               navigatorStyle: {},
-              navigatorButtons: {}
+              navigatorButtons: {
+                leftButtons: [
+                  {
+                    title: 'logout',
+                    id: 'global.event.logout'
+                  }
+                ]
+              }
             }
           ]
         });

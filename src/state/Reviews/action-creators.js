@@ -66,7 +66,8 @@ export const editReview: ThunkAction = (review: Review) => {
 
 export const deleteReview: ThunkAction = (review: Review) => {
   return async (dispatch, getState) => {
-    const { user, places } = getState();
+    const { users, places } = getState();
+    const user = users.byId[review.createdBy];
     const place = places.byId[review.placeId];
     await modifyPlaceInDb({
       ...place,

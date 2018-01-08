@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
-import { LabeledValue } from './components';
 import { editUser } from '../state/User/action-creators';
+import { logout } from '../state/Auth/action-creators';
+import { LabeledValue } from './components';
 
 
 
@@ -14,8 +15,15 @@ class ProfileTab extends Component {
 
   onNavigatorEvent = (event) => {
     if (event.type == 'NavBarButtonPress') {
-      if (event.id == 'tab.profile.event.edit') {
-        this.showEditUserForm();
+      switch (event.id) {
+        case 'tab.profile.event.edit':
+          this.showEditUserForm();
+          break;
+        case 'global.event.logout':
+          this.props.logout();
+          break;
+        default:
+          break;
       }
     }
   }
@@ -51,6 +59,7 @@ const mapState = ({ user }) => ({ user });
 
 
 const mapDispatch = dispatch => ({
+  logout: () => dispatch(logout()),
   onEditUser: async (user) => await dispatch(editUser(user))
 });
 

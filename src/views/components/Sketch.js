@@ -1,8 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { Button, TouchableHighlight, View, Text, StyleSheet, FlatList } from 'react-native';
-import { logout } from '../../state/Auth/action-creators';
+import { TouchableHighlight, View, Text, StyleSheet, FlatList } from 'react-native';
 import type { tagsTypes } from '../../state/Tags';
 import type { placesTypes } from '../../state/Places';
 import type { reviewsTypes } from '../../state/Reviews';
@@ -79,17 +78,22 @@ class Sketch extends Component<sketchProps, sketchState> {
               }}
           />
         </View>
-        <View style={styles.block}>
-          <Button
-              title="Logout"
-              color="#58D"
-              onPress={() => this.props.logout()}
-          />
-        </View>
       </View>
     );
   }
 }
+
+
+const mapState = ({ tags, user, fetch, places, reviews }) => ({
+  tags,
+  user,
+  places,
+  reviews,
+  isFetching: fetch.isFetching
+});
+
+
+export default connect(mapState)(Sketch);
 
 
 const styles = StyleSheet.create({
@@ -121,23 +125,6 @@ const styles = StyleSheet.create({
     height: 55,
   }
 });
-
-
-const mapState = ({ tags, user, fetch, places, reviews }) => ({
-  tags,
-  user,
-  places,
-  reviews,
-  isFetching: fetch.isFetching
-});
-
-const mapDispatch = dispatch => ({
-  logout: () => dispatch(logout())
-});
-
-
-export default connect(mapState, mapDispatch)(Sketch);
-
 
 
 type sketchProps = {

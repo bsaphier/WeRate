@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { View, Button, FlatList, StyleSheet } from 'react-native';
 import { resetPlaceFilter } from '../state/App/action-creators';
 import { getFilteredPlaces } from '../state/Places/selectors';
+import { logout } from '../state/Auth/action-creators';
 import { PlaceCard } from './components';
 
 
@@ -15,8 +16,15 @@ class PlacesTab extends Component {
 
   onNavigatorEvent = (event) => {
     if (event.type == 'NavBarButtonPress') {
-      if (event.id == 'tab.place.event.new') {
-        this.showNewPlaceForm();
+      switch (event.id) {
+        case 'tab.place.event.new':
+          this.showNewPlaceForm();
+          break;
+        case 'global.event.logout':
+          this.props.logout();
+          break;
+        default:
+          break;
       }
     }
   }
@@ -96,6 +104,7 @@ const mapState = (state) => ({
 
 
 const mapDispatch = dispatch => ({
+  logout: () => dispatch(logout()),
   onResetPlaceFilter: () => dispatch(resetPlaceFilter())
 });
 
