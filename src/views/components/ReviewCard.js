@@ -21,7 +21,7 @@ const ReviewCard = ({ review, isAdmin, createdBy, handleEdit, handleDelete, hand
     </View>
 
     { isAdmin && (
-      <View>
+      <View style={styles.actionButtonsWrapper}>
         <Button title="Edit Review" onPress={handleEdit} />
         <Button title="Delete Review" onPress={handleDelete} />
       </View>
@@ -76,5 +76,10 @@ const styles = StyleSheet.create({
     color: '#444',
     fontWeight: 'bold',
     marginLeft: 5
+  },
+  actionButtonsWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   }
 });
