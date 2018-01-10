@@ -8,40 +8,43 @@ import { iconsMap } from '../../utils/icons-loader';
 const PlaceCard = ({ tags, name, icon, phone, address, website, onSelect, createdBy, reviewCount, description }) => (
   <TouchableOpacity style={styles.container} onPress={onSelect}>
     
-      <View style={styles.headerContainer}>
-          <Image
-              style={styles.icon}
-              source={iconsMap[icon]}
-          />
-          <Text style={styles.headerTitle}>{name}</Text>
-          {/* A count of how many reviews have been added */}
-          <Text style={styles.reviewCount}>{reviewCount}</Text>
-      </View>
+    <View style={styles.headerContainer}>
+      <Image
+          style={styles.icon}
+          source={iconsMap[icon]}
+      />
+      <Text style={styles.headerTitle}>{name}</Text>
+      {/* A count of how many reviews have been added */}
+      <Text style={styles.reviewCount}>{reviewCount}</Text>
+    </View>
 
-      <View style={styles.tagsContainer}>
-          { tags.map(tag => (tag && <Tag key={tag.id + name} name={tag.title} />)) }
-      </View>
+    <View style={styles.tagsContainer}>
+      { tags.map(tag => (tag && <Tag key={tag.id + name} name={tag.title} />)) }
+    </View>
 
-      <View style={styles.bodyContainer}>
-          <Text style={styles.description}>
-              {description.length > 140 ? `${description.slice(0, 140)}...` : description}
-          </Text>
-          <Text style={styles.detailContainer}>Address:
-              <Text style={styles.detailContent}> {address} </Text>
-          </Text>
-          <Text style={styles.detailContainer}>Phone:
-              <Text style={styles.detailContent}> {phone} </Text>
-          </Text>
-          <Text style={styles.detailContainer}>Website:
-              <Text style={styles.detailContent}> {website} </Text>
-          </Text>
-          <Text style={styles.detailContainer}>Created By:
-              <Text style={styles.detailContent}> {`${createdBy.firstName} ${createdBy.lastName}`} </Text>
-          </Text>
-      </View>
+    <View style={styles.bodyContainer}>
+      <Text style={styles.description}>
+        {description.length > 140 ? `${description.slice(0, 140)}...` : description}
+      </Text>
+      <Text style={styles.detailContainer}>Address:
+        <Text style={styles.detailContent}> {address} </Text>
+      </Text>
+      <Text style={styles.detailContainer}>Phone:
+        <Text style={styles.detailContent}> {phone} </Text>
+      </Text>
+      <Text style={styles.detailContainer}>Website:
+        <Text style={styles.detailContent}> {website} </Text>
+      </Text>
+      <Text style={styles.detailContainer}>Created By:
+        <Text style={styles.detailContent}> {`${createdBy.firstName} ${createdBy.lastName}`} </Text>
+      </Text>
+    </View>
 
   </TouchableOpacity>
 );
+
+
+export default PlaceCard;
 
 
 const styles = StyleSheet.create({
@@ -104,11 +107,5 @@ const styles = StyleSheet.create({
     color: '#444',
     fontWeight: 'bold',
     marginLeft: 5
-  },
-  bold: {
-    fontWeight: 'bold'
   }
 });
-
-
-export default PlaceCard;

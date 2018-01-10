@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Text, View, StyleSheet } from 'react-native';
+import { Button, Text, View, FlatList, StyleSheet } from 'react-native';
 import { deleteReview } from '../state/Reviews/action-creators';
 import { selectUser } from '../state/Users/action-creators';
+import { ReviewCard } from './components';
 
 
 
@@ -64,24 +65,20 @@ class PlaceScreen extends Component {
     });
   }
 
-  renderReviews = () => {
-    const { place, placesById, usersById, deleteReview, reviewsById } = this.props;
-    const _place = placesById[place.id];
-    if (_place.reviewIds) {
-      return _place.reviewIds.map(reviewId => {
-        const review = reviewsById[reviewId];
-        const createdBy = usersById[review.createdBy];
-        return (
-          <View key={review.id}>
-            <Text>{`Comment: ${review.comment}`}</Text>
-            <Text>{`Rating: ${review.rating}`}</Text>
-            <Text>{`Created By: ${createdBy.firstName} ${createdBy.lastName}`}</Text>
-            <Button title="Edit Review" onPress={() => this.showEditRatingForm(reviewId)} />
-            <Button title="Delete Review" onPress={async () => { await deleteReview(review); }} />
-          </View>
-        );
-      });
-    }
+  renderReviews = ({ item: { reviewId } }) => {
+    const { isAdmin, usersById, deleteReview, reviewsById } = this.props;
+    const review = reviewsById[reviewId];
+    const createdBy = usersById[review.createdBy];
+    return (
+      <ReviewCard
+          review={review}
+          isAdmin={isAdmin}
+          createdBy={createdBy}
+          handleEdit={() => this.showEditRatingForm(review.id)}
+          handleDelete={async () => { await deleteReview(review); }}
+          handleSelectUser={() => this.showUserDetail(createdBy.id)}
+      />
+    );
   }
   
   render() {
@@ -94,7 +91,11 @@ class PlaceScreen extends Component {
         <Text>{place.email}</Text>
         <Text>{place.website}</Text>
         <Button title={`${createdBy.firstName} ${createdBy.lastName}`} onPress={() => this.showUserDetail(createdBy.id)} />
-        { this.renderReviews() }
+        <FlatList
+            style={styles.listContainer}
+            data={place.reviewIds.map(reviewId => ({ key: reviewId, reviewId }))}
+            renderItem={this.renderReviews}
+        />
         <View style={styles.buttonWrapper}>
           <Button title="Add Review" onPress={this.showCreateRatingForm} />
         </View>
@@ -104,10 +105,10 @@ class PlaceScreen extends Component {
 }
 
 
-const mapState = ({ tags, users, places, reviews }) => ({
+const mapState = ({ tags, user, users, reviews }) => ({
+  isAdmin: user.admin,
   tagsById: tags.byId,
   usersById: users.byId,
-  placesById: places.byId,
   reviewsById: reviews.byId
 });
 
@@ -121,6 +122,9 @@ export default connect(mapState, mapDispatch)(PlaceScreen);
 
 
 const styles = StyleSheet.create({
+  listContainer: {
+    paddingBottom: 100
+  },
   buttonWrapper: {
     width: '100%',
     alignItems: 'center'

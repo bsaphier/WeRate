@@ -1,14 +1,14 @@
 Features
 • user profile
 √   • edit
-    • can edit their own review
+√   • can edit their own review
     • click on info to open up apps like phone, browser, etc.
 
 • list of all users
     • message/email a user (open up messages/email app)
     
 • review
-    • click on user who created review
+√   • click on user who created review
 
 • places
     • search by name

@@ -60,7 +60,6 @@ class PlacesTab extends Component {
     const tags = tagIds.length ? tagIds.map(tagId => this.props.tagsById[tagId]) : [];
     return this.props.loading && (
       <PlaceCard
-          key={placeId + 'placeCard'}
           icon={'ios-images-outline'}
           name={name}
           tags={tags}
