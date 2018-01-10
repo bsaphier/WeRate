@@ -82,33 +82,34 @@ class PlaceScreen extends Component {
   }
   
   render() {
-    const { place, usersById } = this.props;
+    const { place: _place, usersById, placesById } = this.props;
+    const place = placesById[_place.id]; // get the place this way because this.props.place will not update in response to a redux action
     const createdBy = usersById[place.createdBy];
     return (
-      <View>
+      <View style={styles.viewContainer}>
         <Text>{place.name}</Text>
         <Text>{place.description}</Text>
         <Text>{place.email}</Text>
         <Text>{place.website}</Text>
         <Button title={`${createdBy.firstName} ${createdBy.lastName}`} onPress={() => this.showUserDetail(createdBy.id)} />
-        <FlatList
-            style={styles.listContainer}
-            data={place.reviewIds.map(reviewId => ({ key: reviewId, reviewId }))}
-            renderItem={this.renderReviews}
-        />
         <View style={styles.buttonWrapper}>
           <Button title="Add Review" onPress={this.showCreateRatingForm} />
         </View>
+        <FlatList
+            data={place.reviewIds.map(reviewId => ({ key: reviewId, reviewId }))}
+            renderItem={this.renderReviews}
+        />
       </View>
     );
   }
 }
 
 
-const mapState = ({ tags, user, users, reviews }) => ({
+const mapState = ({ tags, user, users, places, reviews }) => ({
   isAdmin: user.admin,
   tagsById: tags.byId,
   usersById: users.byId,
+  placesById: places.byId,
   reviewsById: reviews.byId
 });
 
@@ -122,8 +123,9 @@ export default connect(mapState, mapDispatch)(PlaceScreen);
 
 
 const styles = StyleSheet.create({
-  listContainer: {
-    paddingBottom: 100
+  viewContainer: {
+    display: 'flex',
+    height: '100%'
   },
   buttonWrapper: {
     width: '100%',
