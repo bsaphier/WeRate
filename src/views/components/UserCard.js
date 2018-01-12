@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { iconsMap } from '../../utils/icons-loader';
+import ExternalLink from './ExternalLink';
 import Tag from './Tag';
 
 
@@ -17,15 +18,24 @@ const UserCard = ({ icon, admin, email, phone, website, business, firstName, las
     </View>
 
     <View style={styles.bodyContainer}>
-      <Text style={styles.detailContainer}>Email:
-        <Text style={styles.detailContent}>{email}</Text>
-      </Text>
-      <Text style={styles.detailContainer}>Phone:
-        <Text style={styles.detailContent}>{phone}</Text>
-      </Text>
-      <Text style={styles.detailContainer}>Website:
-        <Text style={styles.detailContent}>{website}</Text>
-      </Text>
+      <Text style={styles.detailContainer}>Email: </Text>
+      <ExternalLink
+          contentStyle={styles.detailContent}
+          content={email}
+          url={'mailto:' + email}
+      />
+      <Text style={styles.detailContainer}>Phone: </Text>
+      <ExternalLink
+          contentStyle={styles.detailContent}
+          content={phone}
+          url={'sms:' + phone}
+      />
+      <Text style={styles.detailContainer}>Website: </Text>
+      <ExternalLink
+          contentStyle={styles.detailContent}
+          content={website}
+          url={'http://' + website}
+      />
       <Text style={styles.detailContainer}>Business:
         <Text style={styles.detailContent}>{business}</Text>
       </Text>

@@ -13,6 +13,7 @@ import ProfileForm from './ProfileForm';
 import TitledInput from './TitledInput';
 import MultiSelect from './MultiSelect';
 import LabeledValue from './LabeledValue';
+import ExternalLink from './ExternalLink';
 
 export {
   Tag,
@@ -29,5 +30,6 @@ export {
   ProfileForm,
   MultiSelect,
   TitledInput,
-  LabeledValue
+  LabeledValue,
+  ExternalLink
 };
