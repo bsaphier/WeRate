@@ -6,6 +6,7 @@ import ActionTag from './ActionTag';
 import LoginForm from './LoginForm';
 import PlaceCard from './PlaceCard';
 import PlaceForm from './PlaceForm';
+import FormField from './FormField';
 import FormSlider from './FormSlider';
 import ReviewCard from './ReviewCard';
 import SignupForm from './SignupForm';
@@ -27,6 +28,7 @@ export {
   UserCard,
   PlaceCard,
   PlaceForm,
+  FormField,
   FormSlider,
   ReviewCard,
   SignupForm,

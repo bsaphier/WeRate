@@ -25,3 +25,7 @@ Features
 U.I.
 • 5 "Star" rating
 • Rating avg. on Place created
+
+
+
+** Create a reducer that would replace the props passed in the navigator actions

@@ -1,83 +1,65 @@
-// @flow
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import { reduxForm } from 'redux-form';
 import { View, Button, StyleSheet } from 'react-native';
-import { TitledInput } from '../components';
-import type { User } from '../../state/User/types';
+import { FormField } from '../components';
 
 
 
-class ProfileForm extends Component<profileFormProps, profileFormState> {
-  state = {
-    email: '',
-    firstName: '',
-    lastName: '',
-    business: '',
-    phone: '',
-    website: ''
-  };
+const ProfileForm = ({ values, handleSubmit }) => (
+  <View style={styles.containerStyle}>
+    <FormField
+        name="firstName"
+        label="First Name"
+        placeholder="First Name"
+    />
+    <FormField
+        name="lastName"
+        label="Last Name"
+        placeholder="Last Name"
+    />
+    <FormField
+        name="email"
+        label="Email Address"
+        placeholder="you@domain.com"
+    />
+    <FormField
+        name="website"
+        label="Website"
+        placeholder="www.myWebsite.com"
+    />
+    <FormField
+        name="business"
+        label="Business"
+        placeholder="Your business' name"
+    />
+    <FormField
+        name="phone"
+        label="Phone"
+        placeholder="111 123 4567"
+    />
+    <View style={styles.buttonWrapper}>
+      <Button title="submit" onPress={() => handleSubmit(values)} />
+    </View>
+  </View>
+);
 
-  componentWillMount() {
-    const { email, firstName, lastName, business, phone, website } = this.props.user;
-    this.setState({ email, firstName, lastName, business, phone, website });
-  }
 
-  handleSubmitForm = async () => {
-    const { user, handleSubmit } = this.props;
-    try {
-      await handleSubmit({ ...this.state, id: user.id });
-    } catch (err) {
-      console.log('handleSubmitForm', err);
-    }
-  }
+const mapState = (state, { user }) => ({
+  initialValues: {
+    email: user.email,
+    phone: user.phone,
+    website: user.website,
+    business: user.business,
+    lastName: user.lastName,
+    firstName: user.firstName
+  },
+});
 
-  render() {
-    return (
-      <View style={styles.containerStyle}>
-        <TitledInput
-            label='First Name'
-            placeholder='First Name'
-            value={this.state.firstName}
-            onChangeText={firstName => this.setState({ firstName })}
-        />
-        <TitledInput
-            label='Last Name'
-            placeholder='Last Name'
-            value={this.state.lastName}
-            onChangeText={lastName => this.setState({ lastName })}
-        />
-        <TitledInput
-            label='Email Address'
-            placeholder='you@domain.com'
-            value={this.state.email}
-            onChangeText={email => this.setState({ email })}
-        />
-        <TitledInput
-            label='Website'
-            placeholder='www.myWebsite.com'
-            value={this.state.website}
-            onChangeText={website => this.setState({ website })}
-        />
-        <TitledInput
-            label='Business'
-            placeholder={`Your business' name`}
-            value={this.state.business}
-            onChangeText={business => this.setState({ business })}
-        />
-        <TitledInput
-            label='Phone'
-            placeholder='111 123 4567'
-            value={this.state.phone}
-            onChangeText={phone => this.setState({ phone })}
-        />
-        <View style={styles.buttonWrapper}>
-          <Button title="submit" onPress={this.handleSubmitForm} />
-        </View>
-      </View>
-    );
-  }
-}
 
-export default ProfileForm;
+export default connect(mapState)(reduxForm({
+  form: 'profileForm'
+})(ProfileForm));
 
 
 const styles = StyleSheet.create({
@@ -92,18 +74,3 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
 });
-
-
-type profileFormProps = {
-  user: User,
-  handleSubmit: any
-};
-
-type profileFormState = {
-  email: string,
-  firstName: string,
-  lastName: string,
-  business: string,
-  phone: string,
-  website: string
-};

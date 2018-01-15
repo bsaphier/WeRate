@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { FormSlider, FormTextInput } from '../components';
+import { FormField, FormSlider } from '../components';
 
 
 
@@ -19,15 +19,11 @@ const ReviewForm = ({ values, ratingValue, handleSubmit }) => (
           component={FormSlider}
       />
     </View>
-    <View style={styles.inputContainerStyle}>
-      <Text style={styles.labelStyle}>Comment</Text>
-      <Field
-          name="comment"
-          placeholder="Your comment here"
-          style={styles.inputStyle}
-          component={FormTextInput}
-      />
-    </View>
+    <FormField
+        name="comment"
+        label="Comment"
+        placeholder="Your comment here"
+    />
     <View style={styles.buttonWrapper}>
       <Button title="submit" onPress={() => handleSubmit(values)} />
     </View>

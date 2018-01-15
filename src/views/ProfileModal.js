@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
+import { editUser } from '../state/User/action-creators';
 import { ProfileForm } from './components';
 
 
@@ -27,22 +29,22 @@ class ProfileModal extends Component {
     }
   }
 
-  onEditUserSubmit = async (user) => {
+  handleSubmit = async (values) => {
+    const { user, navigator, handleEditUser } = this.props;
     try {
-      await this.props.onEditUser(user);
+      await handleEditUser({ ...values, id: user.id });
     } catch (err) {
-      console.log('onEditUserSubmit', err);
+      console.log('handleSubmitForm', err);
     }
-    this.props.navigator.dismissModal();
+    navigator.dismissModal();
   }
 
   render() {
-    const { user } = this.props;
     return (
       <View style={styles.container}>
         <ProfileForm
-            user={user}
-            handleSubmit={this.onEditUserSubmit}
+            user={this.props.user}
+            onSubmit={this.handleSubmit}
         />
       </View>
     );
@@ -50,7 +52,12 @@ class ProfileModal extends Component {
 }
 
 
-export default ProfileModal;
+const mapDispatch = dispatch => ({
+  handleEditUser: async (user) => await dispatch(editUser(user))
+});
+
+
+export default connect(null, mapDispatch)(ProfileModal);
 
 
 const styles = StyleSheet.create({

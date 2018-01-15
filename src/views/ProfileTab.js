@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
-import { editUser } from '../state/User/action-creators';
 import { logout } from '../state/Auth/action-creators';
 import { LabeledValue } from './components';
 
@@ -33,8 +32,7 @@ class ProfileTab extends Component {
       screen: 'werate.modal.profile',
       title: 'Edit Profile',
       passProps: {
-        user: this.props.user,
-        onEditUser: this.props.onEditUser
+        user: this.props.user
       }
     });
   }
@@ -59,8 +57,7 @@ const mapState = ({ user }) => ({ user });
 
 
 const mapDispatch = dispatch => ({
-  logout: () => dispatch(logout()),
-  onEditUser: async (user) => await dispatch(editUser(user))
+  logout: () => dispatch(logout())
 });
 
 
