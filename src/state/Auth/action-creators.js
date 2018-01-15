@@ -43,7 +43,7 @@ export const setUser: ThunkAction = (authUser) => {
 };
 
 
-export const signInRequest: ThunkAction = (login: Login) => {
+export const signinRequest: ThunkAction = (login: Login) => {
   return async dispatch => {
     dispatch(loginRequest());
     try {
@@ -110,5 +110,5 @@ export default {
   loginSuccess,
   loginRequest,
   signupRequest,
-  signInRequest
+  signinRequest
 };

@@ -5,7 +5,7 @@ import type { Login } from '../Auth/types';
 import type { User } from '../User/types';
 import type { Root, PlaceFilter, FilterOrder, PlacesFilterAction, PlacesFilterOrderAction, AppRootChangedAction } from './types';
 import { LOGIN_ROOT, ROOT_CHANGED, APP_ROOT, SET_PLACE_FILTER, SET_PLACE_FILTER_ORDER, FILTER_DESCENDING, FILTER_PLACES_SHOW_ALL, FILTER_PLACES_BY_TAGS, FILTER_PLACES_BY_REVIEW_COUNT } from './types';
-import { checkAuth, signupRequest, signInRequest } from '../Auth/action-creators';
+import { checkAuth, signupRequest, signinRequest } from '../Auth/action-creators';
 import { fetchInitialData } from '../Loader/action-creators';
 
 
@@ -16,19 +16,15 @@ export const changeAppRoot: ActionCreator = (root: Root): AppRootChangedAction =
   root
 });
 
-
 export const setPlaceFilter: ActionCreator = (placeFilter: PlaceFilter): PlacesFilterAction => ({
   type: SET_PLACE_FILTER,
   payload: placeFilter
 });
 
-
 export const setPlaceFilterOrder: ActionCreator = (order: FilterOrder): PlacesFilterOrderAction => ({
   type: SET_PLACE_FILTER_ORDER,
   order
 });
-
-
 
 export const appInitialized: ThunkAction = () => {
   return dispatch => {
@@ -37,40 +33,11 @@ export const appInitialized: ThunkAction = () => {
   };
 };
 
+export const login: ThunkAction = _LoginOrSignupGenerator(signinRequest);
 
-export const login: ThunkAction = (login: Login) => {
-  return async dispatch => {
-    // login logic would go here, and when it's done, we switch app roots
-    const signInSuccess = await dispatch(signInRequest(login));
-    if (signInSuccess) {
-      dispatch(fetchInitialData()); // no need to wait for this as loading screen will display
-      dispatch(changeAppRoot(APP_ROOT));
-    }
-  };
-};
+export const signup: ThunkAction = _LoginOrSignupGenerator(signupRequest);
 
-
-export const signup: ThunkAction = (newUser: User) => {
-  return async dispatch => {
-    const signupSuccess = await dispatch(signupRequest(newUser));
-    if (signupSuccess) {
-      dispatch(fetchInitialData()); // no need to wait for this as loading screen will display
-      dispatch(changeAppRoot(APP_ROOT));
-    }
-  };
-};
-
-
-export const checkIfLoggedIn: ThunkAction = () => {
-  return async dispatch => {
-    const loggedInUser = await dispatch(checkAuth());
-    if (loggedInUser) {
-      dispatch(fetchInitialData()); // no need to wait for this as loading screen will display
-      dispatch(changeAppRoot(APP_ROOT));
-    }
-    return loggedInUser;
-  };
-};
+export const checkIfLoggedIn: ThunkAction = _LoginOrSignupGenerator(checkAuth);
 
 
 export const resetPlaceFilter: ThunkAction = () => {
@@ -84,7 +51,6 @@ export const resetPlaceFilter: ThunkAction = () => {
   };
 };
 
-
 export const setPlaceFilterByTags: ThunkAction = (tags: Array<any>, order: FilterOrder = FILTER_DESCENDING) => {
   return dispatch => {
     const placeFilter: PlaceFilter = {
@@ -95,7 +61,6 @@ export const setPlaceFilterByTags: ThunkAction = (tags: Array<any>, order: Filte
     dispatch(setPlaceFilter(placeFilter));
   };
 };
-
 
 export const setPlaceFilterByReviewCount: ThunkAction = (order: FilterOrder = FILTER_DESCENDING) => {
   return dispatch => {
@@ -108,6 +73,19 @@ export const setPlaceFilterByReviewCount: ThunkAction = (order: FilterOrder = FI
   };
 };
 
+
+function _LoginOrSignupGenerator(action: ActionCreator) {
+  return (userCred: Login | User | empty) => async dispatch => {
+    // login/signup logic would go here, and when it's done, we switch app roots
+    const authActionResponse = await dispatch(action(userCred));
+    if (authActionResponse) {
+      /** fetchInitialData will set the Loader reducer state */
+      await dispatch(fetchInitialData()); // don't wait for this in the future -> a loading screen should display at the app root
+      dispatch(changeAppRoot(APP_ROOT));
+    }
+    return authActionResponse;
+  };
+}
 
 
 export default {

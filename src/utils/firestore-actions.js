@@ -75,7 +75,17 @@ export const getUserFromDb = async (uid: string) => insertId(await Users.doc(uid
 
 export const createUserInDb = async ({ uid, ...user }: any) => {
   const { email, firstName, lastName, business, phone, website } = user;
-  await Users.doc(uid).set({ id: uid, email, firstName, lastName, business, phone, website });
+  await Users.doc(uid).set({
+    reviewIds: [],
+    admin: false,
+    id: uid,
+    firstName,
+    lastName,
+    business,
+    website,
+    email,
+    phone
+  });
   return getUserFromDb(uid);
 };
 

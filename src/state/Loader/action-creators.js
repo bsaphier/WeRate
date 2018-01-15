@@ -26,11 +26,11 @@ export const fetchSuccess: ActionCreator = (): FetchDataSuccessAction => ({
 
 
 
-export const fetchInitialData: ThunkAction = () => {
+export const fetchInitialData: ThunkAction = (forceUpdate = false) => {
   return async (dispatch, getState) => {
     const appHasInitialized = getState().fetch.initialStateLoaded;
 
-    if (!appHasInitialized) {
+    if (!appHasInitialized || forceUpdate) {
       dispatch(fetchingData());
       
       const allPlaces = await loadAllPlacesFromDb();
