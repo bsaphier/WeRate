@@ -10,7 +10,6 @@ import ReviewCard from './ReviewCard';
 import SignupForm from './SignupForm';
 import ReviewForm from './ReviewForm';
 import ProfileForm from './ProfileForm';
-import TitledInput from './TitledInput';
 import MultiSelect from './MultiSelect';
 import LabeledValue from './LabeledValue';
 import ExternalLink from './ExternalLink';
@@ -36,7 +35,6 @@ export {
   ReviewForm,
   ProfileForm,
   MultiSelect,
-  TitledInput,
   LabeledValue,
   ExternalLink,
   FormMultiSelect
