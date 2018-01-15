@@ -44,13 +44,13 @@ class Login extends Component<loginProps, loginState> {
         { this.state.signup ? (
           <SignupForm
               err={this.props.err}
-              signup={this.props.signup}
+              onSubmit={this.props.signup}
               isLoading={this.props.isLoading}
           />
         ) : (
           <LoginForm
               err={this.props.err}
-              login={this.props.login}
+              onSubmit={this.props.login}
               isLoading={this.props.isLoading}
           />
         )}
@@ -68,7 +68,7 @@ const mapState = ({ auth }) => ({
 const mapDispatch = dispatch => ({
   checkIfLoggedIn: () => dispatch(checkIfLoggedIn()),
   signup: (newUser) => dispatch(signup(newUser)),
-  login: (email, password) => dispatch(login({ email, password }))
+  login: ({ email, password }) => dispatch(login({ email, password }))
 });
 
 
