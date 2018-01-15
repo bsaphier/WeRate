@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 import { ReviewForm } from './components';
+import { editReview, createReview } from '../state/Reviews/action-creators';
 
 
 
@@ -32,19 +33,28 @@ class ReviewModal extends Component {
     this.props.navigator.dismissModal();
   }
 
-  handleSubmit = () => {
-    this.props.navigator.dismissModal();
+  handleSubmit = async ({ rating, comment }) => {
+    const { edit, place, review, editRating, navigator, createRating } = this.props;
+    const reviewObj = { rating, comment, placeId: place.id };
+    try {
+      if (edit) {
+        await editRating({ ...reviewObj, id: review.id });
+      } else {
+        await createRating(reviewObj);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    navigator.dismissModal();
   }
 
   render() {
-    const { edit, place, review } = this.props;
     return (
       <View style={styles.container}>
         <ReviewForm
-            edit={edit}
-            review={review}
-            place={place}
-            handleSubmit={this.handleSubmit}
+            edit={this.props.edit}
+            review={this.props.review}
+            onSubmit={this.handleSubmit}
         />
       </View>
     );
@@ -52,7 +62,13 @@ class ReviewModal extends Component {
 }
 
 
-export default ReviewModal;
+const mapDispatch = dispatch => ({
+  editRating: async review => await dispatch(editReview(review)),
+  createRating: async review => await dispatch(createReview(review))
+});
+
+
+export default connect(null, mapDispatch)(ReviewModal);
 
 
 const styles = StyleSheet.create({

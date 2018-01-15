@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 import { PlaceForm } from './components';
+import { editPlace, createPlace } from '../state/Places/action-creators';
 
 
 
@@ -32,26 +33,41 @@ class PlaceModal extends Component {
     this.props.navigator.dismissModal();
   }
 
-  handleSubmit = () => {
-    this.props.navigator.dismissModal();
+  handleSubmit = async (values) => {
+    const { edit, place, editPlace, createPlace, navigator } = this.props;
+    try {
+      if (edit && place) {
+        await editPlace({ ...values, id: place.id });
+      } else {
+        await createPlace(values);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    navigator.dismissModal();
   }
 
   render() {
-    const { edit, place } = this.props;
     return (
       <View style={styles.container}>
-          <PlaceForm
-              edit={edit}
-              place={place}
-              handleSubmit={this.handleSubmit}
-          />
+        <PlaceForm
+            edit={this.props.edit}
+            place={this.props.place}
+            onSubmit={this.handleSubmit}
+        />
       </View>
     );
   }
 }
 
 
-export default connect()(PlaceModal);
+const mapDispatch = dispatch => ({
+  editPlace: async place => await dispatch(editPlace(place)),
+  createPlace: async place => await dispatch(createPlace(place))
+});
+
+
+export default connect(null, mapDispatch)(PlaceModal);
 
 
 const styles = StyleSheet.create({

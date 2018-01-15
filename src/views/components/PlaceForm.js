@@ -1,128 +1,114 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { TitledInput, MultiSelect } from '../components';
-import { editPlace, createPlace } from '../../state/Places/action-creators';
+import { Field, reduxForm } from 'redux-form';
+import { FormTextInput, FormMultiSelect } from '../components';
 
 
 
-class PlaceForm extends Component {
-  state = {
-    name: '',
-    description: '',
-    address: '',
-    phone1: '',
-    phone2: '',
-    email: '',
-    website: '',
-    tagIds: [],
-    reviewIds: []
+const PlaceForm = ({ tags, values, handleSubmit }) => (
+  <View style={styles.containerStyle}>
+    <View style={styles.inputContainerStyle}>
+      <Text style={styles.labelStyle}>Name</Text>
+      <Field
+          name="name"
+          placeholder="A Business"
+          style={styles.inputStyle}
+          component={FormTextInput}
+      />
+    </View>
+    <View style={styles.inputContainerStyle}>
+      <Text style={styles.labelStyle}>Description</Text>
+      <Field
+          name="description"
+          placeholder="A description of a business"
+          style={styles.inputStyle}
+          component={FormTextInput}
+      />
+    </View>
+    <View style={styles.inputContainerStyle}>
+      <Text style={styles.labelStyle}>Address</Text>
+      <Field
+          name="address"
+          placeholder="123 Main St."
+          style={styles.inputStyle}
+          component={FormTextInput}
+      />
+    </View>
+    <View style={styles.inputContainerStyle}>
+      <Text style={styles.labelStyle}>Phone</Text>
+      <Field
+          name="phone1"
+          placeholder="000 000 0000"
+          keyboardType="phone-pad"
+          style={styles.inputStyle}
+          component={FormTextInput}
+      />
+    </View>
+    <View style={styles.inputContainerStyle}>
+      <Text style={styles.labelStyle}>Phone alt</Text>
+      <Field
+          name="phone2"
+          placeholder="000 000 0000"
+          keyboardType="phone-pad"
+          style={styles.inputStyle}
+          component={FormTextInput}
+      />
+    </View>
+    <View style={styles.inputContainerStyle}>
+      <Text style={styles.labelStyle}>Website</Text>
+      <Field
+          name="email"
+          placeholder="email@website.com"
+          keyboardType="email-address"
+          style={styles.inputStyle}
+          component={FormTextInput}
+      />
+    </View>
+    <View style={styles.inputContainerStyle}>
+      <Text style={styles.labelStyle}>Website</Text>
+      <Field
+          name="website"
+          placeholder="www.website.com"
+          style={styles.inputStyle}
+          component={FormTextInput}
+      />
+    </View>
+    <View style={styles.scrollContainerStyle}>
+      <Text style={styles.labelStyle}>{'TYPE OF BUSINESS (select all that apply)'}</Text>
+      <Field
+          name="tagIds"
+          data={tags.allIds.map(id => ({ key: id, ...tags.byId[id] }))}
+          component={FormMultiSelect}
+      />
+    </View>
+    <View style={styles.buttonWrapper}>
+      <Button title="submit" onPress={() => handleSubmit(values)} />
+    </View>
+  </View>
+);
+
+
+
+const mapState = (state, ownProps) => ({
+  tags: state.tags,
+  initialValues: {
+    tagIds: ownProps.edit ? ownProps.place.tagIds : [],
+    name: ownProps.edit ? ownProps.place.name : undefined,
+    email: ownProps.edit ? ownProps.place.email : undefined,
+    reviewIds: ownProps.edit ? ownProps.place.reviewIds : [],
+    phone1: ownProps.edit ? ownProps.place.phone1 : undefined,
+    phone2: ownProps.edit ? ownProps.place.phone2 : undefined,
+    website: ownProps.edit ? ownProps.place.website : undefined,
+    address: ownProps.edit ? ownProps.place.address : undefined,
+    description: ownProps.edit ? ownProps.place.description : undefined
   }
-
-  componentWillMount() {
-    if (this.props.edit) { // && (this.state.tagIds.length != this.props.place.tagIds.length)
-      this.setState({ ...this.props.place });
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.edit) {
-      this.setState({ ...nextProps.place });
-    }
-  }
-
-  handleSubmit = async () => {
-    const { edit, place, editPlace, createPlace, handleSubmit } = this.props;
-    const dismissModal = handleSubmit;
-    try {
-      if (edit && place) {
-        await editPlace({ ...this.state, id: place.id });
-      } else {
-        await createPlace(this.state);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    dismissModal();
-  }
-
-  render() {
-    const { edit, place } = this.props;
-    return (
-      <View style={styles.containerStyle}>
-          <TitledInput
-              label="Name"
-              placeholder={edit ? place.name : 'A Business'}
-              value={this.state.name}
-              onChangeText={name => this.setState({ name })}
-          />
-          <TitledInput
-              label="Description"
-              placeholder={edit ? place.description : 'A description of a business'}
-              value={this.state.description}
-              onChangeText={description => this.setState({ description })}
-          />
-          <TitledInput
-              label="Address"
-              placeholder={edit ? place.address : '123 Main St.'}
-              value={this.state.address}
-              onChangeText={address => this.setState({ address })}
-          />
-          <TitledInput
-              label="Phone"
-              keyboardType="phone-pad"
-              placeholder={edit ? place.phone1 : '000 000 0000'}
-              value={this.state.phone1}
-              onChangeText={phone1 => this.setState({ phone1 })}
-          />
-          <TitledInput
-              label="Phone alt"
-              keyboardType="phone-pad"
-              placeholder={edit ? place.phone2 : '000 000 0000'}
-              value={this.state.phone2}
-              onChangeText={phone2 => this.setState({ phone2 })}
-          />
-          <TitledInput
-              label="Email"
-              keyboardType="email-address"
-              placeholder={edit ? place.email : 'email@website.com'}
-              value={this.state.email}
-              onChangeText={email => this.setState({ email })}
-          />
-          <TitledInput
-              label="Website"
-              placeholder={edit ? place.website : 'www.website.com'}
-              value={this.state.website}
-              onChangeText={website => this.setState({ website })}
-          />
-
-          <View style={styles.scrollContainerStyle}>
-            <Text style={styles.labelStyle}>{'TYPE OF BUSINESS (select all that apply)'}</Text>
-            <MultiSelect
-                data={this.props.tags.allIds.map(id => ({ key: id, ...this.props.tags.byId[id] }))}
-                onValueChange={tagIds => this.setState({ tagIds })}
-                selectedItemIds={this.state.tagIds}
-            />
-          </View>
-          <View style={styles.buttonWrapper}>
-            <Button title="submit" onPress={this.handleSubmit} />
-          </View>
-      </View>
-    );
-  }
-}
-
-
-
-const mapState = ({ tags }) => ({ tags });
-
-const mapDispatch = dispatch => ({
-  editPlace: async place => await dispatch(editPlace(place)),
-  createPlace: async place => await dispatch(createPlace(place))
 });
 
 
-export default connect(mapState, mapDispatch)(PlaceForm);
+export default connect(mapState)(reduxForm({
+  form: 'placeForm'
+})(PlaceForm));
 
 
 const styles = StyleSheet.create({
@@ -139,13 +125,34 @@ const styles = StyleSheet.create({
     borderColor: '#D4D4D4',
     borderBottomWidth: 1,
   },
-  buttonWrapper: {
+  inputContainerStyle: {
+    height: 45,
+    marginBottom: 20,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     width: '100%',
-    alignItems: 'center'
+    borderColor: '#D4D4D4',
+    borderBottomWidth: 1
   },
   labelStyle: {
     fontSize: 12,
     color: '#7F7D7D',
-    fontWeight: '200'
+    fontWeight: '200',
+    flex: 1
+  },
+  inputStyle: {
+    paddingRight: 5,
+    paddingLeft: 5,
+    paddingBottom: 2,
+    color: '#262626',
+    fontSize: 18,
+    fontWeight: '200',
+    flex: 1,
+    height: 40,
+    width: '100%'
+  },
+  buttonWrapper: {
+    width: '100%',
+    alignItems: 'center'
   }
 });

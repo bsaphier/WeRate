@@ -3,6 +3,7 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 
 
+
 const TitledInput = ({ label, value, onChangeText, autoCorrect, placeholder, secureTextEntry, keyboardType = 'default' }: TitledInputProps) => {
   return (
     <View style={styles.containerStyle}>

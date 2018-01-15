@@ -6,6 +6,7 @@ import ActionTag from './ActionTag';
 import LoginForm from './LoginForm';
 import PlaceCard from './PlaceCard';
 import PlaceForm from './PlaceForm';
+import FormSlider from './FormSlider';
 import ReviewCard from './ReviewCard';
 import SignupForm from './SignupForm';
 import ReviewForm from './ReviewForm';
@@ -14,6 +15,8 @@ import TitledInput from './TitledInput';
 import MultiSelect from './MultiSelect';
 import LabeledValue from './LabeledValue';
 import ExternalLink from './ExternalLink';
+import FormTextInput from './FormTextInput';
+import FormMultiSelect from './FormMultiSelect';
 
 export {
   Tag,
@@ -24,6 +27,7 @@ export {
   UserCard,
   PlaceCard,
   PlaceForm,
+  FormSlider,
   ReviewCard,
   SignupForm,
   ReviewForm,
@@ -31,5 +35,7 @@ export {
   MultiSelect,
   TitledInput,
   LabeledValue,
-  ExternalLink
+  ExternalLink,
+  FormTextInput,
+  FormMultiSelect
 };
