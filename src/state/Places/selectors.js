@@ -37,23 +37,24 @@ export const getFilteredPlaces = createSelector(
 export const getReviewAvgs = createSelector(
   [ getReviews ],
   (reviewsById) => {
-    const reviewAvgByPlaceId = {};
+    const reviewAvgsByPlaceId = {};
     const reviewRatingsByPlaceId = {};
     // TODO: is this algo too slow?
     Object.keys(reviewsById).forEach(reviewId => {
-      const review = reviewsById[reviewId];
-      if (reviewRatingsByPlaceId[review.placeId]) {
-        reviewRatingsByPlaceId[review.placeId].push(review.rating);
+      const { placeId, rating } = reviewsById[reviewId];
+      if (reviewRatingsByPlaceId[placeId]) {
+        reviewRatingsByPlaceId[placeId].push(rating);
       } else {
-        reviewRatingsByPlaceId[review.placeId] = [review.rating];
+        reviewRatingsByPlaceId[placeId] = [ rating ];
       }
     });
     Object.keys(reviewRatingsByPlaceId).forEach(placeId => {
-      if (reviewRatingsByPlaceId[placeId].length) {
-        reviewAvgByPlaceId[placeId] = reviewRatingsByPlaceId[placeId].reduce((a, b) => a + b) / reviewRatingsByPlaceId[placeId].length;
+      const allRatingsForPlace = reviewRatingsByPlaceId[placeId];
+      if (allRatingsForPlace.length) {
+        reviewAvgsByPlaceId[placeId] = allRatingsForPlace.reduce((a, b) => a + b) / allRatingsForPlace.length;
       }
     });
-    return reviewAvgByPlaceId;
+    return reviewAvgsByPlaceId;
   }
 );
 
