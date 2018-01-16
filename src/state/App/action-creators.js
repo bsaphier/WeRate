@@ -4,7 +4,7 @@ import type { ThunkAction } from 'redux-thunk';
 import type { Login } from '../Auth/types';
 import type { User } from '../User/types';
 import type { Root, PlaceFilter, FilterOrder, PlacesFilterAction, PlacesFilterOrderAction, AppRootChangedAction } from './types';
-import { LOGIN_ROOT, ROOT_CHANGED, APP_ROOT, SET_PLACE_FILTER, SET_PLACE_FILTER_ORDER, FILTER_DESCENDING, FILTER_PLACES_SHOW_ALL, FILTER_PLACES_BY_TAGS, FILTER_PLACES_BY_REVIEW_COUNT } from './types';
+import { LOGIN_ROOT, ROOT_CHANGED, APP_ROOT, SET_PLACE_FILTER, SET_PLACE_FILTER_ORDER, FILTER_ALPH_DESCENDING, FILTER_PLACES_SHOW_ALL, FILTER_PLACES_BY_TAGS, FILTER_PLACES_BY_REVIEW_COUNT } from './types';
 import { checkAuth, signupRequest, signinRequest } from '../Auth/action-creators';
 import { fetchInitialData } from '../Loader/action-creators';
 
@@ -23,7 +23,7 @@ export const setPlaceFilter: ActionCreator = (placeFilter: PlaceFilter): PlacesF
 
 export const setPlaceFilterOrder: ActionCreator = (order: FilterOrder): PlacesFilterOrderAction => ({
   type: SET_PLACE_FILTER_ORDER,
-  order
+  payload: order
 });
 
 export const appInitialized: ThunkAction = () => {
@@ -44,14 +44,14 @@ export const resetPlaceFilter: ThunkAction = () => {
   return dispatch => {
     const placeFilter: PlaceFilter = {
       filterItems: [],
-      order: FILTER_DESCENDING,
+      order: FILTER_ALPH_DESCENDING,
       visibility: FILTER_PLACES_SHOW_ALL
     };
     dispatch(setPlaceFilter(placeFilter));
   };
 };
 
-export const setPlaceFilterByTags: ThunkAction = (tags: Array<any>, order: FilterOrder = FILTER_DESCENDING) => {
+export const setPlaceFilterByTags: ThunkAction = (tags: Array<any>, order: FilterOrder = FILTER_ALPH_DESCENDING) => {
   return dispatch => {
     const placeFilter: PlaceFilter = {
       filterItems: tags,
@@ -62,7 +62,7 @@ export const setPlaceFilterByTags: ThunkAction = (tags: Array<any>, order: Filte
   };
 };
 
-export const setPlaceFilterByReviewCount: ThunkAction = (order: FilterOrder = FILTER_DESCENDING) => {
+export const setPlaceFilterByReviewCount: ThunkAction = (order: FilterOrder = FILTER_ALPH_DESCENDING) => {
   return dispatch => {
     const placeFilter: PlaceFilter = {
       filterItems: [],
