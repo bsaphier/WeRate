@@ -75,13 +75,15 @@ class PlacesTab extends Component {
   }
 
   render() {
-    const { placesById, onResetPlaceFilter, orderPlacesByNameAsc, orderPlacesByReviewAvgAsc } = this.props;
+    const { placesById, onResetPlaceFilter, orderPlacesByNameAsc, orderPlacesByNameDes, orderPlacesByReviewAvgAsc, orderPlacesByReviewAvgDsc } = this.props;
     return (
       <View style={styles.viewContainer}>
         <View style={styles.buttonContainer}>
           <Button title="show all" onPress={onResetPlaceFilter} />
-          <Button title="alph" onPress={orderPlacesByNameAsc} />
-          <Button title="reviewAvg" onPress={orderPlacesByReviewAvgAsc} />
+          <Button title="aASC" onPress={orderPlacesByNameAsc} />
+          <Button title="aDES" onPress={orderPlacesByNameDes} />
+          <Button title="rASC" onPress={orderPlacesByReviewAvgAsc} />
+          <Button title="rDES" onPress={orderPlacesByReviewAvgDsc} />
           <Button title="search" onPress={this.showSearchDrawer} />
         </View>
         <FlatList

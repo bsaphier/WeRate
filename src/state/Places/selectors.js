@@ -16,7 +16,10 @@ function reverseArray(arr) {
 }
 
 function getReviewAvg(reviewIdsOfPlace, reviewsById) {
-  return reviewIdsOfPlace.reduce((a, b) => (reviewsById[a].rating + reviewsById[b].rating) / reviewIdsOfPlace.length);
+  if (reviewIdsOfPlace.length) {
+    return reviewIdsOfPlace.map(id => reviewsById[id].rating).reduce((a, b) => (a + b)) / reviewIdsOfPlace.length;
+  }
+  return 0;
 }
 
 function sortPlaceNames(filteredIds, placesById) {
@@ -30,7 +33,6 @@ function sortPlaceNames(filteredIds, placesById) {
 }
 
 function sortReviewAvgs(filteredIds, reviewsById, placesById) {
-  console.log('*****************', filteredIds);
   return filteredIds.sort((a, b) => {
     const reviewAvgA = getReviewAvg(placesById[a].reviewIds, reviewsById);
     const reviewAvgB = getReviewAvg(placesById[b].reviewIds, reviewsById);
