@@ -9,7 +9,7 @@ let starId = 0;
 function makeStars({ id, rating }) {
   let stars = [];
   for (let star = 0; star < rating; star++, starId++) {
-    stars.push(<Image style={styles.star} key={`${starId}${id}`} source={iconsMap['ios-star']} />);
+    stars.push(<Image style={styles.star} key={`star${starId}${id}`} source={iconsMap['ios-star']} />);
   }
   return stars;
 }
