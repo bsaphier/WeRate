@@ -1,19 +1,32 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { iconsMap } from '../../utils/icons-loader';
 
 
+
+let starId = 0;
+
+function makeStars({ id, rating }) {
+  let stars = [];
+  for (let star = 0; star < rating; star++, starId++) {
+    stars.push(<Image style={styles.star} key={`${starId}${id}`} source={iconsMap['ios-star']} />);
+  }
+  return stars;
+}
 
 const ReviewCard = ({ review, isAdmin, createdBy, handleEdit, handleDelete, handleSelectUser }) => (
   <View style={styles.container}>
 
     <View style={styles.headerContainer}>
-      <View style={styles.buttonLabelContainer}>
+      <View style={styles.headerLeft}>
         <Text>Created By: </Text>
         <TouchableOpacity onPress={handleSelectUser}>
           <Text style={styles.headerText}>{`${createdBy.firstName} ${createdBy.lastName}`}</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.reviewCount}>{review.rating}</Text>
+      <View style={styles.headerRight}>
+        {makeStars(review)}
+      </View>
     </View>
 
     <View style={styles.bodyContainer}>
@@ -47,6 +60,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 13
   },
+  headerLeft: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  headerRight: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
   headerText: {
     color: '#222',
     fontWeight: 'bold'
@@ -58,12 +83,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start'
   },
-  reviewCount: {
-    marginTop: 13,
-    marginLeft: 'auto',
-    marginRight: 13,
-    fontWeight: 'bold'
-  },
+  // reviewCount: {
+  //   marginTop: 13,
+  //   marginLeft: 'auto',
+  //   marginRight: 13,
+  //   fontWeight: 'bold'
+  // },
   bodyContainer: {
     display: 'flex',
     borderTopColor: '#fafafa',
@@ -81,5 +106,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between'
+  },
+  star: {
+    width: 16,
+    height: 16
   }
 });

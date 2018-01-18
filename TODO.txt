@@ -12,7 +12,7 @@ Features
 
 • places
     • search by name
-    • order by review avg. or alphabetically (default)
+√   • order by review avg. or alphabetically (default)
 √   • add createdBy to Place in db
     • when new place is created send an email to the admin with detail about the place
 
@@ -23,8 +23,8 @@ Features
 
 
 U.I.
-• 5 "Star" rating
-• Rating avg. on Place created
+    • 5 "Star" rating
+√   • Rating avg. on Place created
 
 
 

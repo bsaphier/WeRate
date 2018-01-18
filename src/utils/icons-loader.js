@@ -27,7 +27,10 @@ const icons = {
 
   'ios-close-circle': [20, '#444'],
 
-  'ios-images-outline': [30, '#bbb']
+  'ios-images-outline': [30, '#bbb'],
+
+  'ios-star': [100, '#000'],
+  'ios-star-outline': [100, '#444']
 };
 
 const defaultIconProvider = Ionicons;

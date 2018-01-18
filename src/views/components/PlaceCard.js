@@ -5,17 +5,19 @@ import { iconsMap } from '../../utils/icons-loader';
 
 
 
-const PlaceCard = ({ tags, name, icon, phone, address, website, onSelect, createdBy, reviewCount = 0, description }) => (
+const PlaceCard = ({ tags, name, icon, phone, address, website, onSelect, createdBy, reviewCount, reviewAvg = 0, description }) => (
   <TouchableOpacity style={styles.container} onPress={onSelect}>
     
     <View style={styles.headerContainer}>
-      <Image
-          style={styles.icon}
-          source={iconsMap[icon]}
-      />
-      <Text style={styles.headerTitle}>{name}</Text>
-      {/* A count of how many reviews have been added */}
-      <Text style={styles.reviewCount}>{reviewCount}</Text>
+      <View style={styles.headerLeft}>
+        <Image style={styles.icon} source={iconsMap[icon]} />
+        <Text style={styles.headerTitle}>{name}</Text>
+      </View>
+      <View style={styles.headerRight}>
+        <Text style={styles.reviewCount}>{`(${reviewCount})`}</Text>
+        <Text style={styles.reviewAvg}>{reviewAvg}</Text>
+        <Image style={styles.star} source={iconsMap['ios-star']} />
+      </View>
     </View>
 
     <View style={styles.tagsContainer}>
@@ -60,6 +62,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 13
   },
+  headerLeft: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  headerRight: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
   headerTitle: {
     color: '#222',
     marginTop: 13,
@@ -67,11 +81,16 @@ const styles = StyleSheet.create({
     marginRight: 21,
     fontWeight: 'bold'
   },
-  reviewCount: {
-    marginTop: 13,
-    marginLeft: 'auto',
-    marginRight: 13,
+  reviewAvg: {
+    alignSelf: 'center',
+    marginRight: 3,
     fontWeight: 'bold'
+  },
+  reviewCount: {
+    fontSize: 11,
+    marginRight: 2,
+    // fontWeight: 'light'
+    alignSelf: 'center',
   },
   tagsContainer: {
     marginBottom: 6,
@@ -92,6 +111,12 @@ const styles = StyleSheet.create({
   icon: {
     width: 34,
     height: 34
+  },
+  star: {
+    width: 16,
+    height: 16,
+    marginBottom: 3,
+    alignSelf: 'center'
   },
   description: {
     color: '#888'

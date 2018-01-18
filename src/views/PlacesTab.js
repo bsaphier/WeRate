@@ -56,7 +56,7 @@ class PlacesTab extends Component {
   }
 
   renderPlaceCard = ({ item: { placeId } }) => {
-    const { name, phone1, tagIds, address, website, createdBy, description } = this.props.allPlaces[placeId];
+    const { name, phone1, tagIds, address, website, reviewIds, createdBy, description } = this.props.allPlaces[placeId];
     const tags = tagIds.length ? tagIds.map(tagId => this.props.tagsById[tagId]) : [];
     return this.props.loading && (
       <PlaceCard
@@ -67,7 +67,8 @@ class PlacesTab extends Component {
           address={address}
           website={website}
           description={description}
-          reviewCount={this.props.reviewAvgsByPlaceId[placeId]}
+          reviewCount={reviewIds.length}
+          reviewAvg={this.props.reviewAvgsByPlaceId[placeId]}
           createdBy={this.props.usersById[createdBy]}
           onSelect={() => this.showPlaceDetail(placeId)}
       />
@@ -75,15 +76,17 @@ class PlacesTab extends Component {
   }
 
   render() {
-    const { placesById, onResetPlaceFilter, orderPlacesByNameAsc, orderPlacesByNameDes, orderPlacesByReviewAvgAsc, orderPlacesByReviewAvgDsc } = this.props;
+    const { filterBy, placesById, onResetPlaceFilter, orderPlacesByNameAsc, orderPlacesByNameDes, orderPlacesByReviewAvgAsc, orderPlacesByReviewAvgDsc } = this.props;
+    const alph = filterBy.includes('alphabetically') && filterBy.includes('descending');
+    const avg = filterBy.includes('rating') && filterBy.includes('descending');
+    const alphA = filterBy.includes('alphabetically') && filterBy.includes('ascending');
+    const avgA = filterBy.includes('rating') && filterBy.includes('ascending');
     return (
       <View style={styles.viewContainer}>
         <View style={styles.buttonContainer}>
           <Button title="show all" onPress={onResetPlaceFilter} />
-          <Button title="aASC" onPress={orderPlacesByNameAsc} />
-          <Button title="aDES" onPress={orderPlacesByNameDes} />
-          <Button title="rASC" onPress={orderPlacesByReviewAvgAsc} />
-          <Button title="rDES" onPress={orderPlacesByReviewAvgDsc} />
+          <Button title={`abc ${alphA ? '>' : '<'}`} onPress={alph ? orderPlacesByNameAsc : orderPlacesByNameDes} />
+          <Button title={`avg. ${avgA ? '>' : '<'}`} onPress={avg ? orderPlacesByReviewAvgAsc : orderPlacesByReviewAvgDsc} />
           <Button title="search" onPress={this.showSearchDrawer} />
         </View>
         <FlatList
@@ -102,6 +105,7 @@ const mapState = (state) => ({
   tagsById: state.tags.byId,
   usersById: state.users.byId,
   allPlaces: state.places.byId,
+  filterBy: state.root.placeFilter.order,
   placesById: getFilteredPlaces(state),
   reviewAvgsByPlaceId: getReviewAvgs(state)
 });

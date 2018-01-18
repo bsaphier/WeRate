@@ -3,9 +3,6 @@ import { FILTER_ALPH_ASCENDING, FILTER_ALPH_DESCENDING, FILTER_RATING_ASCENDING,
 
 
 
-// const getVisibilityFilter = state => state.root.placeFilter.visibility;
-// const getFilterItems = state => state.root.placeFilter.filterItems;
-// const getFilterOrder = state => state.root.placeFilter.order;
 const getFilter = state => state.root.placeFilter;
 const getReviews = state => state.reviews.byId;
 const getPlaces = state => state.places.byId;
