@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Button, Picker, StyleSheet } from 'react-native';
+import { View, Text, Button, Picker, TextInput, StyleSheet } from 'react-native';
 import { setPlaceFilterByTags } from '../state/App/action-creators';
 import { ActionTag } from './components';
 
 
 
 class SearchModal extends Component {
-  state = { selectedTag: '', selectedTags: [] }
+  state = {
+    input: '',
+    searchBy: 'name',
+    selectedTag: '',
+    selectedTags: []
+  }
 
   handlePickerChange = (itemValue) => {
     const { selectedTags } = this.state;
@@ -18,10 +23,13 @@ class SearchModal extends Component {
   }
 
   handleSubmit = () => {
-    const { tagsById, navigator, onFilterPlaceByTag } = this.props;
-    const tagsToSetFilterBy = this.state.selectedTags.map(tagId => tagsById[tagId]);
-    onFilterPlaceByTag(tagsToSetFilterBy);
-    navigator.dismissModal();
+    const { searchBy } = this.state;
+    if (searchBy === 'tags') {
+      const { tagsById, onFilterPlaceByTag } = this.props;
+      const tagsToSetFilterBy = this.state.selectedTags.map(tagId => tagsById[tagId]);
+      onFilterPlaceByTag(tagsToSetFilterBy);
+    }
+    this.props.navigator.dismissModal();
   }
 
   handleRemoveSelectedTag = (tagId) => {
@@ -30,8 +38,45 @@ class SearchModal extends Component {
     });
   }
 
+  renderSearchByTags() {
+    const { tagsById, allTagIds } = this.props;
+    return (
+      <View style={styles.picker}>
+        <Text>select categories to view</Text>
+        <Picker style={styles.picker} selectedValue={this.state.selectedTag} onValueChange={this.handlePickerChange}>
+          {
+            allTagIds.map(tagId => (
+              <Picker.Item key={`picker_${tagId}`} value={tagId} label={tagsById[tagId].title} />
+            ))
+          }
+        </Picker>
+      </View>
+    );
+  }
+
+  renderSerarchByName() {
+    return (
+      <View>
+        <TextInput style={styles.textInput} onChangeText={(input) => this.setState({input})} />
+      </View>
+    );
+  }
+
+  renderSearch() {
+    const { searchBy } = this.state;
+    switch (searchBy) {
+      case ('tags'):
+        return this.renderSearchByTags(); 
+      case('name'):
+        return this.renderSerarchByName();   
+      default:
+        break;
+    }
+  }
+
   render() {
-    const { tagsById, allTagIds, navigator } = this.props;
+    const { searchBy } = this.state;
+    const { tagsById, navigator } = this.props;
     return (
       <View style={styles.viewContainer}>
         <View style={styles.header}>
@@ -51,18 +96,11 @@ class SearchModal extends Component {
         </View>
 
         <View style={styles.contentContainer}>
-          <Text>select categories to view</Text>
           <View style={styles.foot}>
             <Button title="cancel" onPress={() => navigator.dismissModal()} />
             <Button title="search" onPress={() => this.handleSubmit()} />
           </View>
-          <Picker style={styles.picker} selectedValue={this.state.selectedTag} onValueChange={this.handlePickerChange}>
-            {
-              allTagIds.map(tagId => (
-                <Picker.Item key={`picker_${tagId}`} value={tagId} label={tagsById[tagId].title} />
-              ))
-            }
-          </Picker>
+          {this.renderSearch(searchBy)}
         </View>
       </View>
     );
@@ -125,8 +163,19 @@ const styles = StyleSheet.create({
     borderColor: '#eee',
     backgroundColor: '#fefefe',
     shadowColor: '#eee',
-    shadowOpacity: 1,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 15 }
+    // shadowOpacity: 1,
+    // shadowRadius: 10,
+    // shadowOffset: { width: 0, height: 15 }
+  },
+  textInput: {
+    paddingRight: 5,
+    paddingLeft: 5,
+    paddingBottom: 2,
+    color: '#262626',
+    fontSize: 18,
+    fontWeight: '200',
+    flex: 1,
+    height: 40,
+    width: '100%'
   }
 });

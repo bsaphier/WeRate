@@ -7,6 +7,7 @@ import type { Action, rootState } from './types';
 const INIT_STATE: rootState = {
   root: undefined,
   placeFilter: {
+    filterType: '',
     filterItems: [], // Tag ids
     order: FILTER_ALPH_DESCENDING,
     visibility: FILTER_PLACES_SHOW_ALL

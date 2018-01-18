@@ -11,6 +11,7 @@ import UserReducer from './User';
 import AuthReducer from './Auth';
 import UsersReducer from './Users';
 import FetchReducer from './Loader';
+import FilterReducer from './Filter';
 import PlacesReducer from './Places';
 import ReviewsReducer from './Reviews';
 
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   auth: AuthReducer,
   users: UsersReducer,
   fetch: FetchReducer,
+  filter: FilterReducer,
   places: PlacesReducer,
   reviews: ReviewsReducer,
 });
