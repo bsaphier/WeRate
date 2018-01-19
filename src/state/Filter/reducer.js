@@ -1,5 +1,5 @@
 // @flow
-import { SET_PLACE_FILTER, SET_PLACE_FILTER_VIS, SET_PLACE_FILTER_ORDER, FILTER_ALPH_DESCENDING, FILTER_PLACES_SHOW_ALL, SET_PLACE_FILTER_STR } from './types';
+import { SET_PLACE_FILTER, SET_PLACE_FILTER_VIS, SET_PLACE_FILTER_ORDER, FILTER_ALPH_DESCENDING, FILTER_PLACES_SHOW_ALL, SET_PLACE_FILTER_STR, SET_PLACE_FILTER_TAGS } from './types';
 import type { Action, filterState } from './types';
 
 
@@ -23,6 +23,9 @@ export default function (state: filterState = INIT_STATE, action: Action): filte
 
     case SET_PLACE_FILTER_VIS:
       return { ...state, visibility: action.payload };
+
+    case SET_PLACE_FILTER_TAGS:
+      return { ...state, filterItems: action.payload};
 
     case SET_PLACE_FILTER_ORDER:
       return { ...state, order: action.payload };

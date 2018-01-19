@@ -49,7 +49,9 @@ function visibilityFilter(filter, placesById) {
         filter.filterItems.some(tag => tag.placeIds && tag.placeIds.includes(placeId))
       );
     case FILTER_PLACES_BY_NAME:
-      return placeIds;
+      return placeIds.filter(placeId =>
+        placesById[placeId].name.includes(filter.searchString) || placesById[placeId].name.toUpperCase().includes(filter.searchString)
+      );
     default:
       return [];
   }

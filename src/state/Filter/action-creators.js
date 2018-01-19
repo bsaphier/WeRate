@@ -1,8 +1,9 @@
 // @flow
 import type { ActionCreator } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
-import type { filterState, FilterOrder, FilterVisibility, PlacesFilterAction, PlacesFilterOrderAction, PlacesFilterVisibilityAction } from './types';
-import { SET_PLACE_FILTER, SET_PLACE_FILTER_VIS, SET_PLACE_FILTER_ORDER, FILTER_ALPH_ASCENDING, FILTER_ALPH_DESCENDING, FILTER_RATING_ASCENDING, FILTER_PLACES_SHOW_ALL, FILTER_PLACES_BY_TAGS, FILTER_PLACES_BY_NAME, FILTER_RATING_DESCENDING, PlacesFilterStringAction, SET_PLACE_FILTER_STR } from './types';
+import type { Tag } from '../Tags/types';
+import type { filterState, FilterOrder, FilterVisibility, PlacesFilterAction, PlacesFilterTagsAction, PlacesFilterOrderAction, PlacesFilterVisibilityAction } from './types';
+import { SET_PLACE_FILTER, SET_PLACE_FILTER_VIS, SET_PLACE_FILTER_TAGS, SET_PLACE_FILTER_ORDER, FILTER_ALPH_ASCENDING, FILTER_ALPH_DESCENDING, FILTER_RATING_ASCENDING, FILTER_PLACES_SHOW_ALL, FILTER_PLACES_BY_TAGS, FILTER_PLACES_BY_NAME, FILTER_RATING_DESCENDING, PlacesFilterStringAction, SET_PLACE_FILTER_STR } from './types';
 
 
 
@@ -19,6 +20,11 @@ export const setPlaceFilterVis: ActionCreator = (visibility: FilterVisibility): 
 export const setPlaceFilterOrder: ActionCreator = (order: FilterOrder): PlacesFilterOrderAction => ({
   type: SET_PLACE_FILTER_ORDER,
   payload: order
+});
+
+export const setPlaceFilterTags: ActionCreator = (tags: Array<Tag>): PlacesFilterTagsAction => ({
+  type: SET_PLACE_FILTER_TAGS,
+  payload: tags
 });
 
 export const setPlaceFilterSearchString: ActionCreator = (searchString: string): PlacesFilterStringAction => ({
@@ -53,16 +59,20 @@ export const resetPlaceFilter: ThunkAction = () => {
   };
 };
 
-export const setPlaceFilterByTags: ThunkAction = (tags: Array<any>, order: FilterOrder = FILTER_ALPH_DESCENDING) => {
-  return dispatch => {
-    const placeFilter: filterState = {
-      order,
-      searchString: '',
-      filterItems: tags,
-      visibility: FILTER_PLACES_BY_TAGS
-    };
-    dispatch(setPlaceFilter(placeFilter));
-  };
+export default {
+  resetPlaceFilter,
+  setPlaceFilter,
+  setPlaceFilterVis,
+  setPlaceFilterOrder,
+  setPlaceFilterTags,
+  setPlaceFilterSearchString,
+  filterPlacesByTags,
+  filterPlacesByName,
+  filterPlacesShowAll,
+  orderPlacesByNameAsc,
+  orderPlacesByNameDes,
+  orderPlacesByReviewAvgAsc,
+  orderPlacesByReviewAvgDsc,
 };
 
 
@@ -77,14 +87,3 @@ function _OrderPlacesGenerator(filter) {
     dispatch(setPlaceFilterOrder(filter));
   };
 }
-
-
-export default {
-  resetPlaceFilter,
-  setPlaceFilterOrder,
-  setPlaceFilterByTags,
-  orderPlacesByNameAsc,
-  orderPlacesByNameDes,
-  orderPlacesByReviewAvgAsc,
-  orderPlacesByReviewAvgDsc
-};

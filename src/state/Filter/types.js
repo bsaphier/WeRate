@@ -1,7 +1,10 @@
 // @flow
+import type { Tag } from '../Tags/types';
+
 export const SET_PLACE_FILTER: 'SET_PLACE_FILTER' = 'SET_PLACE_FILTER';
 export const SET_PLACE_FILTER_STR: 'SET_PLACE_FILTER_STR' = 'SET_PLACE_FILTER_STR';
 export const SET_PLACE_FILTER_VIS: 'SET_PLACE_FILTER_VIS' = 'SET_PLACE_FILTER_VIS';
+export const SET_PLACE_FILTER_TAGS: 'SET_PLACE_FILTER_TAGS' = 'SET_PLACE_FILTER_TAGS';
 export const SET_PLACE_FILTER_ORDER: 'SET_PLACE_FILTER_ORDER' = 'SET_PLACE_FILTER_ORDER';
 
 export const FILTER_ALPH_ASCENDING: 'filter.order.alphabetically.ascending' = 'filter.order.alphabetically.ascending';
@@ -34,6 +37,7 @@ export type filterState = {
 
 
 export type PlacesFilterAction = {| +type: typeof SET_PLACE_FILTER, payload: filterState |};
+export type PlacesFilterTagsAction = {| +type: typeof SET_PLACE_FILTER_TAGS, payload: Array<Tag> |};
 export type PlacesFilterOrderAction = {| +type: typeof SET_PLACE_FILTER_ORDER, payload: FilterOrder |};
 export type PlacesFilterStringAction = {| +type: typeof SET_PLACE_FILTER_STR, payload: string |};
 export type PlacesFilterVisibilityAction = {| +type: typeof SET_PLACE_FILTER_VIS, payload: FilterVisibility |};
@@ -42,6 +46,7 @@ export type PlacesFilterVisibilityAction = {| +type: typeof SET_PLACE_FILTER_VIS
 export type Action =
   | empty
   | PlacesFilterAction
+  | PlacesFilterTagsAction
   | PlacesFilterOrderAction
   | PlacesFilterStringAction
   | PlacesFilterVisibilityAction;
