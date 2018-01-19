@@ -1,8 +1,1 @@
-const functions = require('firebase-functions');
-
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+var _firebaseFunctions=require('firebase-functions');var _firebaseFunctions2=_interopRequireDefault(_firebaseFunctions);var _firebaseAdmin=require('firebase-admin');var _firebaseAdmin2=_interopRequireDefault(_firebaseAdmin);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}_firebaseAdmin2.default.initializeApp(_firebaseFunctions2.default.config().firebase);

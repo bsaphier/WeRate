@@ -6,6 +6,9 @@
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"test": "jest",
 		"flow": "flow",
+		"deploy-functions": "yarn run package-functions && firebase deploy",
+		"package-functions": "babel 'firebaseFunctions' --out-dir 'functions' --copy-files --ignore 'node_modules'",
+		"postpackage-functions": "cd functions && yarn",
 		"postinstall": "remotedev-debugger --hostname localhost --port 5678 --injectserver"
 	},
 	"remotedev": {
@@ -25,6 +28,7 @@
 		"reselect": "^3.0.1"
 	},
 	"devDependencies": {
+		"babel-cli": "^6.26.0",
 		"babel-jest": "21.2.0",
 		"babel-preset-react-native": "4.0.0",
 		"flow-bin": "0.56.0",
