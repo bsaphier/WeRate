@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Button, FlatList, StyleSheet } from 'react-native';
-import { resetPlaceFilter, orderPlacesByNameAsc, orderPlacesByNameDes, orderPlacesByReviewAvgAsc, orderPlacesByReviewAvgDsc } from '../state/App/action-creators';
-import { getReviewAvgs, getFilteredPlaces } from '../state/Places/selectors';
+import { resetPlaceFilter, orderPlacesByNameAsc, orderPlacesByNameDes, orderPlacesByReviewAvgAsc, orderPlacesByReviewAvgDsc } from '../state/Filter/action-creators';
+import { getReviewAvgs, getFilteredPlaces } from '../state/Filter/selectors';
 import { logout } from '../state/Auth/action-creators';
 import { PlaceCard } from './components';
 
@@ -105,7 +105,7 @@ const mapState = (state) => ({
   tagsById: state.tags.byId,
   usersById: state.users.byId,
   allPlaces: state.places.byId,
-  filterBy: state.root.placeFilter.order,
+  filterBy: state.filter.order,
   placesById: getFilteredPlaces(state),
   reviewAvgsByPlaceId: getReviewAvgs(state)
 });

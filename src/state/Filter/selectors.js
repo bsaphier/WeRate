@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { FILTER_ALPH_ASCENDING, FILTER_ALPH_DESCENDING, FILTER_RATING_ASCENDING, FILTER_RATING_DESCENDING, FILTER_PLACES_BY_TAGS, FILTER_PLACES_SHOW_ALL, FILTER_PLACES_BY_NAME } from '../types';
+import { FILTER_ALPH_ASCENDING, FILTER_ALPH_DESCENDING, FILTER_RATING_ASCENDING, FILTER_RATING_DESCENDING, FILTER_PLACES_BY_TAGS, FILTER_PLACES_SHOW_ALL, FILTER_PLACES_BY_NAME } from './types';
 
 
 
@@ -50,7 +50,7 @@ function visibilityFilter(filter, placesById) {
       );
     case FILTER_PLACES_BY_NAME:
       return placeIds.filter(placeId =>
-        placesById[placeId].name.includes(filter.searchString) || placesById[placeId].name.toUpperCase().includes(filter.searchString)
+        placesById[placeId].name.includes(filter.searchString)
       );
     default:
       return [];
