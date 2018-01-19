@@ -3,8 +3,8 @@ import type { ActionCreator } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
 import type { Login } from '../Auth/types';
 import type { User } from '../User/types';
-import type { Root, PlaceFilter, FilterOrder, PlacesFilterAction, PlacesFilterOrderAction, AppRootChangedAction } from './types';
-import { LOGIN_ROOT, ROOT_CHANGED, APP_ROOT, SET_PLACE_FILTER, SET_PLACE_FILTER_ORDER, FILTER_ALPH_ASCENDING, FILTER_ALPH_DESCENDING, FILTER_RATING_ASCENDING, FILTER_PLACES_SHOW_ALL, FILTER_PLACES_BY_TAGS, FILTER_RATING_DESCENDING, FILTER_PLACES_BY_REVIEW_COUNT } from './types';
+import type { Root, AppRootChangedAction } from './types';
+import { LOGIN_ROOT, ROOT_CHANGED, APP_ROOT } from './types';
 import { checkAuth, signupRequest, signinRequest } from '../Auth/action-creators';
 import { fetchInitialData } from '../Loader/action-creators';
 
@@ -14,16 +14,6 @@ import { fetchInitialData } from '../Loader/action-creators';
 export const changeAppRoot: ActionCreator = (root: Root): AppRootChangedAction => ({
   type: ROOT_CHANGED,
   root
-});
-
-export const setPlaceFilter: ActionCreator = (placeFilter: PlaceFilter): PlacesFilterAction => ({
-  type: SET_PLACE_FILTER,
-  payload: placeFilter
-});
-
-export const setPlaceFilterOrder: ActionCreator = (order: FilterOrder): PlacesFilterOrderAction => ({
-  type: SET_PLACE_FILTER_ORDER,
-  payload: order
 });
 
 export const appInitialized: ThunkAction = () => {
@@ -39,53 +29,6 @@ export const signup: ThunkAction = _LoginOrSignupGenerator(signupRequest);
 
 export const checkIfLoggedIn: ThunkAction = _LoginOrSignupGenerator(checkAuth);
 
-export const orderPlacesByNameAsc: ThunkAction = _OrderPlacesGenerator(FILTER_ALPH_ASCENDING);
-
-export const orderPlacesByNameDes: ThunkAction = _OrderPlacesGenerator(FILTER_ALPH_DESCENDING);
-
-export const orderPlacesByReviewAvgAsc: ThunkAction = _OrderPlacesGenerator(FILTER_RATING_ASCENDING);
-
-export const orderPlacesByReviewAvgDsc: ThunkAction = _OrderPlacesGenerator(FILTER_RATING_DESCENDING);
-
-export const resetPlaceFilter: ThunkAction = () => {
-  return dispatch => {
-    const placeFilter: PlaceFilter = {
-      filterItems: [],
-      order: FILTER_ALPH_DESCENDING,
-      visibility: FILTER_PLACES_SHOW_ALL
-    };
-    dispatch(setPlaceFilter(placeFilter));
-  };
-};
-
-export const setPlaceFilterByTags: ThunkAction = (tags: Array<any>, order: FilterOrder = FILTER_ALPH_DESCENDING) => {
-  return dispatch => {
-    const placeFilter: PlaceFilter = {
-      filterItems: tags,
-      order,
-      visibility: FILTER_PLACES_BY_TAGS
-    };
-    dispatch(setPlaceFilter(placeFilter));
-  };
-};
-
-export const setPlaceFilterByReviewCount: ThunkAction = (order: FilterOrder = FILTER_ALPH_DESCENDING) => {
-  return dispatch => {
-    const placeFilter: PlaceFilter = {
-      filterItems: [],
-      order,
-      visibility: FILTER_PLACES_BY_REVIEW_COUNT
-    };
-    dispatch(setPlaceFilter(placeFilter));
-  };
-};
-
-
-function _OrderPlacesGenerator(filter) {
-  return () => dispatch => {
-    dispatch(setPlaceFilterOrder(filter));
-  };
-}
 
 function _LoginOrSignupGenerator(action: ActionCreator) {
   return (userCred: Login | User | empty) => async dispatch => {
@@ -106,13 +49,5 @@ export default {
   signup,
   changeAppRoot,
   appInitialized,
-  checkIfLoggedIn,
-  resetPlaceFilter,
-  setPlaceFilterOrder,
-  setPlaceFilterByTags,
-  orderPlacesByNameAsc,
-  orderPlacesByNameDes,
-  orderPlacesByReviewAvgAsc,
-  orderPlacesByReviewAvgDsc,
-  setPlaceFilterByReviewCount
+  checkIfLoggedIn
 };

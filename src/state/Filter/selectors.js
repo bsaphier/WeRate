@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
-import { FILTER_ALPH_ASCENDING, FILTER_ALPH_DESCENDING, FILTER_RATING_ASCENDING, FILTER_RATING_DESCENDING, FILTER_PLACES_BY_TAGS, FILTER_PLACES_SHOW_ALL, FILTER_PLACES_BY_REVIEW_COUNT } from '../App/types';
+import { FILTER_ALPH_ASCENDING, FILTER_ALPH_DESCENDING, FILTER_RATING_ASCENDING, FILTER_RATING_DESCENDING, FILTER_PLACES_BY_TAGS, FILTER_PLACES_SHOW_ALL, FILTER_PLACES_BY_NAME } from '../types';
 
 
 
-const getFilter = state => state.root.placeFilter;
 const getReviews = state => state.reviews.byId;
 const getPlaces = state => state.places.byId;
+const getFilter = state => state.filter;
 
 
 function reverseArray(arr) {
@@ -48,14 +48,8 @@ function visibilityFilter(filter, placesById) {
       return placeIds.filter(placeId =>
         filter.filterItems.some(tag => tag.placeIds && tag.placeIds.includes(placeId))
       );
-    case FILTER_PLACES_BY_REVIEW_COUNT:
-      return placeIds.sort((a, b) => {
-        const reviewCountA = a.reviewIds.length;
-        const reviewCountB = b.reviewIds.length;
-        if (reviewCountA < reviewCountB) return -1;
-        if (reviewCountA > reviewCountB) return 1;
-        return 0;
-      });
+    case FILTER_PLACES_BY_NAME:
+      return placeIds;
     default:
       return [];
   }

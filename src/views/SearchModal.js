@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Button, Picker, TextInput, StyleSheet } from 'react-native';
-import { setPlaceFilterByTags } from '../state/App/action-creators';
+import { setPlaceFilterByTags, setPlaceFilterSearchString, filterPlacesByName } from '../state/Filter/action-creators';
 import { ActionTag } from './components';
+import { FILTER_PLACES_BY_NAME, FILTER_PLACES_BY_TAGS } from '../state/Filter/types';
 
 
 
 class SearchModal extends Component {
   state = {
     input: '',
-    searchBy: 'name',
     selectedTag: '',
     selectedTags: []
   }
@@ -23,11 +23,14 @@ class SearchModal extends Component {
   }
 
   handleSubmit = () => {
-    const { searchBy } = this.state;
-    if (searchBy === 'tags') {
-      const { tagsById, onFilterPlaceByTag } = this.props;
+    const { input } = this.state;
+    const { searchBy, tagsById, onFilterPlaceByTag, onFilterPlaceByName } = this.props;
+    if (searchBy === FILTER_PLACES_BY_TAGS) {
       const tagsToSetFilterBy = this.state.selectedTags.map(tagId => tagsById[tagId]);
       onFilterPlaceByTag(tagsToSetFilterBy);
+    }
+    if (searchBy === FILTER_PLACES_BY_NAME) {
+      onFilterPlaceByName(input);
     }
     this.props.navigator.dismissModal();
   }
@@ -63,7 +66,7 @@ class SearchModal extends Component {
   }
 
   renderSearch() {
-    const { searchBy } = this.state;
+    const { searchBy } = this.props;
     switch (searchBy) {
       case ('tags'):
         return this.renderSearchByTags(); 
@@ -110,12 +113,15 @@ class SearchModal extends Component {
 
 
 const mapState = (state) => ({
+  searchBy: state.filter.visibility,
   tagsById: state.tags.byId,
   allTagIds: state.tags.allIds
 });
 
 
 const mapDispatch = dispatch => ({
+  setPlaceFilter: () => dispatch(filterPlacesByName()), 
+  onFilterPlaceByName: (name) => (dispatch(setPlaceFilterSearchString(name))),
   onFilterPlaceByTag: (tags, order) => dispatch(setPlaceFilterByTags(tags, order))
 });
 
