@@ -50,7 +50,7 @@ function visibilityFilter(filter, placesById) {
       );
     case FILTER_PLACES_BY_NAME:
       return placeIds.filter(placeId =>
-        placesById[placeId].name.includes(filter.searchString)
+        placesById[placeId].name.toLowerCase().includes(filter.searchString.toLowerCase())
       );
     default:
       return [];
