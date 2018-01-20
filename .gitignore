@@ -52,7 +52,5 @@ buck-out/
 */fastlane/Preview.html
 */fastlane/screenshots
 
-firebaseFunctions/node_modules/
+firebase-functions/node_modules/
 functions/node_modules/
-functions/yarn.lock
-functions/package.json
