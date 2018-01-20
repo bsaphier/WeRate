@@ -53,4 +53,6 @@ buck-out/
 */fastlane/screenshots
 
 firebase-functions/node_modules/
+firebase-functions/keys.js
 functions/node_modules/
+keys.js

@@ -12,16 +12,17 @@ var _mailgunJs = require('mailgun-js');
 
 var _mailgunJs2 = _interopRequireDefault(_mailgunJs);
 
+var _keys = require('./keys');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-_firebaseAdmin2.default.initializeApp(functions.config().firebase);
-
-const API_KEY = '***REMOVED***';
 const DOMAIN = 'sandboxb1a1755b98884a1ba829ea395300f4f6.mailgun.org';
 
-const mailgun = (0, _mailgunJs2.default)({ apiKey: API_KEY, domain: DOMAIN });
+_firebaseAdmin2.default.initializeApp(functions.config().firebase);
+
+const mailgun = (0, _mailgunJs2.default)({ apiKey: _keys.MAILGUN_API_KEY, domain: DOMAIN });
 
 exports.sendNewPlaceEmail = functions.firestore.document('places/{placeId}').onCreate(event => {
   const newPlace = event.data.data();
@@ -29,7 +30,7 @@ exports.sendNewPlaceEmail = functions.firestore.document('places/{placeId}').onC
     from: `WeRate <mailgun@${DOMAIN}>`,
     to: 'b.saphier@gmail.com',
     subject: 'WeRate - A new business has been added',
-    text: `Testing some Mailgun awesomeness! ...${newPlace.name}`
+    text: `${newPlace.name} has been added to WeRate`
   };
   mailgun.messages().send(emailData, function (error, body) {
     console.log('*******DATA*******', newPlace);

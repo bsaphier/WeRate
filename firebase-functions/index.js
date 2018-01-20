@@ -1,14 +1,14 @@
 import * as functions from 'firebase-functions';
 import admin from 'firebase-admin';
 import mg from 'mailgun-js';
+import { MAILGUN_API_KEY } from './keys';
+const DOMAIN = 'sandboxb1a1755b98884a1ba829ea395300f4f6.mailgun.org';
 
 
 admin.initializeApp(functions.config().firebase);
 
-const API_KEY = '***REMOVED***';
-const DOMAIN = 'sandboxb1a1755b98884a1ba829ea395300f4f6.mailgun.org';
 
-const mailgun = mg({ apiKey: API_KEY, domain: DOMAIN });
+const mailgun = mg({ apiKey: MAILGUN_API_KEY, domain: DOMAIN });
 
 
 exports.sendNewPlaceEmail = functions.firestore
