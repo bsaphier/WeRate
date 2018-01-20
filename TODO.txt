@@ -23,7 +23,7 @@ Features
 
 
 U.I.
-    • 5 "Star" rating
+√   • 5 "Star" rating
 √   • Rating avg. on Place created
 
 
