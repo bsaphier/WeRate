@@ -8,71 +8,6 @@ const getPlaces = state => state.places.byId;
 const getFilter = state => state.filter;
 
 
-function reverseArray(arr) {
-  return [...arr].reverse(); // Array.prototype.reverse mutates the original array. This function doesn't
-}
-
-function getReviewAvg(reviewIdsOfPlace, reviewsById) {
-  if (reviewIdsOfPlace.length) {
-    return reviewIdsOfPlace.map(id => reviewsById[id].rating).reduce((a, b) => (a + b)) / reviewIdsOfPlace.length;
-  }
-  return 0;
-}
-
-function sortPlaceNames(filteredIds, placesById) {
-  return filteredIds.sort((a, b) => {
-    const nameA = placesById[a].name.toUpperCase();
-    const nameB = placesById[b].name.toUpperCase();
-    if (nameA < nameB) return -1;
-    if (nameA > nameB) return 1;
-    return 0;
-  });
-}
-
-function sortReviewAvgs(filteredIds, reviewsById, placesById) {
-  return filteredIds.sort((a, b) => {
-    const reviewAvgA = getReviewAvg(placesById[a].reviewIds, reviewsById);
-    const reviewAvgB = getReviewAvg(placesById[b].reviewIds, reviewsById);
-    if (reviewAvgA < reviewAvgB) return -1;
-    if (reviewAvgA > reviewAvgB) return 1;
-    return 0;
-  });
-}
-
-function visibilityFilter(filter, placesById) {
-  const placeIds = Object.keys(placesById);
-  switch (filter.visibility) {
-    case FILTER_PLACES_SHOW_ALL:
-      return placeIds;
-    case FILTER_PLACES_BY_TAGS:
-      return placeIds.filter(placeId =>
-        filter.filterItems.some(tag => tag.placeIds && tag.placeIds.includes(placeId))
-      );
-    case FILTER_PLACES_BY_NAME:
-      return placeIds.filter(placeId =>
-        placesById[placeId].name.toLowerCase().includes(filter.searchString.toLowerCase())
-      );
-    default:
-      return [];
-  }
-}
-
-function orderPlaceIds(order, placesById, reviewsById, filteredPlaceIds) {
-  switch (order) {
-    case FILTER_ALPH_ASCENDING:
-      return sortPlaceNames(filteredPlaceIds, placesById);
-    case FILTER_ALPH_DESCENDING:
-      return reverseArray(sortPlaceNames(filteredPlaceIds, placesById));
-    case FILTER_RATING_ASCENDING:
-      return sortReviewAvgs(filteredPlaceIds, reviewsById, placesById);
-    case FILTER_RATING_DESCENDING:
-      return reverseArray(sortReviewAvgs(filteredPlaceIds, reviewsById, placesById));
-    default:
-      break;
-  }
-}
-
-
 export const getFilteredPlaces = createSelector(
   [ getFilter, getReviews, getPlaces ],
   (filter, reviewsById, placesById) => {
@@ -108,3 +43,68 @@ export const getReviewAvgs = createSelector(
 
 
 export default { getReviewAvgs, getFilteredPlaces };
+
+
+function visibilityFilter(filter, placesById) {
+  const placeIds = Object.keys(placesById);
+  switch (filter.visibility) {
+    case FILTER_PLACES_SHOW_ALL:
+      return placeIds;
+    case FILTER_PLACES_BY_TAGS:
+      return placeIds.filter(placeId =>
+        filter.filterItems.some(tag => tag.placeIds && tag.placeIds.includes(placeId))
+      );
+    case FILTER_PLACES_BY_NAME:
+      return placeIds.filter(placeId =>
+        placesById[placeId].name.toLowerCase().includes(filter.searchString.toLowerCase())
+      );
+    default:
+      return [];
+  }
+}
+
+function orderPlaceIds(order, placesById, reviewsById, filteredPlaceIds) {
+  switch (order) {
+    case FILTER_ALPH_ASCENDING:
+      return sortPlaceNames(filteredPlaceIds, placesById);
+    case FILTER_ALPH_DESCENDING:
+      return reverseArray(sortPlaceNames(filteredPlaceIds, placesById));
+    case FILTER_RATING_ASCENDING:
+      return sortReviewAvgs(filteredPlaceIds, reviewsById, placesById);
+    case FILTER_RATING_DESCENDING:
+      return reverseArray(sortReviewAvgs(filteredPlaceIds, reviewsById, placesById));
+    default:
+      break;
+  }
+}
+
+function sortPlaceNames(filteredIds, placesById) {
+  return filteredIds.sort((a, b) => {
+    const nameA = placesById[a].name.toUpperCase();
+    const nameB = placesById[b].name.toUpperCase();
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
+    return 0;
+  });
+}
+
+function sortReviewAvgs(filteredIds, reviewsById, placesById) {
+  return filteredIds.sort((a, b) => {
+    const reviewAvgA = getReviewAvg(placesById[a].reviewIds, reviewsById);
+    const reviewAvgB = getReviewAvg(placesById[b].reviewIds, reviewsById);
+    if (reviewAvgA < reviewAvgB) return -1;
+    if (reviewAvgA > reviewAvgB) return 1;
+    return 0;
+  });
+}
+
+function getReviewAvg(reviewIdsOfPlace, reviewsById) {
+  if (reviewIdsOfPlace.length) {
+    return reviewIdsOfPlace.map(id => reviewsById[id].rating).reduce((a, b) => (a + b)) / reviewIdsOfPlace.length;
+  }
+  return 0;
+}
+
+function reverseArray(arr) {
+  return [...arr].reverse(); // Array.prototype.reverse mutates the original array. This function doesn't
+}

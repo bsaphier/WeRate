@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Button, FlatList, StyleSheet } from 'react-native';
 import { resetPlaceFilter, orderPlacesByNameAsc, orderPlacesByNameDes, orderPlacesByReviewAvgAsc, orderPlacesByReviewAvgDsc } from '../state/Filter/action-creators';
+import { FILTER_ALPH_ASCENDING, FILTER_ALPH_DESCENDING, FILTER_RATING_ASCENDING, FILTER_RATING_DESCENDING } from '../state/Filter/types';
 import { getReviewAvgs, getFilteredPlaces } from '../state/Filter/selectors';
 import { logout } from '../state/Auth/action-creators';
 import { PlaceCard } from './components';
@@ -77,16 +78,16 @@ class PlacesTab extends Component {
 
   render() {
     const { filterBy, placesById, onResetPlaceFilter, orderPlacesByNameAsc, orderPlacesByNameDes, orderPlacesByReviewAvgAsc, orderPlacesByReviewAvgDsc } = this.props;
-    const alph = filterBy.includes('alphabetically') && filterBy.includes('descending');
-    const avg = filterBy.includes('rating') && filterBy.includes('descending');
-    const alphA = filterBy.includes('alphabetically') && filterBy.includes('ascending');
-    const avgA = filterBy.includes('rating') && filterBy.includes('ascending');
+    const filterAlphAsc = filterBy === FILTER_ALPH_ASCENDING;
+    const filterAlphDes = filterBy === FILTER_ALPH_DESCENDING;
+    const filterRtngAsc = filterBy === FILTER_RATING_ASCENDING;
+    const filterRtngDes = filterBy === FILTER_RATING_DESCENDING;
     return (
       <View style={styles.viewContainer}>
         <View style={styles.buttonContainer}>
           <Button title="show all" onPress={onResetPlaceFilter} />
-          <Button title={`abc ${alphA ? '>' : '<'}`} onPress={alph ? orderPlacesByNameAsc : orderPlacesByNameDes} />
-          <Button title={`avg. ${avgA ? '>' : '<'}`} onPress={avg ? orderPlacesByReviewAvgAsc : orderPlacesByReviewAvgDsc} />
+          <Button title={`abc ${filterAlphAsc ? '>' : '<'}`} onPress={filterAlphDes ? orderPlacesByNameAsc : orderPlacesByNameDes} />
+          <Button title={`avg. ${filterRtngAsc ? '>' : '<'}`} onPress={filterRtngDes ? orderPlacesByReviewAvgAsc : orderPlacesByReviewAvgDsc} />
           <Button title="search" onPress={this.showSearchDrawer} />
         </View>
         <FlatList

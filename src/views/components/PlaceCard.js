@@ -15,7 +15,7 @@ const PlaceCard = ({ tags, name, icon, phone, address, website, onSelect, create
       </View>
       <View style={styles.headerRight}>
         <Text style={styles.reviewCount}>{`(${reviewCount})`}</Text>
-        <Text style={styles.reviewAvg}>{reviewAvg}</Text>
+        <Text style={styles.reviewAvg}>{reviewAvg.toFixed(2).replace(/\.00|0$/g, '')}</Text>
         <Image style={styles.star} source={iconsMap['ios-star']} />
       </View>
     </View>

@@ -54,5 +54,6 @@ buck-out/
 
 firebase-functions/node_modules/
 firebase-functions/keys.js
+functions/
 functions/node_modules/
 keys.js
