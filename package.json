@@ -6,7 +6,7 @@
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"test": "jest",
 		"flow": "flow",
-		"deploy:functions": "yarn run package:functions && firebase deploy",
+		"fun": "yarn run package:functions && firebase deploy",
 		"package:functions": "babel firebase-functions --out-dir functions --copy-files --ignore firebase-functions/node_modules",
 		"prepackage:functions": "rimraf functions",
 		"postpackage:functions": "cd functions && yarn",

@@ -135,8 +135,10 @@ export const createReviewInDb = async (review: Review) => {
 
 
 
-// ********* FILTERS
+// ********* QUERIES
 
-// export const filterPlacesByTags = (tagName) => {
-//   return Places.where('')
+// export const getAdminUser = async () => {
+//   const query = Users.where('admin', '==', true);
+//   const querySnapshot = await query.get();
+//   return handleCollectionSnapshot(querySnapshot)[0];
 // };

@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Button, Text } from 'react-native';
 import { logout } from '../state/Auth/action-creators';
 import { Sketch } from './components';
+import { getAdminUser } from '../utils/firestore-actions';
 
 
 
 class Moretab extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      admin: {}
+    }
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
@@ -24,10 +28,17 @@ class Moretab extends Component {
     }
   }
 
+  getAdmin = async () => {
+    // const admin = await getAdminUser();
+    // this.setState({ admin });
+  }
+
   render() {
+    console.log('*$@*@$*@$*@$*@$*@*$$*@*', this.state.admin)
     return (
       <View style={styles.container}>
-        <Sketch />
+      <Button title="Get Admin" onPress={this.getAdmin} />
+       {/* <Sketch /> */}
       </View>
     );
   }
