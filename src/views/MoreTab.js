@@ -28,7 +28,7 @@ class Moretab extends Component {
     }
   }
 
-  getAdmin = async () => {
+  getAdmin = () => {
     // const admin = await getAdminUser();
     // this.setState({ admin });
   }
