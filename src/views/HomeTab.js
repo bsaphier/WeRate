@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, FlatList, View } from 'react-native';
 import { logout } from '../state/Auth/action-creators';
-import { UserCard } from './components';
+import { UserCard, Spinner } from './components';
 
 
 
@@ -43,8 +43,12 @@ class HomeTab extends Component {
   }
 
   render() {
-    const { allUserIds } = this.props;
-    return (
+    const { loaded, allUserIds } = this.props;
+    return loaded ? (
+      <View style={styles.spinnerContainter}>
+        <Spinner large />
+      </View>
+    ) : (
       <View style={styles.viewContainer}>
         <FlatList
             style={styles.listContainer}
@@ -75,6 +79,10 @@ export default connect(mapState, mapDispatch)(HomeTab);
 const styles = StyleSheet.create({
   viewContainer: {
     height: '100%'
+  },
+  spinnerContainter: {
+    flex: 1,
+    justifyContent: 'space-around'
   },
   listContainer: {
     paddingBottom: 100

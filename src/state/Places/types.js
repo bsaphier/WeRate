@@ -14,15 +14,15 @@ export type AllIds = Array<Id>;
 // A place has many reviews
 export type Place = {|
   id: Id,
-  createdBy?: Id,
+  createdBy: Id,
   name: string,
-  tagIds?: Array<any>,
-  reviewIds?: Array<any>,
+  tagIds: Array<any>,
+  reviewIds: Array<any>,
   description?: string,
   address?: Address,
   phone1?: string,
   phone2?: string,
-  email?: string,
+  email: string,
   website?: string
 |};
 

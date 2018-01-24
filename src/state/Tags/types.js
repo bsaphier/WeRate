@@ -1,6 +1,7 @@
 // @flow
 export const ADD_TAG: 'ADD_TAG' = 'ADD_TAG';
 export const ADD_TAGS: 'ADD_TAGS' = 'ADD_TAGS';
+export const EDIT_TAG: 'EDIT_TAG' = 'EDIT_TAG';
 export const REMOVE_TAG: 'REMOVE_TAG' = 'REMOVE_TAG';
 
 
@@ -27,10 +28,12 @@ export type tagsState = {|
 
 export type AddTagAction = {| +type: typeof ADD_TAG, payload: Tag |};
 export type AddTagsAction = {| +type: typeof ADD_TAGS, payload: Tags |};
+export type EditTagAction = {| +type: typeof EDIT_TAG, payload: Tag |};
 export type RemoveTagAction = {| +type: typeof REMOVE_TAG, payload: Tag |};
 
 export type Action =
   | empty
   | AddTagAction
   | AddTagsAction
+  | EditTagAction
   | RemoveTagAction;

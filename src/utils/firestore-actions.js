@@ -104,7 +104,7 @@ export const modifyPlaceInDb = async (place: Place) => {
   }
 };
 
-export const createPlaceInDb = async (place: Place) => {
+export const createPlaceInDb: Place = async (place: Place) => {
   try {    
     const docRef = await Places.add(place);
     return insertId(await docRef.get());

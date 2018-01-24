@@ -21,7 +21,6 @@ export default class App extends Component {
 
   onStoreUpdate = () => {
     let { root } = store.getState().root;
-    
     // handle a root change
     if (this.currentRoot != root) {
       this.currentRoot = root;

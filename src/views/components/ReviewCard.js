@@ -76,19 +76,6 @@ const styles = StyleSheet.create({
     color: '#222',
     fontWeight: 'bold'
   },
-  buttonLabelContainer: {
-    marginTop: 13,
-    marginRight: 21,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-start'
-  },
-  // reviewCount: {
-  //   marginTop: 13,
-  //   marginLeft: 'auto',
-  //   marginRight: 13,
-  //   fontWeight: 'bold'
-  // },
   bodyContainer: {
     display: 'flex',
     borderTopColor: '#fafafa',

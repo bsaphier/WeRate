@@ -5,37 +5,37 @@ import { iconsMap } from '../../utils/icons-loader';
 
 
 
-const PlaceCard = ({ tags, name, icon, phone, address, website, onSelect, createdBy, reviewCount, reviewAvg = 0, description }) => (
+const PlaceCard = ({ tags, place, icon, onSelect, createdBy, reviewAvg = 0 }) => (
   <TouchableOpacity style={styles.container} onPress={onSelect}>
     
     <View style={styles.headerContainer}>
       <View style={styles.headerLeft}>
         <Image style={styles.icon} source={iconsMap[icon]} />
-        <Text style={styles.headerTitle}>{name}</Text>
+        <Text style={styles.headerTitle}>{place.name}</Text>
       </View>
       <View style={styles.headerRight}>
-        <Text style={styles.reviewCount}>{`(${reviewCount})`}</Text>
+        <Text style={styles.reviewCount}>{`(${place.reviewIds.length})`}</Text>
         <Text style={styles.reviewAvg}>{reviewAvg.toFixed(2).replace(/\.00|0$/g, '')}</Text>
         <Image style={styles.star} source={iconsMap['ios-star']} />
       </View>
     </View>
 
     <View style={styles.tagsContainer}>
-      { tags.map(tag => (tag && <Tag key={tag.id + name} name={tag.title} />)) }
+      { tags.map(tag => (tag && <Tag key={tag.id + place.name} name={tag.title} />)) }
     </View>
 
     <View style={styles.bodyContainer}>
       <Text style={styles.description}>
-        {description.length > 140 ? `${description.slice(0, 140)}...` : description}
+        {place.description.length > 140 ? `${place.description.slice(0, 140)}...` : place.description}
       </Text>
       <Text style={styles.detailContainer}>Address:
-        <Text style={styles.detailContent}> {address} </Text>
+        <Text style={styles.detailContent}> {place.address} </Text>
       </Text>
       <Text style={styles.detailContainer}>Phone:
-        <Text style={styles.detailContent}> {phone} </Text>
+        <Text style={styles.detailContent}> {place.phone1} </Text>
       </Text>
       <Text style={styles.detailContainer}>Website:
-        <Text style={styles.detailContent}> {website} </Text>
+        <Text style={styles.detailContent}> {place.website} </Text>
       </Text>
       <Text style={styles.detailContainer}>Created By:
         <Text style={styles.detailContent}> {`${createdBy.firstName} ${createdBy.lastName}`} </Text>

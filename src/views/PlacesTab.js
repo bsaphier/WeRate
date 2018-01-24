@@ -57,18 +57,14 @@ class PlacesTab extends Component {
   }
 
   renderPlaceCard = ({ item: { placeId } }) => {
-    const { name, phone1, tagIds, address, website, reviewIds, createdBy, description } = this.props.allPlaces[placeId];
+    const place = this.props.allPlaces[placeId];
+    const { tagIds, createdBy } = place;
     const tags = tagIds.length ? tagIds.map(tagId => this.props.tagsById[tagId]) : [];
     return this.props.loading && (
       <PlaceCard
           icon={'ios-images-outline'}
-          name={name}
           tags={tags}
-          phone={phone1}
-          address={address}
-          website={website}
-          description={description}
-          reviewCount={reviewIds.length}
+          place={place}
           reviewAvg={this.props.reviewAvgsByPlaceId[placeId]}
           createdBy={this.props.usersById[createdBy]}
           onSelect={() => this.showPlaceDetail(placeId)}

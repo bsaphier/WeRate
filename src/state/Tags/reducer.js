@@ -2,9 +2,9 @@
 import { combineReducers } from 'redux';
 import type { Reducer } from 'redux';
 import { ADD_PLACE, EDIT_PLACE, REMOVE_PLACE } from '../Places/types';
-import { ADD_TAG, ADD_TAGS, REMOVE_TAG } from './types';
+import { ADD_TAG, ADD_TAGS, REMOVE_TAG, EDIT_TAG } from './types';
 import type { AddPlaceAction, EditPlaceAction, RemovePlaceAction } from '../Places/types';
-import type { AllIds, Action, Tag, TagsById, AddTagAction, AddTagsAction, RemoveTagAction } from './types';
+import type { AllIds, Action, Tag, TagsById, AddTagAction, AddTagsAction, EditTagAction, RemoveTagAction } from './types';
 
 
 
@@ -81,6 +81,16 @@ function addTag(state: TagsById, action: AddTagAction): TagsById {
   };
 }
 
+function editTag(state: TagsById, action: EditTagAction): TagsById {
+  const { payload } = action;
+  const { id } = payload;
+  const prevTag = state[id];
+  return {
+    ...state,
+    [id]: { ...prevTag, ...payload }
+  };
+}
+
 // Admin
 function removeTag(state: TagsById, action: RemoveTagAction): TagsById {
   const nextState: TagsById = { ...state };
@@ -108,6 +118,8 @@ function tagsById(state: TagsById = {}, action: Action | AddPlaceAction | EditPl
       return removePlace(state, action);
     case ADD_TAG:
       return addTag(state, action);
+      case EDIT_TAG:
+      return editTag(state, action);
     case REMOVE_TAG:
       return removeTag(state, action);
     case ADD_TAGS:
@@ -123,6 +135,8 @@ function allTags(state: AllIds = [], action: Action): AllIds {
   switch (action.type) {
     case ADD_TAG:
       return state.concat(action.payload.id);
+    case EDIT_TAG:
+      return state;
     case REMOVE_TAG:
       return state.filter(tagId => (tagId !== action.payload.id));
     case ADD_TAGS:
