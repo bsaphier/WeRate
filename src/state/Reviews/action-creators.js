@@ -1,4 +1,6 @@
 // @flow
+import { editUser } from '../User/action-creators';
+import { editPlace } from '../Places/action-creators';
 import { ADD_REVIEW, ADD_REVIEWS, EDIT_REVIEW, REMOVE_REVIEW } from './types';
 import { createReviewInDb, modifyPlaceInDb, modifyUserInDb, modifyReviewInDb, deleteReviewFromDb } from '../../utils/firestore-actions';
 import type { Review, Reviews, AddReviewAction, AddReviewsAction, EditReviewAction, RemoveReviewAction } from './types';
@@ -35,19 +37,19 @@ export const addReviews: ActionCreator = (reviews: Reviews): AddReviewsAction =>
 export const createReview: ThunkAction = (review: Review) => {
   return async (dispatch, getState) => {
     const { user, places } = getState();
-    const place = places.byId[review.placeId];
-    const newReview = { ...review, createdBy: user.id };
-    const newReviewInDb = await createReviewInDb(newReview);
-    await modifyPlaceInDb({
-      ...place,
-      reviewIds: place.reviewIds.concat(newReviewInDb.id)
-    });
-    await modifyUserInDb({
-      ...user,
-      reviewIds: user.reviewIds ? user.reviewIds.concat(newReviewInDb.id) : [newReviewInDb.id]
-    });
-    dispatch(addReview(newReviewInDb));
-    return newReviewInDb;
+    try {
+      const place = places.byId[review.placeId];
+      const newReview = { ...review, createdBy: user.id };
+      const newReviewInDb = await createReviewInDb(newReview);
+      dispatch(addReview(newReviewInDb));
+      const updatedPlaceReviewIds = place.reviewIds.concat(newReviewInDb.id);
+      const updatedUserReviewIds = user.reviewIds ? user.reviewIds.concat(newReviewInDb.id) : [newReviewInDb.id];
+      dispatch(editPlace({ ...place, reviewIds: updatedPlaceReviewIds }));
+      dispatch(editUser({ ...user, reviewIds: updatedUserReviewIds }));
+      return newReviewInDb;
+    } catch (error) {
+      console.log('createReview', error);
+    }
   };
 };
 
@@ -67,18 +69,18 @@ export const editReview: ThunkAction = (review: Review) => {
 export const deleteReview: ThunkAction = (review: Review) => {
   return async (dispatch, getState) => {
     const { users, places } = getState();
-    const user = users.byId[review.createdBy];
-    const place = places.byId[review.placeId];
-    await modifyPlaceInDb({
-      ...place,
-      reviewIds: place.reviewIds.filter(reviewId => (review.id !== reviewId))
-    });
-    await modifyUserInDb({
-      ...user,
-      reviewIds: user.reviewIds.filter(reviewId => (review.id !== reviewId))
-    });
-    await deleteReviewFromDb(review.id);
-    dispatch(removeReview(review));
+    try {
+      await deleteReviewFromDb(review.id);
+      dispatch(removeReview(review));
+      const user = users.byId[review.createdBy];
+      const place = places.byId[review.placeId];
+      const updatedPlaceReviewIds = place.reviewIds.filter(reviewId => (review.id !== reviewId));
+      const updatedUserReviewIds = user.reviewIds.filter(reviewId => (review.id !== reviewId));
+      dispatch(editPlace({ ...place, reviewIds: updatedPlaceReviewIds }));
+      dispatch(editUser({ ...user, reviewIds: updatedUserReviewIds }));
+    } catch (error) {
+      console.log('deleteReview', error);
+    }
   };
 };
 

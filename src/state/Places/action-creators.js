@@ -89,18 +89,22 @@ export const editPlace: ThunkAction = (place: Place) => {
 export const deletePlace: ThunkAction = (place: Place) => {
   return async (dispatch, getState) => {
     const { tags, reviews } = getState();
-    tags.allIds.forEach(tagId => {
-      const tag = tags.byId[tagId];
-      const { placeIds } = tag;
-      const updatedPlaceIds = placeIds.filter(placeId => place.id !== placeId);
-      dispatch(editTag({ ...tag, placeIds: updatedPlaceIds }));
-    });
-    reviews.allIds.forEach(reviewId => {
-      const review = reviews.byId[reviewId];
-      if (review.placeId === place.id) dispatch(deleteReview(review));
-    });
-    await deletePlaceFromDb(place.id);
-    dispatch(removePlace(place));
+    try {
+      await deletePlaceFromDb(place.id);
+      dispatch(removePlace(place));
+      tags.allIds.forEach(tagId => {
+        const tag = tags.byId[tagId];
+        const { placeIds } = tag;
+        const updatedPlaceIds = placeIds.filter(placeId => place.id !== placeId);
+        dispatch(editTag({ ...tag, placeIds: updatedPlaceIds }));
+      });
+      reviews.allIds.forEach(reviewId => {
+        const review = reviews.byId[reviewId];
+        if (review.placeId === place.id) dispatch(deleteReview(review));
+      });
+    } catch (error) {
+      console.log('deletePlace', error);
+    }
   };
 };
 

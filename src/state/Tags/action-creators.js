@@ -1,4 +1,5 @@
 // @flow
+import { editPlace } from '../Places/action-creators';
 import { ADD_TAG, ADD_TAGS, EDIT_TAG, REMOVE_TAG } from './types';
 import { createTagInDb, deleteTagFromDb, modifyTagInDb } from '../../utils/firestore-actions';
 import type { Tag, Tags, AddTagAction, AddTagsAction, EditTagAction, RemoveTagAction } from './types';
@@ -52,9 +53,21 @@ export const editTag: ThunkAction = (tag: Tag) => {
 
 
 export const deleteTag: ThunkAction = (tag: Tag) => {
-  return async dispatch => {
-    await deleteTagFromDb(tag.id);
-    dispatch(removeTag(tag));
+  return async (dispatch, getState) => {
+    const { places } = getState();
+    const { placeIds } = tag;
+    try {
+      await deleteTagFromDb(tag.id);
+      dispatch(removeTag(tag));
+      placeIds.forEach(placeId => {
+        const place = places[placeId];
+        const { tagIds } = place;
+        const updatedTagIds = tagIds.filter(tagId => tag.id !== tagId);
+        dispatch(editPlace({ ...place, tagIds: updatedTagIds }));
+      });
+    } catch (error) {
+      console.log('editTag', error);
+    }
   };
 };
 
