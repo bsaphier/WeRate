@@ -1,5 +1,5 @@
 // @flow
-import type { User } from '../User/types';
+import type { User } from '../Users/types';
 
 export const LOGIN_REQUEST: 'LOGIN_REQUEST' = 'LOGIN_REQUEST';
 export const LOGOUT_REQUEST: 'LOGOUT_REQUEST' = 'LOGOUT_REQUEST';

@@ -1,6 +1,6 @@
 // @flow
 import firebase from 'react-native-firebase';
-import type { userTypes } from '../state/User';
+import type { userTypes } from '../state/Users';
 import type { authTypes } from '../state/Auth';
 type Login = authTypes.Login;
 type User = userTypes.User;

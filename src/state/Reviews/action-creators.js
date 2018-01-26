@@ -1,5 +1,5 @@
 // @flow
-import { editUser } from '../User/action-creators';
+import { editUser } from '../Users/action-creators';
 import { editPlace } from '../Places/action-creators';
 import { ADD_REVIEW, ADD_REVIEWS, EDIT_REVIEW, REMOVE_REVIEW } from './types';
 import { createReviewInDb, modifyReviewInDb, deleteReviewFromDb } from '../../utils/firestore-actions';
@@ -36,7 +36,8 @@ export const addReviews: ActionCreator = (reviews: Reviews): AddReviewsAction =>
 
 export const createReview: ThunkAction = (review: Review) => {
   return async (dispatch, getState) => {
-    const { user, places } = getState();
+    const { auth, places } = getState();
+    const { user } = auth;
     try {
       const place = places.byId[review.placeId];
       const newReview = { ...review, createdBy: user.id };

@@ -45,16 +45,16 @@ class HomeTab extends Component {
   render() {
     const { loaded, allUserIds } = this.props;
     return loaded ? (
-      <View style={styles.spinnerContainter}>
-        <Spinner large />
-      </View>
-    ) : (
       <View style={styles.viewContainer}>
         <FlatList
             style={styles.listContainer}
             data={allUserIds.map(userId => ({ key: userId, userId }))}
             renderItem={this.renderUserCard}
         />
+      </View>
+    ) : (
+      <View style={styles.spinnerContainter}>
+        <Spinner large />
       </View>
     );
   }

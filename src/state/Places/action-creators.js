@@ -36,8 +36,8 @@ export const addPlaces: ActionCreator = (places: Places): AddPlacesAction => ({
 
 export const createPlace: ThunkAction = (place: Place) => {
   return async (dispatch, getState) => {
-    const { tags, user } = getState();
-    const newPlace = { ...place, reviewIds: [], createdBy: user.id };
+    const { tags, auth } = getState();
+    const newPlace = { ...place, reviewIds: [], createdBy: auth.user.id };
     try {
       const newPlaceInDb = await createPlaceInDb(newPlace);
       dispatch(addPlace(newPlaceInDb));

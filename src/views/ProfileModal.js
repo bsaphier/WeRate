@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
-import { editUser } from '../state/User/action-creators';
+import { editUser } from '../state/Users/action-creators';
 import { ProfileForm } from './components';
 
 

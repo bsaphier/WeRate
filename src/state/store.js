@@ -1,13 +1,12 @@
 // @flow
 import { Platform } from 'react-native';
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import devTools from 'remote-redux-devtools';
+import { composeWithDevTools } from 'remote-redux-devtools';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import AppReducer from './App';
 import TagsReducer from './Tags';
-// import UserReducer from './User';
 import AuthReducer from './Auth';
 import UsersReducer from './Users';
 import FetchReducer from './Loader';
@@ -17,13 +16,16 @@ import ReviewsReducer from './Reviews';
 
 
 const middleware = applyMiddleware(thunk, logger);
-
+const composeEnhancers = composeWithDevTools({
+  name: Platform.OS,
+  hostname: 'localhost',
+  port: 5678
+});
 
 const rootReducer = combineReducers({
   form: formReducer,
   root: AppReducer,
   tags: TagsReducer,
-  // user: UserReducer,
   auth: AuthReducer,
   users: UsersReducer,
   fetch: FetchReducer,
@@ -34,14 +36,7 @@ const rootReducer = combineReducers({
 
 const Store = createStore(
   rootReducer,
-  compose(
-    middleware,
-    devTools({
-      name: Platform.OS,
-      hostname: 'localhost',
-      port: 5678
-    })
-  )
+  composeEnhancers(middleware)
 );
 
 export default Store;

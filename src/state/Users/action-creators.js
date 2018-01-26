@@ -1,6 +1,8 @@
 // @flow
 import { ADD_USERS, UPDATE_USER, SELECTED_USER } from './types';
+import { modifyUserInDb } from '../../utils/firestore-actions';
 import type { Id, User, Users, AddUsersAction, SelectUserAction, UpdateUserAction } from './types';
+import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';
 
 
@@ -21,7 +23,23 @@ export const selectUser: ActionCreator = (userId: Id): SelectUserAction => ({
 });
 
 
+export const editUser: ThunkAction = (user: User) => {
+  return async dispatch => {
+    try {
+      await modifyUserInDb(user);
+      dispatch(modifyUser(user));
+    } catch (error) {
+      console.log('editUser', error);
+    }
+  };
+};
+
+
+
+
 export default {
   addUsers,
+  editUser,
+  modifyUser,
   selectUser
 };

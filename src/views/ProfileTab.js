@@ -53,7 +53,7 @@ class ProfileTab extends Component {
 }
 
 
-const mapState = ({ user }) => ({ user });
+const mapState = ({ auth }) => ({ user: auth.user });
 
 
 const mapDispatch = dispatch => ({

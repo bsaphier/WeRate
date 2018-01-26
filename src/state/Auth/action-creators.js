@@ -2,7 +2,7 @@
 import type { ActionCreator } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
 import type { Err, Login, LoginRequestAction, LogoutRequestAction, LoginRequestFailAction, LoginRequestSuccessAction } from './types';
-import type { User } from '../User/types';
+import type { User } from '../Users/types';
 import { LOGIN_REQUEST, LOGOUT_REQUEST, LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS } from './types';
 import { whoAmI, logoutUser, createAuthUser, signInWithEmailAndPassword } from '../../utils/auth-actions';
 import { getUserFromDb, createUserInDb } from '../../utils/firestore-actions';

@@ -105,8 +105,8 @@ class PlaceScreen extends Component {
 }
 
 
-const mapState = ({ tags, user, users, places, reviews }) => ({
-  isAdmin: user.admin,
+const mapState = ({ tags, auth, users, places, reviews }) => ({
+  isAdmin: auth.user.admin,
   tagsById: tags.byId,
   usersById: users.byId,
   placesById: places.byId,

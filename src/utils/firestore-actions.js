@@ -1,7 +1,7 @@
 // @flow
 import firebase from 'react-native-firebase';
 import type { tagsTypes } from '../state/Tags';
-import type { userTypes } from '../state/User';
+import type { userTypes } from '../state/Users';
 import type { placesTypes } from '../state/Places';
 import type { reviewsTypes } from '../state/Reviews';
 type Tag = tagsTypes.Tag;

@@ -2,7 +2,7 @@
 import type { ActionCreator } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
 import type { Login } from '../Auth/types';
-import type { User } from '../User/types';
+import type { User } from '../Users/types';
 import type { Root, AppRootChangedAction } from './types';
 import { LOGIN_ROOT, ROOT_CHANGED, APP_ROOT } from './types';
 import { checkAuth, signupRequest, signinRequest } from '../Auth/action-creators';
