@@ -1,13 +1,23 @@
 // @flow
-import type { User } from '../User/types';
-
 export const ADD_USERS: 'ADD_USERS' = 'ADD_USERS';
+export const UPDATE_USER: 'UPDATE_USER' = 'UPDATE_USER';
 export const SELECTED_USER: 'SELECTED_USER' = 'SELECTED_USER';
 
 
 export type Id = string;
 export type AllIds = Array<Id>;
 
+export type User = {
+  id: string,
+  admin: boolean,
+  firstName: string,
+  lastName: string,
+  email: string,
+  business: string,
+  phone: string,
+  website: string,
+  reviewIds: Array<any>,
+};
 
 export type Users = Array<User>;
 export type UsersById = { [id: Id]: User };
@@ -21,10 +31,11 @@ export type usersState = {|
 
 
 export type AddUsersAction = {| +type: typeof ADD_USERS, payload: Users |};
+export type UpdateUserAction = {| +type: typeof UPDATE_USER, payload: User |};
 export type SelectUserAction = {| +type: typeof SELECTED_USER, payload: Id |};
 
 
 export type Action = 
   | empty
   | AddUsersAction
-  | SelectUserAction;
+  | UpdateUserAction;

@@ -2,7 +2,7 @@
 import { editUser } from '../User/action-creators';
 import { editPlace } from '../Places/action-creators';
 import { ADD_REVIEW, ADD_REVIEWS, EDIT_REVIEW, REMOVE_REVIEW } from './types';
-import { createReviewInDb, modifyPlaceInDb, modifyUserInDb, modifyReviewInDb, deleteReviewFromDb } from '../../utils/firestore-actions';
+import { createReviewInDb, modifyReviewInDb, deleteReviewFromDb } from '../../utils/firestore-actions';
 import type { Review, Reviews, AddReviewAction, AddReviewsAction, EditReviewAction, RemoveReviewAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';

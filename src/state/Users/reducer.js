@@ -1,11 +1,11 @@
 // @flow
 import { combineReducers } from 'redux';
-import { ADD_USERS, SELECTED_USER } from './types';
+import { ADD_USERS, SELECTED_USER, UPDATE_USER } from './types';
 import { ADD_REVIEW, REMOVE_REVIEW } from '../Reviews/types';
 import type { Reducer } from 'redux';
 import type { User } from '../User/types';
 import type { AddReviewAction, RemoveReviewAction } from '../Reviews/types';
-import type { Id, AllIds, UsersById, AddUsersAction, SelectUserAction } from './types';
+import type { Id, AllIds, Action, UsersById, UpdateUserAction, AddUsersAction, SelectUserAction } from './types';
 
 
 
@@ -15,6 +15,18 @@ function addUsers(state: UsersById, action: AddUsersAction): UsersById {
     nextState[user.id] = user;
   });
   return nextState;
+}
+
+function editUser(state: UsersById, action: UpdateUserAction): UsersById {
+  const { id } = action.payload;
+  const currentUserState = state[id];
+  return {
+    ...state,
+    [id]: {
+      ...currentUserState,
+      ...action.payload
+    }
+  };
 }
 
 
@@ -46,10 +58,12 @@ function removeReview(state: UsersById, action: RemoveReviewAction): UsersById {
 }
 
 
-function usersById(state: UsersById = {}, action: AddUsersAction | RemoveReviewAction | AddReviewAction): UsersById {
+function usersById(state: UsersById = {}, action: Action): UsersById {
   switch(action.type) {
     case ADD_USERS:
       return addUsers(state, action);
+    case UPDATE_USER:
+      return editUser(state, action);
     case ADD_REVIEW:
       return addReview(state, action);
     case REMOVE_REVIEW:

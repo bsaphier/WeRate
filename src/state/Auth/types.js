@@ -18,6 +18,7 @@ export type Login = {|
 
 
 export type authState = {|
+  user: User,
   isLoggedIn: boolean,
   hasError: boolean,
   isLoading: boolean,

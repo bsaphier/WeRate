@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import AppReducer from './App';
 import TagsReducer from './Tags';
-import UserReducer from './User';
+// import UserReducer from './User';
 import AuthReducer from './Auth';
 import UsersReducer from './Users';
 import FetchReducer from './Loader';
@@ -23,7 +23,7 @@ const rootReducer = combineReducers({
   form: formReducer,
   root: AppReducer,
   tags: TagsReducer,
-  user: UserReducer,
+  // user: UserReducer,
   auth: AuthReducer,
   users: UsersReducer,
   fetch: FetchReducer,
