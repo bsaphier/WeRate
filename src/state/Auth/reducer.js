@@ -41,7 +41,7 @@ export default function(state: authState = initialState, action: Action): authSt
         hasError: true,
         isLoading: false,
         err: action.payload,
-        user: { ...state.user }
+        user: { ...initialState.user }
       };
 
     case LOGIN_REQUEST_SUCCESS:

@@ -29,3 +29,4 @@ U.I.
 
 
 ** Create a reducer that would replace the props passed in the navigator actions
+** Auth-guard -- Navigation

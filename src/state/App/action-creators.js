@@ -5,7 +5,7 @@ import type { Login } from '../Auth/types';
 import type { User } from '../Users/types';
 import type { Root, AppRootChangedAction } from './types';
 import { LOGIN_ROOT, ROOT_CHANGED, APP_ROOT } from './types';
-import { checkAuth, signupRequest, signinRequest } from '../Auth/action-creators';
+import { checkAuth, signupRequest, signinRequest, loginRequest } from '../Auth/action-creators';
 import { fetchInitialData } from '../Loader/action-creators';
 
 
@@ -27,7 +27,14 @@ export const login: ThunkAction = _LoginOrSignupGenerator(signinRequest);
 
 export const signup: ThunkAction = _LoginOrSignupGenerator(signupRequest);
 
-export const checkIfLoggedIn: ThunkAction = _LoginOrSignupGenerator(checkAuth);
+export const checkIfLoggedIn: ThunkAction = () => async dispatch => {
+  dispatch(loginRequest());
+  const signedIn = await dispatch(checkAuth());
+  if (signedIn) {
+    dispatch(fetchInitialData());
+    dispatch(changeAppRoot(APP_ROOT));
+  }
+};
 
 
 function _LoginOrSignupGenerator(action: ActionCreator) {
