@@ -5,7 +5,7 @@ import type { Login } from '../Auth/types';
 import type { User } from '../Users/types';
 import type { Root, AppRootChangedAction } from './types';
 import { LOGIN_ROOT, ROOT_CHANGED, APP_ROOT } from './types';
-import { checkAuth, signupRequest, signinRequest, loginRequest } from '../Auth/action-creators';
+import { checkAuth, signupRequest, signinRequest, loginRequest, loginFail } from '../Auth/action-creators';
 import { fetchInitialData } from '../Loader/action-creators';
 
 
@@ -33,6 +33,8 @@ export const checkIfLoggedIn: ThunkAction = () => async dispatch => {
   if (signedIn) {
     dispatch(fetchInitialData());
     dispatch(changeAppRoot(APP_ROOT));
+  } else {
+    dispatch(loginFail());
   }
 };
 

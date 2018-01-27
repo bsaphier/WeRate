@@ -45,13 +45,13 @@ class Login extends Component<loginProps, loginState> {
           <SignupForm
               err={this.props.err}
               onSubmit={this.props.signup}
-              isLoading={this.props.isLoading}
+              isLoading={this.props.isLoading || this.props.isFetching}
           />
         ) : (
           <LoginForm
               err={this.props.err}
               onSubmit={this.props.login}
-              isLoading={this.props.isLoading}
+              isLoading={this.props.isLoading || this.props.isFetching}
           />
         )}
       </View>
@@ -60,9 +60,10 @@ class Login extends Component<loginProps, loginState> {
 }
 
 
-const mapState = ({ auth }) => ({
+const mapState = ({ auth, fetch }) => ({
   err: auth.err,
-  isLoading: auth.isLoading
+  isLoading: auth.isLoading,
+  isFetching: fetch.isFetching
 });
 
 const mapDispatch = dispatch => ({
@@ -90,7 +91,8 @@ type loginProps = {
   signup: any,
   navigator: any,
   checkIfLoggedIn: any,
-  isLoading: boolean
+  isLoading: boolean,
+  isFetching: boolean
 };
 
 type loginState = {

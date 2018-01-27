@@ -10,6 +10,7 @@ const UserCard = ({ icon, admin, email, phone, website, business, firstName, las
   <View style={styles.container}>
     <View style={styles.headerContainer}>
       <Image style={styles.icon} source={iconsMap[icon]} />
+      {/* TODO: make the name clickeable to open the user's profile */}
       <Text style={styles.headerTitle}>{`${firstName} ${lastName}`}</Text>
     </View>
 

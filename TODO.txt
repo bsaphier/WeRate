@@ -3,6 +3,7 @@ Features
 √   • edit
 √   • can edit their own review
     • click on info to open up apps like phone, browser, etc.
+    • Profile picture
 
 • list of all users
     • message/email a user (open up messages/email app)
@@ -15,6 +16,7 @@ Features
 √   • order by review avg. or alphabetically (default)
 √   • add createdBy to Place in db
 √   • when new place is created send an email to the admin with detail about the place
+    • upload a logo
 
 • admin
     • only one admin per "group"
@@ -30,3 +32,6 @@ U.I.
 
 ** Create a reducer that would replace the props passed in the navigator actions
 ** Auth-guard -- Navigation
+
+
+** Register as a new user notifies admin for approval. The user is not verified until approved.
