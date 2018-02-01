@@ -19,6 +19,7 @@ const Tags = Store.collection('tags');
 const Users = Store.collection('users');
 const Places = Store.collection('places');
 const Reviews = Store.collection('reviews');
+const PendingUsers = Store.collection('__users');
 
 
 
@@ -134,11 +135,13 @@ export const createReviewInDb = async (review: Review) => {
 };
 
 
+// ********* PENDING-USERS
 
-// ********* QUERIES
+export const deletePendingUserFromDb = async (id: string) => PendingUsers.doc(id).delete();
 
-// export const getAdminUser = async () => {
-//   const query = Users.where('admin', '==', true);
-//   const querySnapshot = await query.get();
-//   return handleCollectionSnapshot(querySnapshot)[0];
-// };
+export const getPendingUserFromDb = async (id: string) => insertId(await PendingUsers.doc(id).get());
+
+export const createPendingUserInDb = async (user: any) => {
+  const docRef = await PendingUsers.add(user);
+  return insertId(await docRef.get());
+};
