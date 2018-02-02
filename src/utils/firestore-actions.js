@@ -143,5 +143,7 @@ export const getPendingUserFromDb = async (id: string) => insertId(await Pending
 
 export const createPendingUserInDb = async (user: any) => {
   const docRef = await PendingUsers.add(user);
-  return insertId(await docRef.get());
+  const userWithId = insertId(await docRef.get());
+  await PendingUsers.doc(userWithId.id).update(userWithId);
+  return userWithId;
 };

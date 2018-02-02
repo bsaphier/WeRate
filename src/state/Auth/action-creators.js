@@ -5,7 +5,7 @@ import type { Err, Login, LoginRequestAction, LogoutRequestAction, LoginRequestF
 import type { User } from '../Users/types';
 import { LOGIN_REQUEST, LOGOUT_REQUEST, LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS } from './types';
 import { whoAmI, logoutUser, createAuthUser, signInWithEmailAndPassword } from '../../utils/auth-actions';
-import { getUserFromDb, createUserInDb } from '../../utils/firestore-actions';
+import { getUserFromDb, createUserInDb, createPendingUserInDb } from '../../utils/firestore-actions';
 import { LOGIN_ROOT } from '../App/types';
 import { changeAppRoot } from '../App/action-creators';
 
@@ -60,21 +60,22 @@ export const signinRequest: ThunkAction = (login: Login) => {
 
 export const signupRequest: ThunkAction = (signupUser: Login & User) => {
   return async dispatch => {
-    dispatch(loginRequest());
+    // dispatch(loginRequest());
     try {
       const { email, password, confirmPassword, firstName, lastName, business, phone, website } = signupUser;
       if (password != confirmPassword) {
         throw `'Password' must match 'Confirm Password'`;
       }
       const user = { email, password, firstName, lastName, business, phone, website };
-      const newAuthUser = await createAuthUser(user);
-      const newUser = await createUserInDb({ ...user, uid: newAuthUser.uid });
-      dispatch(loginSuccess(newUser));
+      const newPendinguser = await createPendingUserInDb(user);
+      // const newAuthUser = await createAuthUser(user);
+      // const newUser = await createUserInDb({ ...user, uid: newAuthUser.uid });
+      dispatch(loginFail(`${newPendinguser.firstName}`));
     } catch (error) {
-      dispatch(loginFail(`${error}`));
-      return false;
+      // TODO: handle error...
+      // dispatch(loginFail(`${error}`));
     }
-    return true;
+    return false;
   };
 };
 
