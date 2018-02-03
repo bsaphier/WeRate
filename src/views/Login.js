@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import { LoginForm, SignupForm } from './components';
-import { login, signup, checkIfLoggedIn } from '../state/App/action-creators';
+import { login, checkIfLoggedIn } from '../state/App/action-creators';
+import { signupRequest } from '../state/Auth/action-creators';
 
 
 
@@ -41,7 +42,7 @@ class Login extends Component<loginProps, loginState> {
   render() {
     return (
       <View style={styles.container}>
-        { this.state.signup ? (
+        {this.state.signup ? (
           <SignupForm
               err={this.props.err}
               onSubmit={this.props.signup}
@@ -68,7 +69,7 @@ const mapState = ({ auth, fetch }) => ({
 
 const mapDispatch = dispatch => ({
   checkIfLoggedIn: () => dispatch(checkIfLoggedIn()),
-  signup: (newUser) => dispatch(signup(newUser)),
+  signup: (newUser) => dispatch(signupRequest(newUser)),
   login: ({ email, password }) => dispatch(login({ email, password }))
 });
 
@@ -90,6 +91,7 @@ type loginProps = {
   login: any,
   signup: any,
   navigator: any,
+  confirmSignup: any,
   checkIfLoggedIn: any,
   isLoading: boolean,
   isFetching: boolean

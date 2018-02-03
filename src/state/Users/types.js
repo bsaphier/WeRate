@@ -13,6 +13,7 @@ export type User = {
   firstName: string,
   lastName: string,
   email: string,
+  confirmEmail?: string,
   business: string,
   phone: string,
   website: string,

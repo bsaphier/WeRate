@@ -25,8 +25,10 @@ const PendingUsers = Store.collection('__users');
 
 // TODO: extract to a utils/helpers file
 function insertId(documentRef): Data {
-  const { id } = documentRef;
-  return { id, ...documentRef.data() };
+  if (documentRef.exists) {
+    const { id } = documentRef;
+    return { id, ...documentRef.data() };
+  } return false;
 }
 
 function handleCollectionSnapshot(querySnapshot): Array<Data> {
@@ -78,6 +80,7 @@ export const createUserInDb = async ({ uid, ...user }: any) => {
   const { email, firstName, lastName, business, phone, website } = user;
   await Users.doc(uid).set({
     reviewIds: [],
+    approved: true,
     admin: false,
     id: uid,
     firstName,
@@ -87,7 +90,7 @@ export const createUserInDb = async ({ uid, ...user }: any) => {
     email,
     phone
   });
-  return getUserFromDb(uid);
+  return await getUserFromDb(uid);
 };
 
   
@@ -141,7 +144,8 @@ export const deletePendingUserFromDb = async (id: string) => PendingUsers.doc(id
 
 export const getPendingUserFromDb = async (id: string) => insertId(await PendingUsers.doc(id).get());
 
-export const createPendingUserInDb = async (user: any) => {
+export const createPendingUserInDb = async (userCreds: any) => {
+  const user = { approved: false, ...userCreds };
   const docRef = await PendingUsers.add(user);
   const userWithId = insertId(await docRef.get());
   await PendingUsers.doc(userWithId.id).update(userWithId);

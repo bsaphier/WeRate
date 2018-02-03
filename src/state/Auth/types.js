@@ -1,6 +1,7 @@
 // @flow
 import type { User } from '../Users/types';
 
+export const LOGIN_PENDING: 'LOGIN_PENDING' = 'LOGIN_PENDING';
 export const LOGIN_REQUEST: 'LOGIN_REQUEST' = 'LOGIN_REQUEST';
 export const LOGOUT_REQUEST: 'LOGOUT_REQUEST' = 'LOGOUT_REQUEST';
 export const LOGIN_REQUEST_FAIL: 'LOGIN_REQUEST_FAIL' = 'LOGIN_REQUEST_FAIL';
@@ -27,6 +28,7 @@ export type authState = {|
 
 
 export type LoginRequestAction = {| +type: typeof LOGIN_REQUEST |};
+export type LoginPendingAction = {| +type: typeof LOGIN_PENDING |};
 export type LogoutRequestAction = {| +type: typeof LOGOUT_REQUEST |};
 export type LoginRequestFailAction = {| +type: typeof LOGIN_REQUEST_FAIL, payload: Err |};
 export type LoginRequestSuccessAction = {| +type: typeof LOGIN_REQUEST_SUCCESS, payload: User |};
@@ -35,6 +37,7 @@ export type LoginRequestSuccessAction = {| +type: typeof LOGIN_REQUEST_SUCCESS, 
 export type Action =
   | empty
   | LoginRequestAction
+  | LoginPendingAction
   | LogoutRequestAction
   | LoginRequestFailAction
   | LoginRequestSuccessAction;

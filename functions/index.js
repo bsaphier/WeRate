@@ -51,12 +51,50 @@ exports.handleNewPlace = functions.firestore.document('places/{placeId}').onCrea
 });
 
 exports.approveUser = functions.https.onRequest((req, res) => {
-  console.log('req.params[0]', req.params[0], req.params[0].slice(1));
-  res.end();
+  const store = admin.firestore();
+  store.collection('__users').doc(req.params[0].slice(1)).get().then(doc => {
+    const user = doc.data(); // The Firebase user.
+    const { email, firstName, lastName, business, phone, website } = user;
+    const emailData = {
+      from: `WeRate <mailgun@${DOMAIN}>`,
+      to: email,
+      subject: 'WeRate - A new business has been added',
+      text: `Hello ${user.firstName}, You have been approved and can now log in to WeRate.`
+    };
+    mailgun.messages().send(emailData, function (error, body) {
+      if (!error) {
+        console.log('Email sent to: ', email, body);
+        admin.auth().createUser({
+          email,
+          emailVerified: true,
+          password: user.password
+        }).then(userRecord => {
+          store.collection('users').doc(userRecord.uid).set({
+            reviewIds: [],
+            approved: true,
+            admin: false,
+            id: userRecord.uid,
+            firstName,
+            lastName,
+            business,
+            website,
+            email,
+            phone
+          }).then(user => {
+            console.log('NEW**USER', user);
+            res.end();
+          });
+        });
+      } else {
+        console.log('Error sending email: ', error);
+      }
+    });
+  });
 });
 
 exports.handleSignUpRequest = functions.firestore.document('__users/{__userId}').onCreate(event => {
   const pendingUser = event.data.data();
+  const actionLink = `https://us-central1-werate-68084.cloudfunctions.net/approveUser/${event.params.__userId}`;
   const store = admin.firestore();
   const sendEmail = new Promise((resolve, reject) => {
     store.collection('users').where('admin', '==', true).get().then(querySnapshot => {
@@ -194,7 +232,7 @@ exports.handleSignUpRequest = functions.firestore.document('__users/{__userId}')
                                             <tbody>
                                               <tr>
                                                 <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; border-radius: 5px; text-align: center; background-color: #3498db;" valign="top" align="center" bgcolor="#3498db">
-                                                  <a href="https://us-central1-werate-68084.cloudfunctions.net/approveUser/${event.params.__userId}" target="_blank" style="border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none; text-transform: capitalize; background-color: #3498db; border-color: #3498db; color: #ffffff;">Approve ${pendingUser.firstName}</a>
+                                                  <a href="${actionLink}" target="_blank" style="border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none; text-transform: capitalize; background-color: #3498db; border-color: #3498db; color: #ffffff;">Approve ${pendingUser.firstName}</a>
                                                 </td>
                                               </tr>
                                             </tbody>

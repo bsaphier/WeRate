@@ -1,11 +1,11 @@
 // @flow
 import type { ActionCreator } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
-import type { Err, Login, LoginRequestAction, LogoutRequestAction, LoginRequestFailAction, LoginRequestSuccessAction } from './types';
+import type { Err, Login, LoginRequestAction, LoginPendingAction, LogoutRequestAction, LoginRequestFailAction, LoginRequestSuccessAction } from './types';
 import type { User } from '../Users/types';
-import { LOGIN_REQUEST, LOGOUT_REQUEST, LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS } from './types';
-import { whoAmI, logoutUser, createAuthUser, signInWithEmailAndPassword } from '../../utils/auth-actions';
-import { getUserFromDb, createUserInDb, createPendingUserInDb } from '../../utils/firestore-actions';
+import { LOGIN_REQUEST, LOGOUT_REQUEST, LOGIN_PENDING, LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS } from './types';
+import { whoAmI, logoutUser, signInWithEmailAndPassword } from '../../utils/auth-actions';
+import { getUserFromDb, createPendingUserInDb } from '../../utils/firestore-actions';
 import { LOGIN_ROOT } from '../App/types';
 import { changeAppRoot } from '../App/action-creators';
 
@@ -13,6 +13,10 @@ import { changeAppRoot } from '../App/action-creators';
 
 export const loginRequest: ActionCreator = (): LoginRequestAction => ({
   type: LOGIN_REQUEST
+});
+
+export const loginPending: ActionCreator = (): LoginPendingAction => ({
+  type: LOGIN_PENDING
 });
 
 export const logoutRequest: ActionCreator = (): LogoutRequestAction => ({
@@ -35,7 +39,11 @@ export const setUser: ThunkAction = (authUser) => {
   return async dispatch => {
     try {
       const userFromDb = await getUserFromDb(authUser.uid);
-      dispatch(loginSuccess(userFromDb));
+      if (userFromDb) {
+        dispatch(loginSuccess(userFromDb));
+      } else {
+        dispatch(loginPending());
+      }
     } catch (error) {
       dispatch(loginFail(`${error}`));
     }
@@ -60,24 +68,39 @@ export const signinRequest: ThunkAction = (login: Login) => {
 
 export const signupRequest: ThunkAction = (signupUser: Login & User) => {
   return async dispatch => {
-    // dispatch(loginRequest());
+    let newPendinguser = {};
+    const { email, confirmEmail, password, confirmPassword, firstName, lastName, business, phone, website } = signupUser;
+    const user = { email, password, firstName, lastName, business, phone, website };
+    dispatch(loginRequest());
     try {
-      const { email, password, confirmPassword, firstName, lastName, business, phone, website } = signupUser;
-      if (password != confirmPassword) {
-        throw `'Password' must match 'Confirm Password'`;
-      }
-      const user = { email, password, firstName, lastName, business, phone, website };
-      const newPendinguser = await createPendingUserInDb(user);
-      // const newAuthUser = await createAuthUser(user);
-      // const newUser = await createUserInDb({ ...user, uid: newAuthUser.uid });
-      dispatch(loginFail(`${newPendinguser.firstName}`));
+      if (email != confirmEmail) throw `'Email' must match 'Confirm Email'`;
+      if (password != confirmPassword) throw `'Password' must match 'Confirm Password'`;
+      newPendinguser = await createPendingUserInDb(user);
+      dispatch(loginPending());
     } catch (error) {
-      // TODO: handle error...
-      // dispatch(loginFail(`${error}`));
+      dispatch(loginFail(`${error}`));
     }
-    return false;
+    return newPendinguser;
   };
 };
+
+// export const signupConfirm: ThunkAction = (signupUser: Login & User) => {
+//   return async dispatch => {
+//     const { email, password, confirmPassword, firstName, lastName, business, phone, website } = signupUser;
+//     const user = { email, firstName, lastName, business, phone, website };
+//     dispatch(loginRequest());
+//     try {
+//       if (password != confirmPassword) {
+//         throw `'Password' must match 'Confirm Password'`;
+//       }
+//       const newAuthUser = await createAuthUser(user);
+//       const newUser = await createUserInDb({ ...user, uid: newAuthUser.uid });
+//       dispatch(loginSuccess(newUser));
+//     } catch (error) {
+//       dispatch(loginFail(`${error}`));
+//     }
+//   };
+// };
 
 
 export const logout: ThunkAction = () => {
@@ -110,5 +133,6 @@ export default {
   loginSuccess,
   loginRequest,
   signupRequest,
-  signinRequest
+  signinRequest,
+  // signupConfirm
 };

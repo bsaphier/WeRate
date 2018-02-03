@@ -24,6 +24,12 @@ const SignupForm = ({ err, values, isLoading, handleSubmit }) => (
         placeholder="you@domain.com"
     />
     <FormField
+        name="confirmEmail"
+        label="Confirm Email"
+        autoCorrect={false}
+        placeholder="you@domain.com"
+    />
+    <FormField
         name="website"
         label="Website"
         placeholder="www.myWebsite.com"

@@ -5,7 +5,7 @@ import type { Login } from '../Auth/types';
 import type { User } from '../Users/types';
 import type { Root, AppRootChangedAction } from './types';
 import { LOGIN_ROOT, ROOT_CHANGED, APP_ROOT } from './types';
-import { checkAuth, signupRequest, signinRequest, loginRequest, loginFail } from '../Auth/action-creators';
+import { checkAuth, signinRequest, loginRequest, loginFail } from '../Auth/action-creators';
 import { fetchInitialData } from '../Loader/action-creators';
 
 
@@ -23,9 +23,20 @@ export const appInitialized: ThunkAction = () => {
   };
 };
 
-export const login: ThunkAction = _LoginOrSignupGenerator(signinRequest);
+export const login: ThunkAction = (userCred: Login | User) => async dispatch => {
+  // login/signup logic would go here, and when it's done, we switch app roots
+  const authActionResponse = await dispatch(signinRequest(userCred));
+  if (authActionResponse) {
+    /** fetchInitialData will set the Loader reducer state */
+    await dispatch(fetchInitialData()); // don't wait for this in the future -> a loading screen should display at the app root
+    dispatch(changeAppRoot(APP_ROOT));
+  }
+  return authActionResponse;
+};
 
-export const signup: ThunkAction = _LoginOrSignupGenerator(signupRequest);
+// export const signup: ThunkAction = (signupUser: User) => async dispatch => {
+//   await dispatch(signupRequest(userCred));
+// };
 
 export const checkIfLoggedIn: ThunkAction = () => async dispatch => {
   dispatch(loginRequest());
@@ -39,23 +50,23 @@ export const checkIfLoggedIn: ThunkAction = () => async dispatch => {
 };
 
 
-function _LoginOrSignupGenerator(action: ActionCreator) {
-  return (userCred: Login | User | empty) => async dispatch => {
-    // login/signup logic would go here, and when it's done, we switch app roots
-    const authActionResponse = await dispatch(action(userCred));
-    if (authActionResponse) {
-      /** fetchInitialData will set the Loader reducer state */
-      await dispatch(fetchInitialData()); // don't wait for this in the future -> a loading screen should display at the app root
-      dispatch(changeAppRoot(APP_ROOT));
-    }
-    return authActionResponse;
-  };
-}
+// function _LoginOrSignupGenerator(action: ActionCreator) {
+//   return (userCred: Login | User | empty) => async dispatch => {
+//     // login/signup logic would go here, and when it's done, we switch app roots
+//     const authActionResponse = await dispatch(signinRequest(userCred));
+//     if (authActionResponse) {
+//       /** fetchInitialData will set the Loader reducer state */
+//       await dispatch(fetchInitialData()); // don't wait for this in the future -> a loading screen should display at the app root
+//       dispatch(changeAppRoot(APP_ROOT));
+//     }
+//     return authActionResponse;
+//   };
+// }
 
 
 export default {
   login,
-  signup,
+  // signup,
   changeAppRoot,
   appInitialized,
   checkIfLoggedIn
