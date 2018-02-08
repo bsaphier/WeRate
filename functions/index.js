@@ -1,5 +1,88 @@
 'use strict';
 
+let generateEmail = (() => {
+  var _ref = _asyncToGenerator(function* (pendingUser, actionLink) {
+    try {
+      const emailData = yield constructEmail(pendingUser, actionLink);
+      return yield sendEmail(emailData);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  return function generateEmail(_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+})();
+
+let sendEmail = (() => {
+  var _ref2 = _asyncToGenerator(function* (emailData) {
+    try {
+      const data = yield mailgun.messages().send(emailData);
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.log('Error sending email: ', error);
+      return;
+    }
+  });
+
+  return function sendEmail(_x3) {
+    return _ref2.apply(this, arguments);
+  };
+})();
+
+let constructEmail = (() => {
+  var _ref3 = _asyncToGenerator(function* (pendingUser, actionLink) {
+    const adminUser = yield getAdmin();
+    const emailData = {
+      from: `WeRate <mailgun@${DOMAIN}>`,
+      to: adminUser.email,
+      subject: `WeRate - %recipient.puFirstName% %recipient.puLastName% wants to join your group!`,
+      html: _email.email,
+      'recipient-variables': {
+        [adminUser.email]: {
+          actionLink,
+          first: adminUser.firstName,
+          last: adminUser.lastName,
+          puFirstName: pendingUser.firstName,
+          puLastName: pendingUser.lastName,
+          puEmail: pendingUser.email,
+          puBusiness: pendingUser.business,
+          puWebsite: pendingUser.website,
+          puPhone: pendingUser.phone
+        }
+      }
+    };
+    return emailData;
+  });
+
+  return function constructEmail(_x4, _x5) {
+    return _ref3.apply(this, arguments);
+  };
+})();
+
+let getAdmin = (() => {
+  var _ref4 = _asyncToGenerator(function* () {
+    let adminUser;
+    try {
+      const store = admin.firestore();
+      const querySnapshot = yield store.collection('users').where('admin', '==', true).get();
+      querySnapshot.forEach(function (doc) {
+        if (doc.exists) adminUser = doc.data();
+      });
+      return adminUser;
+    } catch (error) {
+      console.log('Error getting admin from database: ', error);
+      return;
+    }
+  });
+
+  return function getAdmin() {
+    return _ref4.apply(this, arguments);
+  };
+})();
+
 var _firebaseFunctions = require('firebase-functions');
 
 var functions = _interopRequireWildcard(_firebaseFunctions);
@@ -12,13 +95,17 @@ var _mailgunJs = require('mailgun-js');
 
 var _mailgunJs2 = _interopRequireDefault(_mailgunJs);
 
+var _email = require('./email');
+
 var _keys = require('./keys');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-/* global exports,console*/
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } /* global exports,console*/
+
+
 const DOMAIN = 'sandboxb1a1755b98884a1ba829ea395300f4f6.mailgun.org';
 const mailgun = (0, _mailgunJs2.default)({ apiKey: _keys.MAILGUN_API_KEY, domain: DOMAIN });
 
@@ -95,206 +182,5 @@ exports.approveUser = functions.https.onRequest((req, res) => {
 exports.handleSignUpRequest = functions.firestore.document('__users/{__userId}').onCreate(event => {
   const pendingUser = event.data.data();
   const actionLink = `https://us-central1-werate-68084.cloudfunctions.net/approveUser/${event.params.__userId}`;
-  const store = admin.firestore();
-  const sendEmail = new Promise((resolve, reject) => {
-    store.collection('users').where('admin', '==', true).get().then(querySnapshot => {
-      let adminUser = {};
-      querySnapshot.forEach(doc => {
-        if (doc.exists) adminUser = doc.data();
-      });
-      const emailData = {
-        from: `WeRate <mailgun@${DOMAIN}>`,
-        to: adminUser.email,
-        subject: `WeRate - ${pendingUser.firstName} ${pendingUser.lastName} wants to join your group!`,
-        html:
-        /** EMAIL */
-        `
-          <!doctype html>
-          <html>
-            <head>
-              <meta name="viewport" content="width=device-width">
-              <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-              <title>Simple Transactional Email</title>
-              <style>
-          @media only screen and (max-width: 620px) {
-            table[class=body] h1 {
-              font-size: 28px !important;
-              margin-bottom: 10px !important;
-            }
-
-            table[class=body] p,
-          table[class=body] ul,
-          table[class=body] ol,
-          table[class=body] td,
-          table[class=body] span,
-          table[class=body] a {
-              font-size: 16px !important;
-            }
-
-            table[class=body] .wrapper,
-          table[class=body] .article {
-              padding: 10px !important;
-            }
-
-            table[class=body] .content {
-              padding: 0 !important;
-            }
-
-            table[class=body] .container {
-              padding: 0 !important;
-              width: 100% !important;
-            }
-
-            table[class=body] .main {
-              border-left-width: 0 !important;
-              border-radius: 0 !important;
-              border-right-width: 0 !important;
-            }
-
-            table[class=body] .btn table {
-              width: 100% !important;
-            }
-
-            table[class=body] .btn a {
-              width: 100% !important;
-            }
-
-            table[class=body] .img-responsive {
-              height: auto !important;
-              max-width: 100% !important;
-              width: auto !important;
-            }
-          }
-          @media all {
-            .ExternalClass {
-              width: 100%;
-            }
-
-            .ExternalClass,
-          .ExternalClass p,
-          .ExternalClass span,
-          .ExternalClass font,
-          .ExternalClass td,
-          .ExternalClass div {
-              line-height: 100%;
-            }
-
-            .apple-link a {
-              color: inherit !important;
-              font-family: inherit !important;
-              font-size: inherit !important;
-              font-weight: inherit !important;
-              line-height: inherit !important;
-              text-decoration: none !important;
-            }
-
-            .btn-primary table td:hover {
-              background-color: #34495e !important;
-            }
-
-            .btn-primary a:hover {
-              background-color: #34495e !important;
-              border-color: #34495e !important;
-            }
-          }
-          </style>
-            </head>
-            <body class="" style="background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
-              <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f6f6f6; width: 100%;" width="100%" bgcolor="#f6f6f6">
-                <tr>
-                  <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;" valign="top">&nbsp;</td>
-                  <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; max-width: 580px; padding: 10px; width: 580px; Margin: 0 auto;" width="580" valign="top">
-                    <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
-
-                      <!-- START CENTERED WHITE CONTAINER -->
-                      <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">This is preheader text. Some clients will show this text as a preview.</span>
-                      <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background: #ffffff; border-radius: 3px; width: 100%;" width="100%">
-
-                        <!-- START MAIN CONTENT AREA -->
-                        <tr>
-                          <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;" valign="top">
-                            <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
-                              <tr>
-                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;" valign="top">
-                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Hi ${adminUser.firstName},</p>
-                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">A new user would like to join your group on WeRate. If all of the following info looks good, click the button below to approve this user.</p>
-                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">First Name: ${pendingUser.firstName}</p>
-                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Last Name: ${pendingUser.lastName}</p>
-                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Email: ${pendingUser.email}</p>
-                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Business: ${pendingUser.business}</p>
-                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Website: ${pendingUser.website}</p>
-                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Phone: ${pendingUser.phone}</p>
-                                  <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; box-sizing: border-box; width: 100%;" width="100%">
-                                    <tbody>
-                                      <tr>
-                                        <td align="left" style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding-bottom: 15px;" valign="top">
-                                          <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
-                                            <tbody>
-                                              <tr>
-                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; border-radius: 5px; text-align: center; background-color: #3498db;" valign="top" align="center" bgcolor="#3498db">
-                                                  <a href="${actionLink}" target="_blank" style="border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none; text-transform: capitalize; background-color: #3498db; border-color: #3498db; color: #ffffff;">Approve ${pendingUser.firstName}</a>
-                                                </td>
-                                              </tr>
-                                            </tbody>
-                                          </table>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </td>
-                              </tr>
-                            </table>
-                          </td>
-                        </tr>
-
-                      <!-- END MAIN CONTENT AREA -->
-                      </table>
-
-                      <!-- START FOOTER -->
-                      <div class="footer" style="clear: both; Margin-top: 10px; text-align: center; width: 100%;">
-                        <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
-                          <tr>
-                            <td class="content-block" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; color: #999999; font-size: 12px; text-align: center;" valign="top" align="center">
-                              <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 1 Main Street, New York NY 10023</span>
-                              <br> Don't like these emails? <a href="" style="text-decoration: underline; color: #999999; font-size: 12px; text-align: center;">Unsubscribe</a>.
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="content-block powered-by" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; color: #999999; font-size: 12px; text-align: center;" valign="top" align="center">
-                              Powered by <a href="" style="color: #999999; font-size: 12px; text-align: center; text-decoration: none;">WeRate</a>.
-                            </td>
-                          </tr>
-                        </table>
-                      </div>
-                      <!-- END FOOTER -->
-
-                    <!-- END CENTERED WHITE CONTAINER -->
-                    </div>
-                  </td>
-                  <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;" valign="top">&nbsp;</td>
-                </tr>
-              </table>
-            </body>
-          </html>
-          `
-        /** */
-      };
-      mailgun.messages().send(emailData, function (error, body) {
-        if (!error) {
-          resolve(body);
-        } else {
-          reject(error);
-        }
-      });
-    }).catch(error => {
-      console.log('Error getting firestore documents: ', error);
-    });
-  });
-  try {
-    sendEmail().then(successBody => {
-      console.log(successBody);
-    });
-  } catch (error) {
-    console.log('Error sending email: ', error);
-  }
+  return generateEmail(pendingUser, actionLink).then(data => console.log(data)).catch(err => console.log(err));
 });
