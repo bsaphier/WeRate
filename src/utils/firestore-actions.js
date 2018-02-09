@@ -19,7 +19,7 @@ const Tags = Store.collection('tags');
 const Users = Store.collection('users');
 const Places = Store.collection('places');
 const Reviews = Store.collection('reviews');
-const PendingUsers = Store.collection('__users');
+const PendingUsers = Store.collection('__users__');
 
 
 
@@ -28,7 +28,8 @@ function insertId(documentRef): Data {
   if (documentRef.exists) {
     const { id } = documentRef;
     return { id, ...documentRef.data() };
-  } return false;
+  }
+  return false;
 }
 
 function handleCollectionSnapshot(querySnapshot): Array<Data> {
@@ -54,8 +55,14 @@ export const modifyTagInDb = async (tag: Tag) => {
 };
 
 export const createTagInDb = async (tag: Tag) => {
-  const docRef = await Tags.add(tag);
-  return insertId(await docRef.get());
+  try {
+    const docRef = await Tags.add(tag);
+    const tagWithId = insertId(await docRef.get());
+    await Tags.doc(tagWithId.id).update(tagWithId);
+    return tagWithId;
+  } catch (error) {
+    console.log('createTagInDb', error);
+  }
 };
 
 
@@ -76,21 +83,27 @@ export const modifyUserInDb = async (user: User) => {
 
 export const getUserFromDb = async (uid: string) => insertId(await Users.doc(uid).get());
 
-export const createUserInDb = async ({ uid, ...user }: any) => {
+export const createUserInDb = async ({ user }: any) => {
   const { email, firstName, lastName, business, phone, website } = user;
-  await Users.doc(uid).set({
+  const newUser = {
     reviewIds: [],
-    approved: true,
+    approved: false,
     admin: false,
-    id: uid,
     firstName,
     lastName,
     business,
     website,
     email,
     phone
-  });
-  return await getUserFromDb(uid);
+  };
+  try {
+    const docRef = await Users.add(newUser);
+    const userWithId = insertId(await docRef.get());
+    await Users.doc(userWithId.id).update(userWithId);
+    return userWithId;
+  } catch (error) {
+    console.log('createUserInDb', error);
+  }
 };
 
   
@@ -108,10 +121,12 @@ export const modifyPlaceInDb = async (place: Place) => {
   }
 };
 
-export const createPlaceInDb: Place = async (place: Place) => {
+export const createPlaceInDb = async (place: Place) => {
   try {    
     const docRef = await Places.add(place);
-    return insertId(await docRef.get());
+    const placeWithId = insertId(await docRef.get());
+    await Places.doc(placeWithId.id).update(placeWithId);
+    return placeWithId;
   } catch (err) {
     console.log('createPlaceInDb', err);
   }
@@ -133,8 +148,14 @@ export const modifyReviewInDb = async (review: Review) => {
 };
 
 export const createReviewInDb = async (review: Review) => {
-  const docRef = await Reviews.add(review);
-  return insertId(await docRef.get());
+  try {
+    const docRef = await Reviews.add(review);
+    const reviewWithId = insertId(await docRef.get());
+    await Reviews.doc(reviewWithId.id).update(reviewWithId);
+    return reviewWithId;
+  } catch (error) {
+    console.log('createReviewInDb', error);
+  }
 };
 
 

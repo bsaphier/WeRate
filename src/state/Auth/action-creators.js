@@ -77,6 +77,7 @@ export const signupRequest: ThunkAction = (signupUser: Login & User) => {
       if (password != confirmPassword) throw `'Password' must match 'Confirm Password'`;
       newPendinguser = await createPendingUserInDb(user);
       dispatch(loginPending());
+      // TODO: close the form to redirect user
     } catch (error) {
       dispatch(loginFail(`${error}`));
     }
@@ -94,6 +95,7 @@ export const signupRequest: ThunkAction = (signupUser: Login & User) => {
 //         throw `'Password' must match 'Confirm Password'`;
 //       }
 //       const newAuthUser = await createAuthUser(user);
+//       ************
 //       const newUser = await createUserInDb({ ...user, uid: newAuthUser.uid });
 //       dispatch(loginSuccess(newUser));
 //     } catch (error) {

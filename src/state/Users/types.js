@@ -10,6 +10,7 @@ export type AllIds = Array<Id>;
 export type User = {
   id: string,
   admin: boolean,
+  approved?: boolean,
   firstName: string,
   lastName: string,
   email: string,

@@ -3,9 +3,8 @@ import { combineReducers } from 'redux';
 import { ADD_USERS, SELECTED_USER, UPDATE_USER } from './types';
 import { ADD_REVIEW, REMOVE_REVIEW } from '../Reviews/types';
 import type { Reducer } from 'redux';
-import type { User } from '../User/types';
 import type { AddReviewAction, RemoveReviewAction } from '../Reviews/types';
-import type { Id, AllIds, Action, UsersById, UpdateUserAction, AddUsersAction, SelectUserAction } from './types';
+import type { Id, User, AllIds, Action, UsersById, UpdateUserAction, AddUsersAction, SelectUserAction } from './types';
 
 
 
