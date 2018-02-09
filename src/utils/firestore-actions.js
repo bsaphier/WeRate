@@ -1,4 +1,5 @@
 // @flow
+/* global console*/
 import firebase from 'react-native-firebase';
 import type { tagsTypes } from '../state/Tags';
 import type { userTypes } from '../state/Users';
@@ -54,7 +55,7 @@ export const modifyTagInDb = async (tag: Tag) => {
   }
 };
 
-export const createTagInDb = async (tag: Tag) => {
+export const createTagInDb: (Tag) => Promise<Tag> = async (tag: Tag) => {
   try {
     const docRef = await Tags.add(tag);
     const tagWithId = insertId(await docRef.get());
@@ -81,9 +82,9 @@ export const modifyUserInDb = async (user: User) => {
   }
 };
 
-export const getUserFromDb = async (uid: string) => insertId(await Users.doc(uid).get());
+export const getUserFromDb = async (uid: string) => await Users.doc(uid).get();
 
-export const createUserInDb = async ({ user }: any) => {
+export const createUserInDb: (User) => Promise<User> = async ({ user }: User) => {
   const { email, firstName, lastName, business, phone, website } = user;
   const newUser = {
     reviewIds: [],
@@ -121,7 +122,7 @@ export const modifyPlaceInDb = async (place: Place) => {
   }
 };
 
-export const createPlaceInDb = async (place: Place) => {
+export const createPlaceInDb: (Place) => Promise<Place> = async (place: Place) => {
   try {    
     const docRef = await Places.add(place);
     const placeWithId = insertId(await docRef.get());
@@ -147,7 +148,7 @@ export const modifyReviewInDb = async (review: Review) => {
   }
 };
 
-export const createReviewInDb = async (review: Review) => {
+export const createReviewInDb: (Review) => Promise<Review> = async (review: Review) => {
   try {
     const docRef = await Reviews.add(review);
     const reviewWithId = insertId(await docRef.get());
@@ -163,7 +164,7 @@ export const createReviewInDb = async (review: Review) => {
 
 export const deletePendingUserFromDb = async (id: string) => PendingUsers.doc(id).delete();
 
-export const getPendingUserFromDb = async (id: string) => insertId(await PendingUsers.doc(id).get());
+export const getPendingUserFromDb = async (id: string) => await PendingUsers.doc(id).get();
 
 export const createPendingUserInDb = async (userCreds: any) => {
   const user = { approved: false, ...userCreds };

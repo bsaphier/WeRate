@@ -2,8 +2,8 @@
 import type { ActionCreator } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
 import type { Tag } from '../Tags/types';
-import type { filterState, FilterOrder, FilterVisibility, PlacesFilterAction, PlacesFilterTagsAction, PlacesFilterOrderAction, PlacesFilterVisibilityAction } from './types';
-import { SET_PLACE_FILTER, SET_PLACE_FILTER_VIS, SET_PLACE_FILTER_TAGS, SET_PLACE_FILTER_ORDER, FILTER_ALPH_ASCENDING, FILTER_ALPH_DESCENDING, FILTER_RATING_ASCENDING, FILTER_PLACES_SHOW_ALL, FILTER_PLACES_BY_TAGS, FILTER_PLACES_BY_NAME, FILTER_RATING_DESCENDING, PlacesFilterStringAction, SET_PLACE_FILTER_STR } from './types';
+import type { filterState, FilterOrder, FilterVisibility, PlacesFilterAction, PlacesFilterTagsAction, PlacesFilterOrderAction, PlacesFilterStringAction, PlacesFilterVisibilityAction } from './types';
+import { SET_PLACE_FILTER, SET_PLACE_FILTER_VIS, SET_PLACE_FILTER_TAGS, SET_PLACE_FILTER_ORDER, FILTER_ALPH_ASCENDING, FILTER_ALPH_DESCENDING, FILTER_RATING_ASCENDING, FILTER_PLACES_SHOW_ALL, FILTER_PLACES_BY_TAGS, FILTER_PLACES_BY_NAME, FILTER_RATING_DESCENDING, SET_PLACE_FILTER_STR } from './types';
 
 
 

@@ -1,4 +1,5 @@
 // @flow
+/* global console*/
 import { editUser } from '../Users/action-creators';
 import { editPlace } from '../Places/action-creators';
 import { ADD_REVIEW, ADD_REVIEWS, EDIT_REVIEW, REMOVE_REVIEW } from './types';
