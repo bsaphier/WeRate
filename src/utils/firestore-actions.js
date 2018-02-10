@@ -1,6 +1,7 @@
 // @flow
 /* global console*/
 import firebase from 'react-native-firebase';
+import { FIRESTORE } from './constants';
 import type { tagsTypes } from '../state/Tags';
 import type { userTypes } from '../state/Users';
 import type { placesTypes } from '../state/Places';
@@ -15,12 +16,13 @@ type Data =
   | Place
   | Review;
 
+const { USERS, TAGS, PLACES, REVIEWS, REQ_ACCOUNT } = FIRESTORE;
 const Store = firebase.firestore();
-const Tags = Store.collection('tags');
-const Users = Store.collection('users');
-const Places = Store.collection('places');
-const Reviews = Store.collection('reviews');
-const PendingUsers = Store.collection('__users__');
+const Tags = Store.collection(USERS);
+const Users = Store.collection(TAGS);
+const Places = Store.collection(PLACES);
+const Reviews = Store.collection(REVIEWS);
+const PendingUsers = Store.collection(REQ_ACCOUNT);
 
 
 
