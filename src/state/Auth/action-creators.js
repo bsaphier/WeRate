@@ -69,12 +69,11 @@ export const signinRequest: ThunkAction = (login: Login) => {
 export const signupRequest: ThunkAction = (signupUser: Login & User) => {
   return async dispatch => {
     let newPendinguser = {};
-    const { email, confirmEmail, password, confirmPassword, firstName, lastName, business, phone, website } = signupUser;
-    const user = { email, password, firstName, lastName, business, phone, website };
+    const { email, confirmEmail, firstName, lastName, business, phone, website } = signupUser;
     dispatch(loginRequest());
     try {
       if (email != confirmEmail) throw `'Email' must match 'Confirm Email'`;
-      if (password != confirmPassword) throw `'Password' must match 'Confirm Password'`;
+      const user = { email, firstName, lastName, business, phone, website };
       newPendinguser = await createPendingUserInDb(user);
       dispatch(loginPending());
       // TODO: close the form to redirect user

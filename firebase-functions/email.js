@@ -1,5 +1,5 @@
-/* global module*/
-module.exports = { email: `
+/* global exports*/
+exports.email = `
 <!doctype html>
 <html>
 <head>
@@ -182,4 +182,4 @@ module.exports = { email: `
     </table>
 </body>
 </html>
-`};
+`;
