@@ -67,8 +67,8 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
 andlog@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/andlog/-/andlog-1.0.0.tgz#25b39047ac9c1e5f6b2c8e4cdb5e7bf9e65e534b"
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/andlog/-/andlog-1.0.1.tgz#afc6512b6e809f5bba63c6646d8685ccead19f11"
 
 ansi-escapes@^1.1.0:
   version "1.4.0"
@@ -4001,9 +4001,9 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-firebase@^3.1.0:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-3.2.2.tgz#768d0384de489ffcee106f53c9fbb41cee7eebb0"
+react-native-firebase@^3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-3.2.4.tgz#bf6b6645e189f5f1cec4b3a7d204c908a8c27f51"
   dependencies:
     bows "^1.6.0"
     opencollective "^1.0.3"

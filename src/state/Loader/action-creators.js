@@ -29,19 +29,19 @@ export const fetchSuccess: ActionCreator = (): FetchDataSuccessAction => ({
 export const fetchInitialData: ThunkAction = (forceUpdate = false) => {
   return async (dispatch, getState) => {
     const appHasInitialized = getState().fetch.initialStateLoaded;
-
+    
     if (!appHasInitialized || forceUpdate) {
       dispatch(fetchingData());
-      
+
       const allPlaces = await loadAllPlacesFromDb();
       dispatch(placeActions.addPlaces(allPlaces));
-  
+      
       const allReviews = await loadAllReviewsFromDb();
       dispatch(reviewActions.addReviews(allReviews));
-
+      
       const allUsers = await loadAllUsersFromDb();
       dispatch(usersActions.addUsers(allUsers));
-  
+      
       const allTags = await loadAllTagsFromDb();
       dispatch(tagActions.addTags(allTags));
   

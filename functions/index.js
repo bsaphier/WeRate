@@ -1,22 +1,52 @@
 'use strict';
 
-let generateEmail = (() => {
-  var _ref = _asyncToGenerator(function* (pendingUser, actionLink) {
+let createNewAuthuser = (() => {
+  var _ref5 = _asyncToGenerator(function* (email, tempPassword) {
     try {
-      const emailData = yield constructEmail(pendingUser, actionLink);
-      return yield sendEmail(emailData);
+      const newAuthUser = yield admin.auth().createUser({
+        email,
+        emailVerified: true,
+        password: tempPassword
+      });
+      return newAuthUser;
     } catch (error) {
-      console.log(error);
+      console.log('FAIL * createNewAuthuser * ', error);
     }
   });
 
-  return function generateEmail(_x, _x2) {
-    return _ref.apply(this, arguments);
+  return function createNewAuthuser(_x6, _x7) {
+    return _ref5.apply(this, arguments);
+  };
+})();
+
+let createNewUserInDb = (() => {
+  var _ref6 = _asyncToGenerator(function* ({ firstName, lastName, business, website, email, phone }, uid) {
+    try {
+      const store = getStore();
+      const docRef = yield store.collection(USERS).doc(uid).set({
+        id: uid,
+        reviewIds: [],
+        admin: false,
+        firstName,
+        lastName,
+        business,
+        website,
+        email,
+        phone
+      });
+      return docRef;
+    } catch (error) {
+      console.log('Error creating firestore user', error);
+    }
+  });
+
+  return function createNewUserInDb(_x8, _x9) {
+    return _ref6.apply(this, arguments);
   };
 })();
 
 let sendEmail = (() => {
-  var _ref2 = _asyncToGenerator(function* (emailData) {
+  var _ref7 = _asyncToGenerator(function* (emailData) {
     try {
       const data = yield mailgun.messages().send(emailData);
       console.log(data);
@@ -27,47 +57,17 @@ let sendEmail = (() => {
     }
   });
 
-  return function sendEmail(_x3) {
-    return _ref2.apply(this, arguments);
-  };
-})();
-
-let constructEmail = (() => {
-  var _ref3 = _asyncToGenerator(function* (pendingUser, actionLink) {
-    const adminUser = yield getAdmin();
-    const emailData = {
-      from: `WeRate <mailgun@${DOMAIN}>`,
-      to: adminUser.email,
-      subject: `WeRate - %recipient.puFirstName% %recipient.puLastName% wants to join your group!`,
-      html: _email.email,
-      'recipient-variables': {
-        [adminUser.email]: {
-          actionLink,
-          first: adminUser.firstName,
-          last: adminUser.lastName,
-          puFirstName: pendingUser.firstName,
-          puLastName: pendingUser.lastName,
-          puEmail: pendingUser.email,
-          puBusiness: pendingUser.business,
-          puWebsite: pendingUser.website,
-          puPhone: pendingUser.phone
-        }
-      }
-    };
-    return emailData;
-  });
-
-  return function constructEmail(_x4, _x5) {
-    return _ref3.apply(this, arguments);
+  return function sendEmail(_x10) {
+    return _ref7.apply(this, arguments);
   };
 })();
 
 let getAdmin = (() => {
-  var _ref4 = _asyncToGenerator(function* () {
+  var _ref8 = _asyncToGenerator(function* () {
     let adminUser;
     try {
-      const store = admin.firestore();
-      const querySnapshot = yield store.collection('users').where('admin', '==', true).get();
+      const store = getStore();
+      const querySnapshot = yield store.collection(USERS).where('admin', '==', true).get();
       querySnapshot.forEach(function (doc) {
         if (doc.exists) adminUser = doc.data();
       });
@@ -79,7 +79,7 @@ let getAdmin = (() => {
   });
 
   return function getAdmin() {
-    return _ref4.apply(this, arguments);
+    return _ref8.apply(this, arguments);
   };
 })();
 
@@ -106,81 +106,144 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } /* global exports,console*/
 
 
+const { USERS, PLACES, REQ_ACCOUNT } = _keys.FIRESTORE;
 const DOMAIN = 'sandboxb1a1755b98884a1ba829ea395300f4f6.mailgun.org';
 const mailgun = (0, _mailgunJs2.default)({ apiKey: _keys.MAILGUN_API_KEY, domain: DOMAIN });
 
 admin.initializeApp(functions.config().firebase);
 
-exports.handleNewPlace = functions.firestore.document('places/{placeId}').onCreate(event => {
-  const newPlace = event.data.data();
-  const store = admin.firestore();
-  return store.collection('users').where('admin', '==', true).get().then(querySnapshot => {
-    let adminUser = {};
-    querySnapshot.forEach(doc => {
-      if (doc.exists) adminUser = doc.data();
-    });
-    const emailData = {
-      from: `WeRate <mailgun@${DOMAIN}>`,
-      to: adminUser.email,
-      subject: 'WeRate - A new business has been added',
-      text: `Hello ${adminUser.firstName}, ${newPlace.name} has been added to WeRate`
-    };
-    mailgun.messages().send(emailData, function (error, body) {
-      if (!error) {
-        console.log('Email sent to: ', adminUser.email, body);
-      } else {
-        console.log('Error sending email: ', error);
-      }
-    });
-  }).catch(error => {
-    console.log('Error getting firestore documents: ', error);
-  });
+const getStore = () => admin.firestore();
+
+const generateTempPassword = () => {
+  return 'admin123';
+};
+
+const constructNewPlaceEmail = (adminUser, newPlace) => ({
+  from: `WeRate <mailgun@${DOMAIN}>`,
+  to: adminUser.email,
+  subject: 'WeRate - A new business has been added',
+  text: `Hello ${adminUser.firstName}, ${newPlace.name} has been added to WeRate`
 });
+
+const constructSignUpRequestEmail = (pendingUser, actionLink, adminUser) => ({
+  from: `WeRate <mailgun@${DOMAIN}>`,
+  to: adminUser.email,
+  subject: `WeRate - %recipient.puFirstName% %recipient.puLastName% wants to join your group!`,
+  html: _email.email,
+  'recipient-variables': {
+    [adminUser.email]: {
+      actionLink,
+      first: adminUser.firstName,
+      last: adminUser.lastName,
+      puFirstName: pendingUser.firstName,
+      puLastName: pendingUser.lastName,
+      puEmail: pendingUser.email,
+      puBusiness: pendingUser.business,
+      puWebsite: pendingUser.website,
+      puPhone: pendingUser.phone
+    }
+  }
+});
+
+const constructUserRequestApprovedEmail = (user, tempPassword) => ({
+  from: `WeRate <mailgun@${DOMAIN}>`,
+  to: user.email,
+  subject: 'Welcome to WeRate!',
+  text: `Hello ${user.firstName}, You have been approved and can now log in to WeRate with the password: ${tempPassword}`
+});
+
+const approveUserRequest = (() => {
+  var _ref = _asyncToGenerator(function* (uid) {
+    try {
+      const store = getStore();
+      return yield store.collection(REQ_ACCOUNT).doc(uid).update({ approved: true });
+    } catch (error) {
+      console.log('FAIL * approveUserRequest * ', error);
+    }
+  });
+
+  return function approveUserRequest(_x) {
+    return _ref.apply(this, arguments);
+  };
+})();
+
+const handleUserRequestApproved = (() => {
+  var _ref2 = _asyncToGenerator(function* (user) {
+    const tempPassword = generateTempPassword();
+    try {
+      const newAuthUser = yield createNewAuthuser(user.email, tempPassword);
+      const emailData = constructUserRequestApprovedEmail(user, tempPassword);
+      yield createNewUserInDb(user, newAuthUser.uid);
+      return yield sendEmail(emailData);
+    } catch (error) {
+      console.log('FAIL * handleUserRequestApproved * ', error);
+    }
+  });
+
+  return function handleUserRequestApproved(_x2) {
+    return _ref2.apply(this, arguments);
+  };
+})();
+
+const generateSignUpRequestEmail = (() => {
+  var _ref3 = _asyncToGenerator(function* (pendingUser, actionLink) {
+    try {
+      const adminUser = yield getAdmin();
+      const emailData = constructSignUpRequestEmail(pendingUser, actionLink, adminUser);
+      return yield sendEmail(emailData);
+    } catch (error) {
+      console.log('FAIL * generateSignUpRequestEmail * ', error);
+    }
+  });
+
+  return function generateSignUpRequestEmail(_x3, _x4) {
+    return _ref3.apply(this, arguments);
+  };
+})();
+
+const generateNewPlaceEmail = (() => {
+  var _ref4 = _asyncToGenerator(function* (newPlace) {
+    try {
+      const adminUser = yield getAdmin();
+      const emailData = constructNewPlaceEmail(adminUser, newPlace);
+      return yield sendEmail(emailData);
+    } catch (error) {
+      console.log('FAIL * generateSignUpRequestEmail * ', error);
+    }
+  });
+
+  return function generateNewPlaceEmail(_x5) {
+    return _ref4.apply(this, arguments);
+  };
+})();
 
 exports.approveUser = functions.https.onRequest((req, res) => {
-  const store = admin.firestore();
-  store.collection('__users').doc(req.params[0].slice(1)).get().then(doc => {
-    const user = doc.data(); // The Firebase user.
-    const { email, firstName, lastName, business, phone, website } = user;
-    const emailData = {
-      from: `WeRate <mailgun@${DOMAIN}>`,
-      to: email,
-      subject: 'WeRate - A new business has been added',
-      text: `Hello ${user.firstName}, You have been approved and can now log in to WeRate.`
-    };
-    mailgun.messages().send(emailData, function (error, body) {
-      if (!error) {
-        console.log('Email sent to: ', email, body);
-        admin.auth().createUser({
-          email,
-          emailVerified: true,
-          password: user.password
-        }).then(userRecord => {
-          store.collection('users').doc(userRecord.uid).set({
-            reviewIds: [],
-            approved: true,
-            admin: false,
-            id: userRecord.uid,
-            firstName,
-            lastName,
-            business,
-            website,
-            email,
-            phone
-          }).then(user => {
-            console.log('NEW**USER', user);
-            res.end();
-          });
-        });
-      } else {
-        console.log('Error sending email: ', error);
-      }
-    });
+  const requestId = req.params[0].slice(1);
+  approveUserRequest(requestId).then(data => {
+    console.log('SUCCESS * approveUser * ', data);
+    res.end();
+  }).catch(err => {
+    console.log('FAIL * approveUser * ', err);
+    res.end();
   });
 });
 
-exports.handleSignUpRequest = functions.firestore.document('__users/{__userId}').onCreate(event => {
+exports.onUserRequestApproved = functions.firestore.document(`${REQ_ACCOUNT}/{pendingUserId}`).onUpdate(event => {
   const pendingUser = event.data.data();
-  const actionLink = `https://us-central1-werate-68084.cloudfunctions.net/approveUser/${event.params.__userId}`;
-  return generateEmail(pendingUser, actionLink).then(data => console.log(data)).catch(err => console.log(err));
+  const { approved } = pendingUser;
+  const { approved: approvedPrev } = event.data.previous.data();
+  if (!approvedPrev && approved) {
+    return handleUserRequestApproved(pendingUser).then(data => console.log('SUCCESS * onUserRequestApproved * ', data)).catch(err => console.log('FAIL * onUserRequestApproved * ', err));
+  }
+});
+
+exports.handleSignUpRequest = functions.firestore.document(`${REQ_ACCOUNT}/{pendingUserId}`).onCreate(event => {
+  const pendingUser = event.data.data();
+  const actionLink = `https://us-central1-werate-68084.cloudfunctions.net/approveUser/${event.params.pendingUserId}`;
+  return generateSignUpRequestEmail(pendingUser, actionLink).then(data => console.log('SUCCESS * handleSignUpRequest * ', data)).catch(err => console.log('FAIL * handleSignUpRequest * ', err));
+});
+
+exports.handleNewPlace = functions.firestore.document(`${PLACES}/{placeId}`).onCreate(event => {
+  const newPlace = event.data.data();
+  return generateNewPlaceEmail(newPlace).then(data => console.log('SUCCESS * handleNewPlace * ', data)).catch(err => console.log('FAIL * handleNewPlace * ', err));
 });

@@ -18,8 +18,8 @@ type Data =
 
 const { USERS, TAGS, PLACES, REVIEWS, REQ_ACCOUNT } = FIRESTORE;
 const Store = firebase.firestore();
-const Tags = Store.collection(USERS);
-const Users = Store.collection(TAGS);
+const Tags = Store.collection(TAGS);
+const Users = Store.collection(USERS);
 const Places = Store.collection(PLACES);
 const Reviews = Store.collection(REVIEWS);
 const PendingUsers = Store.collection(REQ_ACCOUNT);
@@ -37,7 +37,10 @@ function insertId(documentRef): Data {
 
 function handleCollectionSnapshot(querySnapshot): Array<Data> {
   const data: Array<Data> = [];
-  querySnapshot.forEach(doc => data.push({ id: doc.id, ...doc.data() }));
+  querySnapshot.forEach(doc => {
+    const _data = { id: doc.id, ...doc.data() };
+    data.push(_data);
+  });
   return data;
 }
 
@@ -116,6 +119,7 @@ export const deletePlaceFromDb = (placeId: string) => Places.doc(placeId).delete
 
 export const loadAllPlacesFromDb = async () => handleCollectionSnapshot(await Places.get());
 
+
 export const modifyPlaceInDb = async (place: Place) => {
   try {
     await Places.doc(place.id).update(place);
@@ -170,8 +174,12 @@ export const getPendingUserFromDb = async (id: string) => await PendingUsers.doc
 
 export const createPendingUserInDb = async (userCreds: any) => {
   const user = { approved: false, ...userCreds };
+  console.log('***', REQ_ACCOUNT);
+  console.log('* 1 * user: ', user);
   const docRef = await PendingUsers.add(user);
+  console.log('* 2 *', docRef);
   const userWithId = insertId(await docRef.get());
+  console.log('* 3 *', userWithId);
   await PendingUsers.doc(userWithId.id).update(userWithId);
   return userWithId;
 };

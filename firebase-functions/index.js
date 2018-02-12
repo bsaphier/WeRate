@@ -2,9 +2,8 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import mg from 'mailgun-js';
-import { FIRESTORE } from '../src/utils/constants';
 import { email as template } from './email';
-import { MAILGUN_API_KEY } from './keys';
+import { FIRESTORE, MAILGUN_API_KEY } from './keys';
 const { USERS, PLACES, REQ_ACCOUNT } = FIRESTORE;
 const DOMAIN = 'sandboxb1a1755b98884a1ba829ea395300f4f6.mailgun.org';
 const mailgun = mg({ apiKey: MAILGUN_API_KEY, domain: DOMAIN });

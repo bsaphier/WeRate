@@ -4,7 +4,7 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import { composeWithDevTools } from 'remote-redux-devtools';
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import AppReducer from './App';
 import TagsReducer from './Tags';
 import AuthReducer from './Auth';
@@ -15,7 +15,7 @@ import PlacesReducer from './Places';
 import ReviewsReducer from './Reviews';
 
 
-const middleware = applyMiddleware(thunk, logger);
+const middleware = applyMiddleware(thunk, createLogger({ collapsed: true }));
 const composeEnhancers = composeWithDevTools({
   name: Platform.OS,
   hostname: 'localhost',

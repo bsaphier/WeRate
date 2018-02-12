@@ -10,7 +10,7 @@ const Auth = firebase.auth();
 
 
 export const signInWithEmailAndPassword = async (login: Login): User => {
-  return await Auth.signInWithEmailAndPassword(login.email, login.password);
+  return await Auth.signInAndRetrieveDataWithEmailAndPassword(login.email, login.password);
 };
 
 

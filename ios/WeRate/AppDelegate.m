@@ -23,7 +23,9 @@
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-
+  
+  [FIRApp configure];
+  
   // BOOTSTRAP THE NAVIGATOR
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   self.window.backgroundColor = [UIColor whiteColor];
@@ -43,7 +45,6 @@
   [self.window makeKeyAndVisible];
 */
 
-  [FIRApp configure];
   return YES;
 }
 

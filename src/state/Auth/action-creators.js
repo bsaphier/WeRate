@@ -1,4 +1,5 @@
 // @flow
+/* globals console */
 import type { ActionCreator } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
 import type { Err, Login, LoginRequestAction, LoginPendingAction, LogoutRequestAction, LoginRequestFailAction, LoginRequestSuccessAction } from './types';
@@ -38,8 +39,11 @@ export const loginSuccess: ActionCreator = (user: User): LoginRequestSuccessActi
 export const setUser: ThunkAction = (authUser) => {
   return async dispatch => {
     try {
-      const userFromDb = await getUserFromDb(authUser.uid);
-      if (userFromDb) {
+      const docRef = await getUserFromDb(authUser.uid);
+      console.log('setuser * docRef: ', docRef);
+      if (docRef.exists) {
+        const userFromDb = docRef.data();
+        console.log('setuser * userFromDb: ', userFromDb);
         dispatch(loginSuccess(userFromDb));
       } else {
         dispatch(loginPending());
@@ -55,7 +59,8 @@ export const signinRequest: ThunkAction = (login: Login) => {
   return async dispatch => {
     dispatch(loginRequest());
     try {
-      const signedInUser = await signInWithEmailAndPassword(login);
+      const { user: signedInUser } = await signInWithEmailAndPassword(login);
+      console.log('signinRequest * signedInUser: ', signedInUser);
       await dispatch(setUser(signedInUser));
       return true;
     } catch (error) {
@@ -116,6 +121,7 @@ export const logout: ThunkAction = () => {
 export const checkAuth: ThunkAction = () => {
   return async dispatch => {
     const authenticatedUser = whoAmI();
+    console.log('checkAuth * authenticatedUser :', authenticatedUser);
     if (authenticatedUser) {
       await dispatch(setUser(authenticatedUser));
       return true;

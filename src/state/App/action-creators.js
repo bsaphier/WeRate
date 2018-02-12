@@ -1,4 +1,5 @@
 // @flow
+/* globals console */
 import type { ActionCreator } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
 import type { Login } from '../Auth/types';
@@ -26,6 +27,7 @@ export const appInitialized: ThunkAction = () => {
 export const login: ThunkAction = (userCred: Login | User) => async dispatch => {
   // login/signup logic would go here, and when it's done, we switch app roots
   const authActionResponse = await dispatch(signinRequest(userCred));
+  console.log('login * authActionResponse: ', authActionResponse);
   if (authActionResponse) {
     /** fetchInitialData will set the Loader reducer state */
     await dispatch(fetchInitialData()); // don't wait for this in the future -> a loading screen should display at the app root
@@ -41,6 +43,7 @@ export const login: ThunkAction = (userCred: Login | User) => async dispatch => 
 export const checkIfLoggedIn: ThunkAction = () => async dispatch => {
   dispatch(loginRequest());
   const signedIn = await dispatch(checkAuth());
+  console.log('checkIfLoggedIn * signedIn: ', signedIn);
   if (signedIn) {
     dispatch(fetchInitialData());
     dispatch(changeAppRoot(APP_ROOT));
