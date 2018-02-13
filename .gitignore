@@ -57,4 +57,7 @@ firebase-functions/keys.js
 functions/
 functions/node_modules/
 firebase-functions/private.js
+<<<<<<< HEAD
 replacements.txt
+=======
+>>>>>>> 57f21d0174a77111e5cf02bc1bf06cfcfe9c0934
