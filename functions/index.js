@@ -97,7 +97,7 @@ var _mailgunJs2 = _interopRequireDefault(_mailgunJs);
 
 var _email = require('./email');
 
-var _keys = require('./keys');
+var _env = require('./env');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -106,9 +106,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } /* global exports,console*/
 
 
-const { USERS, PLACES, REQ_ACCOUNT } = _keys.FIRESTORE;
+const { USERS, PLACES, REQ_ACCOUNT } = _env.FIRESTORE;
 const DOMAIN = 'sandboxb1a1755b98884a1ba829ea395300f4f6.mailgun.org';
-const mailgun = (0, _mailgunJs2.default)({ apiKey: _keys.MAILGUN_API_KEY, domain: DOMAIN });
+const mailgun = (0, _mailgunJs2.default)({ apiKey: _env.MAILGUN_API_KEY, domain: DOMAIN });
 
 admin.initializeApp(functions.config().firebase);
 
@@ -239,7 +239,7 @@ exports.onUserRequestApproved = functions.firestore.document(`${REQ_ACCOUNT}/{pe
 
 exports.handleSignUpRequest = functions.firestore.document(`${REQ_ACCOUNT}/{pendingUserId}`).onCreate(event => {
   const pendingUser = event.data.data();
-  const actionLink = `https://us-central1-werate-68084.cloudfunctions.net/approveUser/${event.params.pendingUserId}`;
+  const actionLink = `${_env.MAILGUN_BASE_URL}/approveUser/${event.params.pendingUserId}`;
   return generateSignUpRequestEmail(pendingUser, actionLink).then(data => console.log('SUCCESS * handleSignUpRequest * ', data)).catch(err => console.log('FAIL * handleSignUpRequest * ', err));
 });
 

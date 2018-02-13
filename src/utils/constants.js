@@ -5,5 +5,5 @@ export const FIRESTORE = {
   TAGS: 'tags',
   PLACES: 'places',
   REVIEWS: 'reviews',
-  REQ_ACCOUNT: '__users__'
+  REQ_ACCOUNT: '_users_'
 };
