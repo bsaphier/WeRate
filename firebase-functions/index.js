@@ -3,7 +3,7 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import mg from 'mailgun-js';
 import { email as template } from './email';
-import { FIRESTORE, MAILGUN_API_KEY } from './keys';
+import { FIRESTORE, MAILGUN_API_KEY, MAILGUN_BASE_URL } from './env';
 const { USERS, PLACES, REQ_ACCOUNT } = FIRESTORE;
 const DOMAIN = 'sandboxb1a1755b98884a1ba829ea395300f4f6.mailgun.org';
 const mailgun = mg({ apiKey: MAILGUN_API_KEY, domain: DOMAIN });
@@ -182,7 +182,7 @@ exports.onUserRequestApproved = functions.firestore.document(`${REQ_ACCOUNT}/{pe
 
 exports.handleSignUpRequest = functions.firestore.document(`${REQ_ACCOUNT}/{pendingUserId}`).onCreate(event => {
   const pendingUser = event.data.data();
-  const actionLink = `https://us-central1-werate-68084.cloudfunctions.net/approveUser/${event.params.pendingUserId}`;
+  const actionLink = `${MAILGUN_BASE_URL}/approveUser/${event.params.pendingUserId}`;
   return generateSignUpRequestEmail(pendingUser, actionLink)
     .then(data => console.log('SUCCESS * handleSignUpRequest * ', data))
     .catch(err => console.log('FAIL * handleSignUpRequest * ', err));
