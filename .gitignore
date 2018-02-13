@@ -57,3 +57,4 @@ firebase-functions/keys.js
 functions/
 functions/node_modules/
 firebase-functions/private.js
+replacements.txt
