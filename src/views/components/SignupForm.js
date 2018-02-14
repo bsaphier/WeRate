@@ -44,22 +44,6 @@ const SignupForm = ({ err, values, isLoading, handleSubmit }) => (
         label="Phone"
         placeholder="111 123 4567"
     />
-{/*
-    <FormField
-        name="password"
-        label="Password"
-        autoCorrect={false}
-        placeholder="*******"
-        secureTextEntry
-    />
-    <FormField
-        name="confirmPassword"
-        label="Confirm Password"
-        autoCorrect={false}
-        placeholder="*******"
-        secureTextEntry
-    />
-*/}
     {err ? <Text style={styles.errorTextStyle}>{err}</Text> : null}
     {isLoading ? <Spinner /> : <Button onPress={() => handleSubmit(values)} title="Sign Up" />}
   </View>
