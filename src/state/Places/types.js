@@ -2,6 +2,7 @@
 export const ADD_PLACE: 'ADD_PLACE' = 'ADD_PLACE';
 export const EDIT_PLACE: 'EDIT_PLACE' = 'EDIT_PLACE';
 export const ADD_PLACES: 'ADD_PLACES' = 'ADD_PLACES';
+export const RESET_PLACES: 'RESET_PLACES' = 'RESET_PLACES';
 export const REMOVE_PLACE: 'REMOVE_PLACE' = 'REMOVE_PLACE';
 export const FILTER_PLACES_BY_TAG: 'FILTER_PLACES_BY_TAG' = 'FILTER_PLACES_BY_TAG';
 
@@ -36,6 +37,7 @@ export type placesState = {|
 |};
 
 
+export type ResetPlacesAction = {| +type: typeof RESET_PLACES |};
 export type AddPlaceAction = {| +type: typeof ADD_PLACE, payload: Place |};
 export type EditPlaceAction = {| +type: typeof EDIT_PLACE, payload: Place |};
 export type AddPlacesAction = {| +type: typeof ADD_PLACES, payload: Places |};
@@ -47,5 +49,6 @@ export type Action =
   | AddPlaceAction
   | EditPlaceAction
   | AddPlacesAction
+  | ResetPlacesAction
   | RemovePlaceAction;
 

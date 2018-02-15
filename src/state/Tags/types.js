@@ -2,6 +2,7 @@
 export const ADD_TAG: 'ADD_TAG' = 'ADD_TAG';
 export const ADD_TAGS: 'ADD_TAGS' = 'ADD_TAGS';
 export const EDIT_TAG: 'EDIT_TAG' = 'EDIT_TAG';
+export const RESET_TAGS: 'RESET_TAGS' = 'RESET_TAGS';
 export const REMOVE_TAG: 'REMOVE_TAG' = 'REMOVE_TAG';
 
 
@@ -26,6 +27,7 @@ export type tagsState = {|
 |};
 
 
+export type ResetTagsAction = {| +type: typeof RESET_TAGS |};
 export type AddTagAction = {| +type: typeof ADD_TAG, payload: Tag |};
 export type AddTagsAction = {| +type: typeof ADD_TAGS, payload: Tags |};
 export type EditTagAction = {| +type: typeof EDIT_TAG, payload: Tag |};
@@ -36,4 +38,5 @@ export type Action =
   | AddTagAction
   | AddTagsAction
   | EditTagAction
+  | ResetTagsAction
   | RemoveTagAction;

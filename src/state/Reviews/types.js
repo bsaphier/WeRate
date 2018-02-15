@@ -3,6 +3,7 @@ export const ADD_REVIEW: 'ADD_REVIEW' = 'ADD_REVIEW';
 export const ADD_REVIEWS: 'ADD_REVIEWS' = 'ADD_REVIEWS';
 export const EDIT_REVIEW: 'EDIT_REVIEW' = 'EDIT_REVIEW';
 export const REMOVE_REVIEW: 'REMOVE_REVIEW' = 'REMOVE_REVIEW';
+export const RESET_REVIEWS: 'RESET_REVIEWS' = 'RESET_REVIEWS';
 
 
 export type Id = string;
@@ -26,6 +27,7 @@ export type reviewsState = {|
   allIds: AllIds
 |};
 
+export type ResetReviewsAction = {| +type: typeof RESET_REVIEWS |};
 export type AddReviewAction = {| +type: typeof ADD_REVIEW, payload: Review |};
 export type AddReviewsAction = {| +type: typeof ADD_REVIEWS, payload: Reviews |};
 export type EditReviewAction = {| +type: typeof EDIT_REVIEW, payload: Review |};
@@ -36,4 +38,5 @@ export type Action =
   | AddReviewAction
   | AddReviewsAction
   | EditReviewAction
+  | ResetReviewsAction
   | RemoveReviewAction;

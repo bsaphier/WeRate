@@ -6,8 +6,8 @@ import type { Login } from '../Auth/types';
 import type { User } from '../Users/types';
 import type { Root, AppRootChangedAction } from './types';
 import { LOGIN_ROOT, ROOT_CHANGED, APP_ROOT } from './types';
-import { checkAuth, signinRequest, loginRequest, loginFail } from '../Auth/action-creators';
-import { fetchInitialData } from '../Loader/action-creators';
+import { checkAuth, signinRequest, signOutRequest, loginRequest, loginFail } from '../Auth/action-creators';
+import { resetData, fetchInitialData } from '../Loader/action-creators';
 
 
 
@@ -34,6 +34,12 @@ export const login: ThunkAction = (userCred: Login | User) => async dispatch => 
     dispatch(changeAppRoot(APP_ROOT));
   }
   return approved;
+};
+
+export const logout: ThunkAction = () => async dispatch => {
+  await dispatch(signOutRequest());
+  dispatch(changeAppRoot(LOGIN_ROOT));
+  dispatch(resetData());
 };
 
 // export const signup: ThunkAction = (signupUser: User) => async dispatch => {
@@ -69,6 +75,7 @@ export const checkIfLoggedIn: ThunkAction = () => async dispatch => {
 
 export default {
   login,
+  logout,
   // signup,
   changeAppRoot,
   appInitialized,

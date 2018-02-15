@@ -1,6 +1,7 @@
 // @flow
 export const ADD_USERS: 'ADD_USERS' = 'ADD_USERS';
 export const UPDATE_USER: 'UPDATE_USER' = 'UPDATE_USER';
+export const RESET_USERS: 'RESET_USERS' = 'RESET_USERS';
 export const SELECTED_USER: 'SELECTED_USER' = 'SELECTED_USER';
 
 
@@ -32,6 +33,7 @@ export type usersState = {|
 |};
 
 
+export type ResetUsersAction = {| +type: typeof RESET_USERS |};
 export type AddUsersAction = {| +type: typeof ADD_USERS, payload: Users |};
 export type UpdateUserAction = {| +type: typeof UPDATE_USER, payload: User |};
 export type SelectUserAction = {| +type: typeof SELECTED_USER, payload: Id |};
@@ -40,4 +42,5 @@ export type SelectUserAction = {| +type: typeof SELECTED_USER, payload: Id |};
 export type Action = 
   | empty
   | AddUsersAction
+  | ResetUsersAction
   | UpdateUserAction;

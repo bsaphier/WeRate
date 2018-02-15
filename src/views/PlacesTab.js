@@ -4,7 +4,7 @@ import { View, Button, FlatList, StyleSheet } from 'react-native';
 import { resetPlaceFilter, orderPlacesByNameAsc, orderPlacesByNameDes, orderPlacesByReviewAvgAsc, orderPlacesByReviewAvgDsc } from '../state/Filter/action-creators';
 import { FILTER_ALPH_ASCENDING, FILTER_ALPH_DESCENDING, FILTER_RATING_ASCENDING, FILTER_RATING_DESCENDING } from '../state/Filter/types';
 import { getReviewAvgs, getFilteredPlaces } from '../state/Filter/selectors';
-import { logout } from '../state/Auth/action-creators';
+import { logout } from '../state/App/action-creators';
 import { PlaceCard } from './components';
 
 

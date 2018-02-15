@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux';
 import type { Reducer } from 'redux';
 import { ADD_PLACE, EDIT_PLACE, REMOVE_PLACE } from '../Places/types';
-import { ADD_TAG, ADD_TAGS, REMOVE_TAG, EDIT_TAG } from './types';
+import { ADD_TAG, ADD_TAGS, REMOVE_TAG, EDIT_TAG, RESET_TAGS } from './types';
 import type { AddPlaceAction, EditPlaceAction, RemovePlaceAction } from '../Places/types';
 import type { AllIds, Action, Tag, TagsById, AddTagAction, AddTagsAction, EditTagAction, RemoveTagAction } from './types';
 
@@ -124,6 +124,8 @@ function tagsById(state: TagsById = {}, action: Action | AddPlaceAction | EditPl
       return removeTag(state, action);
     case ADD_TAGS:
       return addTags(state, action);
+    case RESET_TAGS:
+      return {};
     default:
       (action: empty);
       return state;
@@ -141,6 +143,8 @@ function allTags(state: AllIds = [], action: Action): AllIds {
       return state.filter(tagId => (tagId !== action.payload.id));
     case ADD_TAGS:
       return state.concat(action.payload.map((tag: Tag) => tag.id));
+      case RESET_TAGS:
+      return [];
     default:
       (action: empty);
       return state;

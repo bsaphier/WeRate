@@ -7,8 +7,6 @@ import type { User } from '../Users/types';
 import { LOGIN_REQUEST, LOGOUT_REQUEST, LOGIN_PENDING, LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS } from './types';
 import { whoAmI, logoutUser, signInWithEmailAndPassword } from '../../utils/auth-actions';
 import { getUserFromDb, createPendingUserInDb } from '../../utils/firestore-actions';
-import { LOGIN_ROOT } from '../App/types';
-import { changeAppRoot } from '../App/action-creators';
 
 
 
@@ -92,34 +90,18 @@ export const signupRequest: ThunkAction = (signupUser: Login & User) => {
   };
 };
 
-// export const signupConfirm: ThunkAction = (signupUser: Login & User) => {
-//   return async dispatch => {
-//     const { email, password, confirmPassword, firstName, lastName, business, phone, website } = signupUser;
-//     const user = { email, firstName, lastName, business, phone, website };
-//     dispatch(loginRequest());
-//     try {
-//       if (password != confirmPassword) {
-//         throw `'Password' must match 'Confirm Password'`;
-//       }
-//       const newAuthUser = await createAuthUser(user);
-//       ************
-//       const newUser = await createUserInDb({ ...user, uid: newAuthUser.uid });
-//       dispatch(loginSuccess(newUser));
-//     } catch (error) {
-//       dispatch(loginFail(`${error}`));
-//     }
-//   };
-// };
 
-
-export const logout: ThunkAction = () => {
+export const signOutRequest: ThunkAction = () => {
   return async dispatch => {
-    await logoutUser();
-    dispatch(logoutRequest());
-    dispatch(changeAppRoot(LOGIN_ROOT));
+    try {
+      await logoutUser();
+      dispatch(logoutRequest());
+      return true;
+    } catch (error) {
+      return false;
+    }
   };
 };
-
 
 export const checkAuth: ThunkAction = () => {
   return async dispatch => {
@@ -136,7 +118,6 @@ export const checkAuth: ThunkAction = () => {
 
 
 export default {
-  logout,
   setUser,
   checkAuth,
   loginFail,
@@ -144,5 +125,5 @@ export default {
   loginRequest,
   signupRequest,
   signinRequest,
-  // signupConfirm
+  signOutRequest
 };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, FlatList, View } from 'react-native';
-import { logout } from '../state/Auth/action-creators';
+import { logout } from '../state/App/action-creators';
 import { UserCard, Spinner } from './components';
 
 

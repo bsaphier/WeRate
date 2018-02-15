@@ -2,9 +2,9 @@
 /* global console*/
 import { editUser } from '../Users/action-creators';
 import { editPlace } from '../Places/action-creators';
-import { ADD_REVIEW, ADD_REVIEWS, EDIT_REVIEW, REMOVE_REVIEW } from './types';
+import { ADD_REVIEW, ADD_REVIEWS, EDIT_REVIEW, RESET_REVIEWS, REMOVE_REVIEW } from './types';
 import { createReviewInDb, modifyReviewInDb, deleteReviewFromDb } from '../../utils/firestore-actions';
-import type { Review, Reviews, AddReviewAction, AddReviewsAction, EditReviewAction, RemoveReviewAction } from './types';
+import type { Review, Reviews, AddReviewAction, AddReviewsAction, EditReviewAction, ResetReviewsAction, RemoveReviewAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';
 
@@ -31,6 +31,11 @@ export const removeReview: ActionCreator = (review: Review): RemoveReviewAction 
 export const addReviews: ActionCreator = (reviews: Reviews): AddReviewsAction => ({
   type: ADD_REVIEWS,
   payload: reviews
+});
+
+
+export const resetReviews: ActionCreator = (): ResetReviewsAction => ({
+  type: RESET_REVIEWS
 });
 
 
@@ -94,5 +99,6 @@ export default {
   editReview,
   removeReview,
   deleteReview,
-  createReview
+  createReview,
+  resetReviews
 };

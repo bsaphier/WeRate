@@ -1,9 +1,10 @@
 // @flow
+/* globals console */
 import { editTag } from '../Tags/action-creators';
 import { deleteReview } from '../Reviews/action-creators';
-import { ADD_PLACE, EDIT_PLACE, ADD_PLACES, REMOVE_PLACE } from './types';
-import { modifyTagInDb, createPlaceInDb, modifyPlaceInDb, deletePlaceFromDb } from '../../utils/firestore-actions';
-import type { Place, Places, AddPlaceAction, EditPlaceAction, AddPlacesAction, RemovePlaceAction } from './types';
+import { ADD_PLACE, EDIT_PLACE, ADD_PLACES, RESET_PLACES, REMOVE_PLACE } from './types';
+import { createPlaceInDb, modifyPlaceInDb, deletePlaceFromDb } from '../../utils/firestore-actions';
+import type { Place, Places, AddPlaceAction, EditPlaceAction, AddPlacesAction, ResetPlacesAction, RemovePlaceAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';
 
@@ -30,6 +31,11 @@ export const removePlace: ActionCreator = (place: Place): RemovePlaceAction => (
 export const addPlaces: ActionCreator = (places: Places): AddPlacesAction => ({
   type: ADD_PLACES,
   payload: places
+});
+
+
+export const resetPlaces: ActionCreator = (): ResetPlacesAction => ({
+  type: RESET_PLACES
 });
 
 
@@ -114,6 +120,7 @@ export default {
    addPlace,
    editPlace,
    addPlaces,
+   resetPlaces,
    modifyPlace,
    createPlace,
    deletePlace

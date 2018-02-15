@@ -26,6 +26,15 @@ export const fetchSuccess: ActionCreator = (): FetchDataSuccessAction => ({
 
 
 
+export const resetData: ThunkAction = () => {
+  return dispatch => {
+    dispatch(placeActions.resetPlaces());
+    dispatch(reviewActions.resetReviews());
+    dispatch(usersActions.resetUsers());
+    dispatch(tagActions.resetTags());
+  };
+};
+
 export const fetchInitialData: ThunkAction = (forceUpdate = false) => {
   return async (dispatch, getState) => {
     const appHasInitialized = getState().fetch.initialStateLoaded;

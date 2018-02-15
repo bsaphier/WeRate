@@ -1,8 +1,9 @@
 // @flow
+/* globals console */
 import { editPlace } from '../Places/action-creators';
-import { ADD_TAG, ADD_TAGS, EDIT_TAG, REMOVE_TAG } from './types';
+import { ADD_TAG, ADD_TAGS, EDIT_TAG, RESET_TAGS, REMOVE_TAG } from './types';
 import { createTagInDb, deleteTagFromDb, modifyTagInDb } from '../../utils/firestore-actions';
-import type { Tag, Tags, AddTagAction, AddTagsAction, EditTagAction, RemoveTagAction } from './types';
+import type { Tag, Tags, AddTagAction, AddTagsAction, EditTagAction, ResetTagsAction, RemoveTagAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';
 
@@ -27,6 +28,11 @@ export const removeTag: ActionCreator = (tag: Tag): RemoveTagAction => ({
 export const addTags: ActionCreator = (tags: Tags): AddTagsAction => ({
   type: ADD_TAGS,
   payload: tags
+});
+
+
+export const resetTags: ActionCreator = (): ResetTagsAction => ({
+  type: RESET_TAGS
 });
 
 
@@ -78,5 +84,6 @@ export default {
   addTags,
   removeTag,
   createTag,
-  deleteTag
+  deleteTag,
+  resetTags
 };

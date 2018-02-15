@@ -1,10 +1,10 @@
 // @flow
 import { combineReducers } from 'redux';
-import { ADD_USERS, SELECTED_USER, UPDATE_USER } from './types';
+import { ADD_USERS, SELECTED_USER, UPDATE_USER, RESET_USERS } from './types';
 import { ADD_REVIEW, REMOVE_REVIEW } from '../Reviews/types';
 import type { Reducer } from 'redux';
 import type { AddReviewAction, RemoveReviewAction } from '../Reviews/types';
-import type { Id, User, AllIds, Action, UsersById, UpdateUserAction, AddUsersAction, SelectUserAction } from './types';
+import type { Id, User, AllIds, Action, UsersById, UpdateUserAction, AddUsersAction, ResetUsersAction, SelectUserAction } from './types';
 
 
 
@@ -67,6 +67,8 @@ function usersById(state: UsersById = {}, action: Action): UsersById {
       return addReview(state, action);
     case REMOVE_REVIEW:
       return removeReview(state, action);
+    case RESET_USERS:
+      return {};
     default:
       (action: empty);
       return state;
@@ -74,10 +76,12 @@ function usersById(state: UsersById = {}, action: Action): UsersById {
 }
 
 
-function allUsers(state: AllIds = [], action: AddUsersAction): AllIds {
+function allUsers(state: AllIds = [], action: AddUsersAction | ResetUsersAction): AllIds {
   switch (action.type) {
     case ADD_USERS:
       return state.concat(action.payload.map((user: User) => user.id));
+    case RESET_USERS:
+      return [];
     default:
       (action: empty);
       return state;
@@ -85,10 +89,12 @@ function allUsers(state: AllIds = [], action: AddUsersAction): AllIds {
 }
 
 
-function selectUser(state: Id = '', action: SelectUserAction): Id {
+function selectUser(state: Id = '', action: SelectUserAction | ResetUsersAction): Id {
   switch (action.type) {
     case SELECTED_USER:
       return action.payload;
+    case RESET_USERS:
+      return '';
     default:
       (action: empty);
       return state;

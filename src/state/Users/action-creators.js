@@ -1,7 +1,8 @@
 // @flow
-import { ADD_USERS, UPDATE_USER, SELECTED_USER } from './types';
+/* globals console */
+import { ADD_USERS, RESET_USERS, UPDATE_USER, SELECTED_USER } from './types';
 import { modifyUserInDb } from '../../utils/firestore-actions';
-import type { Id, User, Users, AddUsersAction, SelectUserAction, UpdateUserAction } from './types';
+import type { Id, User, Users, AddUsersAction, ResetUsersAction, SelectUserAction, UpdateUserAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';
 
@@ -10,6 +11,10 @@ import type { ActionCreator } from 'redux';
 export const addUsers: ActionCreator = (users: Users): AddUsersAction => ({
   type: ADD_USERS,
   payload: users
+});
+
+export const resetUsers: ActionCreator = (): ResetUsersAction => ({
+  type: RESET_USERS
 });
 
 export const modifyUser: ActionCreator = (user: User): UpdateUserAction => ({
@@ -41,5 +46,6 @@ export default {
   addUsers,
   editUser,
   modifyUser,
-  selectUser
+  selectUser,
+  resetUsers
 };
