@@ -14,6 +14,7 @@ admin.initializeApp(functions.config().firebase);
 const getStore = () => admin.firestore();
 
 const generateTempPassword = () => {
+  // TODO ...
   return 'admin123';
 };
 

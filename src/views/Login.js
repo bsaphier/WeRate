@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
-import { LoginForm, SignupForm } from './components';
+import { LoginForm, SignupForm, NewPasswordForm } from './components';
 import { login, checkIfLoggedIn } from '../state/App/action-creators';
 import { signupRequest } from '../state/Auth/action-creators';
 
@@ -39,6 +39,22 @@ class Login extends Component<loginProps, loginState> {
     });
   }
 
+  renderLogin() {
+    return this.props.approvedUser ? (
+      <NewPasswordForm
+          err={this.props.err}
+          onSubmit={this.props.login}
+          isLoading={this.props.isLoading || this.props.isFetching}
+      />
+    ) : (
+      <LoginForm
+          err={this.props.err}
+          onSubmit={this.props.login}
+          isLoading={this.props.isLoading || this.props.isFetching}
+      />
+    );
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -64,7 +80,8 @@ class Login extends Component<loginProps, loginState> {
 const mapState = ({ auth, fetch }) => ({
   err: auth.err,
   isLoading: auth.isLoading,
-  isFetching: fetch.isFetching
+  isFetching: fetch.isFetching,
+  approvedUser: auth.user.approved
 });
 
 const mapDispatch = dispatch => ({

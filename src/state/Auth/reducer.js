@@ -14,6 +14,7 @@ const initialState: authState = {
     lastName: '',
     email: '',
     admin: false,
+    approved: false,
     business: '',
     phone: '',
     website: '',

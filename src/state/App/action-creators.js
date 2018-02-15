@@ -25,15 +25,15 @@ export const appInitialized: ThunkAction = () => {
 };
 
 export const login: ThunkAction = (userCred: Login | User) => async dispatch => {
-  // login/signup logic would go here, and when it's done, we switch app roots
-  const authActionResponse = await dispatch(signinRequest(userCred));
-  console.log('login * authActionResponse: ', authActionResponse);
-  if (authActionResponse) {
+  // login/signup logic would go here, and when it's done, switch app roots
+  const { verified, approved } = await dispatch(signinRequest(userCred));
+  console.log('login * authActionResponse: ', { verified, approved });
+  if (verified && approved) {
     /** fetchInitialData will set the Loader reducer state */
     await dispatch(fetchInitialData()); // don't wait for this in the future -> a loading screen should display at the app root
     dispatch(changeAppRoot(APP_ROOT));
   }
-  return authActionResponse;
+  return approved;
 };
 
 // export const signup: ThunkAction = (signupUser: User) => async dispatch => {

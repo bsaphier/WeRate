@@ -45,12 +45,15 @@ export const setUser: ThunkAction = (authUser) => {
         const userFromDb = docRef.data();
         console.log('setuser * userFromDb: ', userFromDb);
         dispatch(loginSuccess(userFromDb));
+        return userFromDb.approved;
       } else {
         dispatch(loginPending());
       }
+      return false;
     } catch (error) {
       dispatch(loginFail(`${error}`));
     }
+    return false;
   };
 };
 
@@ -61,12 +64,12 @@ export const signinRequest: ThunkAction = (login: Login) => {
     try {
       const { user: signedInUser } = await signInWithEmailAndPassword(login);
       console.log('signinRequest * signedInUser: ', signedInUser);
-      await dispatch(setUser(signedInUser));
-      return true;
+      const approvedUser = await dispatch(setUser(signedInUser));
+      return { verified: true, approved: approvedUser };
     } catch (error) {
       dispatch(loginFail(`${error}`));
     }
-    return false;
+    return { verified: false, approved: false };
   };
 };
 

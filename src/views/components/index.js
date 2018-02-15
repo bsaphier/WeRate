@@ -13,6 +13,7 @@ import ProfileForm from './ProfileForm';
 import MultiSelect from './MultiSelect';
 import LabeledValue from './LabeledValue';
 import ExternalLink from './ExternalLink';
+import NewPasswordForm from './NewPasswordForm';
 
 import FormField from './FormField';
 import FormSlider from './FormSlider';
@@ -37,5 +38,6 @@ export {
   MultiSelect,
   LabeledValue,
   ExternalLink,
-  FormMultiSelect
+  FormMultiSelect,
+  NewPasswordForm
 };
