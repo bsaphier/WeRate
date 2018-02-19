@@ -73,12 +73,12 @@ class PlacesTab extends Component {
   }
 
   render() {
-    const { filterBy, placesById, onResetPlaceFilter, orderPlacesByNameAsc, orderPlacesByNameDes, orderPlacesByReviewAvgAsc, orderPlacesByReviewAvgDsc } = this.props;
+    const { loggedIn, filterBy, placesById, onResetPlaceFilter, orderPlacesByNameAsc, orderPlacesByNameDes, orderPlacesByReviewAvgAsc, orderPlacesByReviewAvgDsc } = this.props;
     const filterAlphAsc = filterBy === FILTER_ALPH_ASCENDING;
     const filterAlphDes = filterBy === FILTER_ALPH_DESCENDING;
     const filterRtngAsc = filterBy === FILTER_RATING_ASCENDING;
     const filterRtngDes = filterBy === FILTER_RATING_DESCENDING;
-    return (
+    return loggedIn && (
       <View style={styles.viewContainer}>
         <View style={styles.buttonContainer}>
           <Button title="show all" onPress={onResetPlaceFilter} />
@@ -98,6 +98,7 @@ class PlacesTab extends Component {
 
 
 const mapState = (state) => ({
+  loggedIn: state.auth.isLoggedIn,
   loading: state.fetch.initialStateLoaded,
   tagsById: state.tags.byId,
   usersById: state.users.byId,

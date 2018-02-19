@@ -11,7 +11,7 @@ import { signupRequest } from '../state/Auth/action-creators';
 class Login extends Component<loginProps, loginState> {
   constructor(props) {
     super(props);
-    this.state = { signup: false };
+    this.state = { signup: false /*, signupSuccess: false */};
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
@@ -39,7 +39,19 @@ class Login extends Component<loginProps, loginState> {
     });
   }
 
-  renderLogin() {
+  // setSignupSuccessState = (bool: boolean) => {
+  //   this.setState({ signupSuccess: bool });
+  // }
+
+  // renderSignupSuccessModal = () => {
+  //   return (
+  //     <View>
+  //       <Button title="lkkl" onPress={() => {}} />
+  //     </View>
+  //   );
+  // }
+
+  renderLogin = () => {
     return this.props.approvedUser ? (
       <NewPasswordForm
           err={this.props.err}
@@ -104,16 +116,17 @@ const styles = StyleSheet.create({
 
 
 type loginProps = {
-  err: any,
-  login: any,
-  signup: any,
-  navigator: any,
-  confirmSignup: any,
-  checkIfLoggedIn: any,
-  isLoading: boolean,
-  isFetching: boolean
+  err: any;
+  login: any;
+  signup: any;
+  navigator: any;
+  confirmSignup: any;
+  checkIfLoggedIn: any;
+  isLoading: boolean;
+  isFetching: boolean;
 };
 
 type loginState = {
-  signup: boolean
+  signup: boolean;
+  // signupSuccess: boolean;
 }

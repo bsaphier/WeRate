@@ -1,6 +1,6 @@
 // @flow
 import { combineReducers } from 'redux';
-import { ADD_REVIEW, ADD_REVIEWS, EDIT_REVIEW, REMOVE_REVIEW } from './types';
+import { ADD_REVIEW, ADD_REVIEWS, EDIT_REVIEW, RESET_REVIEWS, REMOVE_REVIEW } from './types';
 import type { Reducer } from 'redux';
 import type { AllIds, Action, Review, ReviewsById, AddReviewAction, EditReviewAction, AddReviewsAction, RemoveReviewAction } from './types';
 
@@ -52,6 +52,8 @@ function reviewsById(state: ReviewsById = {}, action: Action): ReviewsById {
       return removeReview(state, action);
     case ADD_REVIEWS:
       return addReviews(state, action);
+    case RESET_REVIEWS:
+      return {};
     default:
       (action: empty);
       return state;
@@ -69,6 +71,8 @@ function allReviews(state: AllIds = [], action: Action): AllIds {
       return state.filter(id => (id !== action.payload.id));
     case ADD_REVIEWS:
       return state.concat(action.payload.map((review: Review) => review.id));
+    case RESET_REVIEWS:
+      return [];
     default:
       (action: empty);
       return state;

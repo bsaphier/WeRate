@@ -62,8 +62,8 @@ export const signinRequest: ThunkAction = (login: Login) => {
     try {
       const { user: signedInUser } = await signInWithEmailAndPassword(login);
       console.log('signinRequest * signedInUser: ', signedInUser);
-      const approvedUser = await dispatch(setUser(signedInUser));
-      return { verified: true, approved: approvedUser };
+      const isApprovedUser = await dispatch(setUser(signedInUser));
+      return { verified: true, approved: isApprovedUser };
     } catch (error) {
       dispatch(loginFail(`${error}`));
     }
@@ -85,6 +85,7 @@ export const signupRequest: ThunkAction = (signupUser: Login & User) => {
       // TODO: close the form to redirect user
     } catch (error) {
       dispatch(loginFail(`${error}`));
+      return false;
     }
     return newPendinguser;
   };

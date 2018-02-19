@@ -62,6 +62,7 @@ export const fetchInitialData: ThunkAction = (forceUpdate = false) => {
 
 
 export default {
+  resetData,
   fetchingData,
   fetchSuccess,
   fetchingFailed,

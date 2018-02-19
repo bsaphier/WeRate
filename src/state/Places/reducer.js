@@ -1,6 +1,6 @@
 // @flow
 import { combineReducers } from 'redux';
-import { ADD_PLACE, EDIT_PLACE, ADD_PLACES, REMOVE_PLACE } from './types';
+import { ADD_PLACE, EDIT_PLACE, ADD_PLACES, RESET_PLACES, REMOVE_PLACE } from './types';
 import { ADD_REVIEW, REMOVE_REVIEW } from '../Reviews/types';
 import { ADD_TAG, REMOVE_TAG } from '../Tags/types';
 import type { Reducer } from 'redux';
@@ -140,6 +140,8 @@ function placesById(state: PlacesById = {}, action: Action | AddReviewAction | A
       return removePlace(state, action);
     case ADD_PLACES:
       return addPlaces(state, action);
+    case RESET_PLACES:
+      return {};
     default:
       (action: empty);
       return state;
@@ -157,6 +159,8 @@ function allPlaces(state: AllIds = [], action: Action): AllIds {
       return state.filter(placeId => (placeId !== action.payload.id));
     case ADD_PLACES:
       return state.concat(action.payload.map((place: Place) => place.id));
+    case RESET_PLACES:
+      return [];
     default:
       (action: empty);
       return state;
