@@ -110,8 +110,7 @@ export const checkAuth: ThunkAction = () => {
     const authenticatedUser = whoAmI();
     console.log('checkAuth * authenticatedUser :', authenticatedUser);
     if (authenticatedUser) {
-      await dispatch(setUser(authenticatedUser));
-      return true;
+      return await dispatch(setUser(authenticatedUser));
     }
     return false;
   };

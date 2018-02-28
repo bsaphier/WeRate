@@ -27,6 +27,7 @@ let createNewUserInDb = (() => {
         id: uid,
         reviewIds: [],
         admin: false,
+        approved: false,
         firstName,
         lastName,
         business,
@@ -45,8 +46,23 @@ let createNewUserInDb = (() => {
   };
 })();
 
+let deletePendingUserFromDb = (() => {
+  var _ref7 = _asyncToGenerator(function* (uid) {
+    try {
+      const store = getStore();
+      return yield store.collection(REQ_ACCOUNT).doc(uid).delete();
+    } catch (error) {
+      console.log('Error deleting firestore pending_user', error);
+    }
+  });
+
+  return function deletePendingUserFromDb(_x10) {
+    return _ref7.apply(this, arguments);
+  };
+})();
+
 let sendEmail = (() => {
-  var _ref7 = _asyncToGenerator(function* (emailData) {
+  var _ref8 = _asyncToGenerator(function* (emailData) {
     try {
       const data = yield mailgun.messages().send(emailData);
       console.log(data);
@@ -57,13 +73,13 @@ let sendEmail = (() => {
     }
   });
 
-  return function sendEmail(_x10) {
-    return _ref7.apply(this, arguments);
+  return function sendEmail(_x11) {
+    return _ref8.apply(this, arguments);
   };
 })();
 
 let getAdmin = (() => {
-  var _ref8 = _asyncToGenerator(function* () {
+  var _ref9 = _asyncToGenerator(function* () {
     let adminUser;
     try {
       const store = getStore();
@@ -79,7 +95,7 @@ let getAdmin = (() => {
   });
 
   return function getAdmin() {
-    return _ref8.apply(this, arguments);
+    return _ref9.apply(this, arguments);
   };
 })();
 
@@ -115,6 +131,7 @@ admin.initializeApp(functions.config().firebase);
 const getStore = () => admin.firestore();
 
 const generateTempPassword = () => {
+  // TODO ...
   return 'admin123';
 };
 
@@ -171,9 +188,10 @@ const handleUserRequestApproved = (() => {
   var _ref2 = _asyncToGenerator(function* (user) {
     const tempPassword = generateTempPassword();
     try {
-      const newAuthUser = yield createNewAuthuser(user.email, tempPassword);
+      const { uid } = yield createNewAuthuser(user.email, tempPassword);
       const emailData = constructUserRequestApprovedEmail(user, tempPassword);
-      yield createNewUserInDb(user, newAuthUser.uid);
+      yield createNewUserInDb(user, uid);
+      yield deletePendingUserFromDb(uid);
       return yield sendEmail(emailData);
     } catch (error) {
       console.log('FAIL * handleUserRequestApproved * ', error);

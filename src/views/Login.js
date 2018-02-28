@@ -40,7 +40,8 @@ class Login extends Component<loginProps, loginState> {
   }
 
   renderLogin = () => {
-    return this.props.approvedUser ? (
+    console.log('*!*!*!*!*!*!* -- firstTimeUser', this.props.firstTimeUser);
+    return this.props.firstTimeUser ? (
       <NewPasswordForm
           err={this.props.err}
           onSubmit={this.props.firstTimeSignIn}
@@ -75,7 +76,7 @@ const mapState = ({ auth, fetch }) => ({
   err: auth.err,
   isLoading: auth.isLoading,
   isFetching: fetch.isFetching,
-  approvedUser: auth.user.approved
+  firstTimeUser: auth.isLoggedIn && !auth.user.approved
 });
 
 const mapDispatch = dispatch => ({
@@ -108,6 +109,7 @@ type loginProps = {
   firstTimeSignIn: any;
   isLoading: boolean;
   isFetching: boolean;
+  firstTimeUser: boolean;
 };
 
 type loginState = {

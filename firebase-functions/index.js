@@ -66,9 +66,10 @@ const approveUserRequest = async (uid) => {
 const handleUserRequestApproved = async (user) => {
   const tempPassword = generateTempPassword();
   try {
-    const newAuthUser = await createNewAuthuser(user.email, tempPassword);
+    const { uid } = await createNewAuthuser(user.email, tempPassword);
     const emailData = constructUserRequestApprovedEmail(user, tempPassword);
-    await createNewUserInDb(user, newAuthUser.uid);
+    await createNewUserInDb(user, uid);
+    await deletePendingUserFromDb(uid);
     return await sendEmail(emailData);
   } catch (error) {
     console.log('FAIL * handleUserRequestApproved * ', error);
@@ -127,6 +128,15 @@ async function createNewUserInDb({ firstName, lastName, business, website, email
     return docRef;
   } catch (error) {
     console.log('Error creating firestore user', error);
+  }
+}
+
+async function deletePendingUserFromDb(uid) {
+  try {
+    const store = getStore();
+    return await store.collection(REQ_ACCOUNT).doc(uid).delete();
+  } catch (error) {
+    console.log('Error deleting firestore pending_user', error);
   }
 }
 
