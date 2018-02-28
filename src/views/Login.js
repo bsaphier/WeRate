@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import { LoginForm, SignupForm, NewPasswordForm } from './components';
-import { login, checkIfLoggedIn } from '../state/App/action-creators';
+import { login, checkIfLoggedIn, firstTimeSignIn } from '../state/App/action-creators';
 import { signupRequest } from '../state/Auth/action-creators';
 
 
@@ -11,7 +11,7 @@ import { signupRequest } from '../state/Auth/action-creators';
 class Login extends Component<loginProps, loginState> {
   constructor(props) {
     super(props);
-    this.state = { signup: false /*, signupSuccess: false */};
+    this.state = { signup: false };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
@@ -39,23 +39,11 @@ class Login extends Component<loginProps, loginState> {
     });
   }
 
-  // setSignupSuccessState = (bool: boolean) => {
-  //   this.setState({ signupSuccess: bool });
-  // }
-
-  // renderSignupSuccessModal = () => {
-  //   return (
-  //     <View>
-  //       <Button title="lkkl" onPress={() => {}} />
-  //     </View>
-  //   );
-  // }
-
   renderLogin = () => {
     return this.props.approvedUser ? (
       <NewPasswordForm
           err={this.props.err}
-          onSubmit={this.props.login}
+          onSubmit={this.props.firstTimeSignIn}
           isLoading={this.props.isLoading || this.props.isFetching}
       />
     ) : (
@@ -76,13 +64,7 @@ class Login extends Component<loginProps, loginState> {
               onSubmit={this.props.signup}
               isLoading={this.props.isLoading || this.props.isFetching}
           />
-        ) : (
-          <LoginForm
-              err={this.props.err}
-              onSubmit={this.props.login}
-              isLoading={this.props.isLoading || this.props.isFetching}
-          />
-        )}
+        ) : (this.renderLogin())}
       </View>
     );
   }
@@ -99,7 +81,8 @@ const mapState = ({ auth, fetch }) => ({
 const mapDispatch = dispatch => ({
   checkIfLoggedIn: () => dispatch(checkIfLoggedIn()),
   signup: (newUser) => dispatch(signupRequest(newUser)),
-  login: ({ email, password }) => dispatch(login({ email, password }))
+  login: ({ email, password }) => dispatch(login({ email, password })),
+  firstTimeSignIn: ({ password, confirmPassword }) => dispatch(firstTimeSignIn({ password, confirmPassword }))
 });
 
 
@@ -122,11 +105,11 @@ type loginProps = {
   navigator: any;
   confirmSignup: any;
   checkIfLoggedIn: any;
+  firstTimeSignIn: any;
   isLoading: boolean;
   isFetching: boolean;
 };
 
 type loginState = {
   signup: boolean;
-  // signupSuccess: boolean;
 }

@@ -116,6 +116,7 @@ async function createNewUserInDb({ firstName, lastName, business, website, email
       id: uid,
       reviewIds: [],
       admin: false,
+      approved: false,
       firstName,
       lastName,
       business,

@@ -8,7 +8,8 @@ import type { Root, AppRootChangedAction } from './types';
 import { LOGIN_ROOT, ROOT_CHANGED, APP_ROOT } from './types';
 import { checkAuth, signinRequest, signOutRequest, loginRequest, loginFail } from '../Auth/action-creators';
 import { resetData, fetchInitialData } from '../Loader/action-creators';
-
+import { resetUserPassword } from '../../utils/auth-actions';
+import { modifyUserInDb } from '../../utils/firestore-actions';
 
 
 
@@ -17,12 +18,15 @@ export const changeAppRoot: ActionCreator = (root: Root): AppRootChangedAction =
   root
 });
 
+
+
 export const appInitialized: ThunkAction = () => {
   return dispatch => {
     // this is a good place for app initialization code
     dispatch(changeAppRoot(LOGIN_ROOT));
   };
 };
+
 
 export const login: ThunkAction = (userCred: Login | User) => async dispatch => {
   // login/signup logic would go here, and when it's done, switch app roots
@@ -36,15 +40,34 @@ export const login: ThunkAction = (userCred: Login | User) => async dispatch => 
   return approved;
 };
 
+
 export const logout: ThunkAction = () => async dispatch => {
   await dispatch(signOutRequest());
   dispatch(changeAppRoot(LOGIN_ROOT));
   dispatch(resetData());
 };
 
-// export const signup: ThunkAction = (signupUser: User) => async dispatch => {
-//   await dispatch(signupRequest(userCred));
-// };
+
+export const firstTimeSignIn: ThunkAction = ({ password, confirmPassword }) => {
+  return async (dispatch, getState) => {
+    dispatch(loginRequest());
+    if (password !== confirmPassword) {
+      dispatch(loginFail('Password does not match Confirm Password'));
+      return false;
+    }
+    const { user } = getState().auth;
+    try {
+      await resetUserPassword(password);
+      const updatedUser = { ...user, approved: true };
+      await modifyUserInDb(updatedUser);
+      // this checks auth again, loads the DB data (including the updated user) to the app state, and starts the main app.
+      await dispatch(checkIfLoggedIn());
+    } catch (error) {
+      dispatch(loginFail(error));
+    }
+  };
+};
+
 
 export const checkIfLoggedIn: ThunkAction = () => async dispatch => {
   dispatch(loginRequest());
@@ -59,25 +82,11 @@ export const checkIfLoggedIn: ThunkAction = () => async dispatch => {
 };
 
 
-// function _LoginOrSignupGenerator(action: ActionCreator) {
-//   return (userCred: Login | User | empty) => async dispatch => {
-//     // login/signup logic would go here, and when it's done, we switch app roots
-//     const authActionResponse = await dispatch(signinRequest(userCred));
-//     if (authActionResponse) {
-//       /** fetchInitialData will set the Loader reducer state */
-//       await dispatch(fetchInitialData()); // don't wait for this in the future -> a loading screen should display at the app root
-//       dispatch(changeAppRoot(APP_ROOT));
-//     }
-//     return authActionResponse;
-//   };
-// }
-
-
 export default {
   login,
   logout,
-  // signup,
   changeAppRoot,
   appInitialized,
-  checkIfLoggedIn
+  checkIfLoggedIn,
+  firstTimeSignIn
 };

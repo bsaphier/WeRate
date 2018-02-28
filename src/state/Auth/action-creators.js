@@ -45,7 +45,7 @@ export const setUser: ThunkAction = (authUser) => {
         dispatch(loginSuccess(userFromDb));
         return userFromDb.approved;
       } else {
-        dispatch(loginPending());
+        dispatch(loginFail());
       }
       return false;
     } catch (error) {
@@ -103,6 +103,7 @@ export const signOutRequest: ThunkAction = () => {
     }
   };
 };
+
 
 export const checkAuth: ThunkAction = () => {
   return async dispatch => {
