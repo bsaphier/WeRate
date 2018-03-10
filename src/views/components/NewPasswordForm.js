@@ -11,6 +11,7 @@ const NewPasswordForm = ({ err, values, isLoading, handleSubmit }) => (
         name="password"
         label="Password"
         placeholder="*******"
+        autoCapitalize="none"
         autoCorrect={false}
         secureTextEntry
     />
@@ -18,6 +19,7 @@ const NewPasswordForm = ({ err, values, isLoading, handleSubmit }) => (
         name="confirmPassword"
         label="ConfirmPassword"
         placeholder="*******"
+        autoCapitalize="none"
         autoCorrect={false}
         secureTextEntry
     />

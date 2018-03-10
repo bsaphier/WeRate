@@ -37,6 +37,7 @@ const SignupForm = ({ err, values, isLoading, handleSubmit }) => (
         name="website"
         label="Website"
         autoCapitalize="none"
+        keyboardType="url"
         placeholder="www.myWebsite.com"
     />
     <FormField
@@ -47,7 +48,7 @@ const SignupForm = ({ err, values, isLoading, handleSubmit }) => (
     <FormField
         name="phone"
         label="Phone"
-        keyboardType="phone-pad"
+        keyboardType="number-pad"
         placeholder="111 123 4567"
     />
     {err ? <Text style={styles.errorTextStyle}>{err}</Text> : null}
