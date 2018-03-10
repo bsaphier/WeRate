@@ -40,7 +40,6 @@ class Login extends Component<loginProps, loginState> {
   }
 
   renderLogin = () => {
-    console.log('*!*!*!*!*!*!* -- firstTimeUser', this.props.firstTimeUser);
     return this.props.firstTimeUser ? (
       <NewPasswordForm
           err={this.props.err}

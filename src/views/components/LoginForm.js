@@ -12,12 +12,15 @@ const LoginForm = ({ err, values, isLoading, handleSubmit }) => (
         label="Email Address"
         placeholder="you@domain.com"
         autoCorrect={false}
+        autoCapitalize="none"
+        keyboardType="email-address"
     />
     <FormField
         name="password"
         label="Password"
         placeholder="*******"
         autoCorrect={false}
+        autoCapitalize="none"
         secureTextEntry
     />
     {err ? <Text style={styles.errorTextStyle}>{err}</Text> : null}

@@ -21,17 +21,22 @@ const SignupForm = ({ err, values, isLoading, handleSubmit }) => (
     <FormField
         name="email"
         label="Email Address"
+        autoCapitalize="none"
+        keyboardType="email-address"
         placeholder="you@domain.com"
     />
     <FormField
         name="confirmEmail"
         label="Confirm Email"
         autoCorrect={false}
+        autoCapitalize="none"
+        keyboardType="email-address"
         placeholder="you@domain.com"
     />
     <FormField
         name="website"
         label="Website"
+        autoCapitalize="none"
         placeholder="www.myWebsite.com"
     />
     <FormField
@@ -42,6 +47,7 @@ const SignupForm = ({ err, values, isLoading, handleSubmit }) => (
     <FormField
         name="phone"
         label="Phone"
+        keyboardType="phone-pad"
         placeholder="111 123 4567"
     />
     {err ? <Text style={styles.errorTextStyle}>{err}</Text> : null}

@@ -21,11 +21,13 @@ const ProfileForm = ({ values, handleSubmit }) => (
     <FormField
         name="email"
         label="Email Address"
+        keyboardType="email-address"
         placeholder="you@domain.com"
     />
     <FormField
         name="website"
         label="Website"
+        autoCapitalize="none"
         placeholder="www.myWebsite.com"
     />
     <FormField
@@ -36,6 +38,7 @@ const ProfileForm = ({ values, handleSubmit }) => (
     <FormField
         name="phone"
         label="Phone"
+        keyboardType="phone-pad"
         placeholder="111 123 4567"
     />
     <View style={styles.buttonWrapper}>
