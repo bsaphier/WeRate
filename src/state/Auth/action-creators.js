@@ -7,6 +7,7 @@ import type { User } from '../Users/types';
 import { LOGIN_REQUEST, LOGOUT_REQUEST, LOGIN_PENDING, LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS } from './types';
 import { whoAmI, logoutUser, signInWithEmailAndPassword } from '../../utils/auth-actions';
 import { getUserFromDb, createPendingUserInDb } from '../../utils/firestore-actions';
+import { signupResquestPending } from '../App/action-creators';
 
 
 
@@ -82,7 +83,7 @@ export const signupRequest: ThunkAction = (signupUser: Login & User) => {
       const user = { email, firstName, lastName, business, phone, website };
       newPendinguser = await createPendingUserInDb(user);
       dispatch(loginPending());
-      // TODO: close the form to redirect user
+      dispatch(signupResquestPending());
     } catch (error) {
       dispatch(loginFail(`${error}`));
       return false;

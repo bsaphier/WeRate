@@ -5,7 +5,7 @@ import store from './state/store';
 import { registerScreens } from './views/screens';
 import { iconsMap, loadIcons } from './utils/icons-loader';
 import { appInitialized } from './state/App/action-creators';
-import { APP_ROOT, LOGIN_ROOT } from './state/App/types';
+import { APP_ROOT, LOGIN_ROOT, PENDING_SIGNUP_ROOT } from './state/App/types';
 
 
 
@@ -48,11 +48,31 @@ export default class App extends Component {
         });
         break;
 
+      case PENDING_SIGNUP_ROOT:
+        Navigation.startSingleScreenApp({
+          // TODO ...
+          screen: {
+            screen: 'werate.Login',
+            title: 'Welcome',
+            navigatorStyle: {},
+            navigatorButtons: {
+              rightButtons: [
+                {
+                  title: 'sign up',
+                  id: 'login.event.toggleSignup'
+                }
+              ]
+            }
+          }
+          // ^^^ TODO ^^^
+        });
+        break;
+
       case APP_ROOT:
         Navigation.startTabBasedApp({
           tabs: [
             {
-              title: 'Home',
+              title: 'My Group', // In the future, when there are multiple groups, this title will be fetched before loading
               label: 'Home',
               screen: 'werate.tab.home',
               icon: iconsMap['ios-home-outline'],
@@ -108,7 +128,7 @@ export default class App extends Component {
                   }
                 ]
               }
-            },
+            } /*,
             {
               title: 'More',
               label: 'More',
@@ -123,7 +143,7 @@ export default class App extends Component {
                   }
                 ]
               }
-            }
+            } */
           ]
         });
         return;

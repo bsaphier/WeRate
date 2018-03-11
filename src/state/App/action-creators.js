@@ -5,7 +5,7 @@ import type { ThunkAction } from 'redux-thunk';
 import type { Login } from '../Auth/types';
 import type { User } from '../Users/types';
 import type { Root, AppRootChangedAction } from './types';
-import { LOGIN_ROOT, ROOT_CHANGED, APP_ROOT } from './types';
+import { LOGIN_ROOT, ROOT_CHANGED, APP_ROOT, PENDING_SIGNUP_ROOT } from './types';
 import { checkAuth, signinRequest, signOutRequest, loginRequest, loginFail } from '../Auth/action-creators';
 import { resetData, fetchInitialData } from '../Loader/action-creators';
 import { resetUserPassword } from '../../utils/auth-actions';
@@ -24,6 +24,12 @@ export const appInitialized: ThunkAction = () => {
   return dispatch => {
     // this is a good place for app initialization code
     dispatch(changeAppRoot(LOGIN_ROOT));
+  };
+};
+
+export const signupResquestPending: ThunkAction = () => {
+  return dispatch => {
+    dispatch(changeAppRoot(PENDING_SIGNUP_ROOT));
   };
 };
 
@@ -88,5 +94,6 @@ export default {
   changeAppRoot,
   appInitialized,
   checkIfLoggedIn,
-  firstTimeSignIn
+  firstTimeSignIn,
+  signupResquestPending
 };
