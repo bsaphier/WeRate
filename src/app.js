@@ -51,13 +51,10 @@ export default class App extends Component {
 
       case PENDING_SIGNUP_ROOT:
         Navigation.startSingleScreenApp({
-          // TODO ...
           screen: {
             screen: 'werate.Pending',
-            // title: 'Welcome',
             navigatorStyle: {}
           }
-          // ^^^ TODO ^^^
         });
         break;
 

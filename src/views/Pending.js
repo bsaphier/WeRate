@@ -7,7 +7,7 @@ import { LOGIN_ROOT } from '../state/App/types';
 
 const SignupSuccess = (props) => (
   <View style={styles.container}>
-    <Text>Thank You For Signing Up</Text>
+    <Text>Thank You For Signing Up. You will receive an email when your account has been approved.</Text>
     <Button title="Back To Login" onPress={props.goToLoginScreen} />
   </View>
 );
