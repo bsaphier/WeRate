@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, StyleSheet } from 'react-native';
+import { View, ScrollView, Button, StyleSheet } from 'react-native';
 import { LoginForm, SignupForm, NewPasswordForm } from './components';
 import { login, checkIfLoggedIn, firstTimeSignIn } from '../state/App/action-creators';
 import { signupRequest } from '../state/Auth/action-creators';
@@ -12,31 +12,20 @@ class Login extends Component<loginProps, loginState> {
   constructor(props) {
     super(props);
     this.state = { signup: false };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   componentDidMount() {
     this.props.checkIfLoggedIn();
   }
 
-  onNavigatorEvent = (event) => {
-    if (event.type == 'NavBarButtonPress') {
-      if (event.id == 'login.event.toggleSignup') {
-        this.toggleSignupForm();
-      }
-    }
-  }
-
   toggleSignupForm = () => {
     this.setState({ signup: !this.state.signup });
-    this.props.navigator.setButtons({
-      rightButtons: [
-        {
-          title: this.state.signup ? 'cancel' : 'sign up',
-          id: 'login.event.toggleSignup'
-        }
-      ]
-    });
+  }
+
+  renderToggleFormBtn = () => {
+    return (
+      <Button title={this.state.signup ? 'Cancel' : 'Sign Up'} onPress={this.toggleSignupForm} />
+    );
   }
 
   renderLogin = () => {
@@ -58,13 +47,16 @@ class Login extends Component<loginProps, loginState> {
   render() {
     return (
       <View style={styles.container}>
-        {this.state.signup ? (
-          <SignupForm
-              err={this.props.err}
-              onSubmit={this.props.signup}
-              isLoading={this.props.isLoading || this.props.isFetching}
-          />
-        ) : (this.renderLogin())}
+        <ScrollView contentContainerStyle={styles.inputWrapper} centerContent={true}>
+          {this.state.signup ? (
+            <SignupForm
+                err={this.props.err}
+                onSubmit={this.props.signup}
+                isLoading={this.props.isLoading || this.props.isFetching}
+            />
+          ) : (this.renderLogin())}
+          {this.renderToggleFormBtn()}
+        </ScrollView>
       </View>
     );
   }
@@ -94,6 +86,13 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     backgroundColor: '#F0F0F0'
+  },
+  inputWrapper: {
+    paddingTop: 10,
+    paddingRight: 20,
+    paddingBottom: 8,
+    paddingLeft: 20,
+    backgroundColor: '#FFF'
   }
 });
 

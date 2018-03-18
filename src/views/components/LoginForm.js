@@ -6,7 +6,7 @@ import { Spinner, FormField } from '../components';
 
 
 const LoginForm = ({ err, values, isLoading, handleSubmit }) => (
-  <View style={styles.container}>
+  <View>
     <FormField
         name="email"
         label="Email Address"
@@ -24,7 +24,7 @@ const LoginForm = ({ err, values, isLoading, handleSubmit }) => (
         secureTextEntry
     />
     {err ? <Text style={styles.errorTextStyle}>{err}</Text> : null}
-    {isLoading ? <Spinner /> : <Button title="Log in" onPress={() => handleSubmit(values)} />}
+    {isLoading ? <Spinner /> : <Button title="Sign In" onPress={() => handleSubmit(values)} />}
   </View>
 );
 
@@ -35,12 +35,6 @@ export default reduxForm({
 
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 10,
-    paddingRight: 20,
-    paddingLeft: 20,
-    backgroundColor: '#FFF'
-  },
   errorTextStyle: {
     color: '#E64A19',
     alignSelf: 'center',

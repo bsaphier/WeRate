@@ -36,15 +36,7 @@ export default class App extends Component {
           screen: {
             screen: 'werate.Login',
             title: 'Welcome',
-            navigatorStyle: {},
-            navigatorButtons: {
-              rightButtons: [
-                {
-                  title: 'sign up',
-                  id: 'login.event.toggleSignup'
-                }
-              ]
-            }
+            navigatorStyle: {}
           }
         });
         break;

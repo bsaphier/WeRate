@@ -6,7 +6,7 @@ import { Spinner, FormField } from '../components';
 
 
 const NewPasswordForm = ({ err, values, isLoading, handleSubmit }) => (
-  <View style={styles.container}>
+  <View>
     <FormField
         name="password"
         label="Password"
@@ -35,12 +35,6 @@ export default reduxForm({
 
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 10,
-    paddingRight: 20,
-    paddingLeft: 20,
-    backgroundColor: '#FFF'
-  },
   errorTextStyle: {
     color: '#E64A19',
     alignSelf: 'center',

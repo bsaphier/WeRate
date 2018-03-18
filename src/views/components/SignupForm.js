@@ -7,7 +7,7 @@ import { FormField } from '../components';
 
 
 const SignupForm = ({ err, values, isLoading, handleSubmit }) => (
-  <View style={styles.container}>
+  <View>
     <FormField
         name="firstName"
         label="First Name"
@@ -52,7 +52,7 @@ const SignupForm = ({ err, values, isLoading, handleSubmit }) => (
         placeholder="111 123 4567"
     />
     {err ? <Text style={styles.errorTextStyle}>{err}</Text> : null}
-    {isLoading ? <Spinner /> : <Button onPress={() => handleSubmit(values)} title="Sign Up" />}
+    {isLoading ? <Spinner /> : <Button onPress={() => handleSubmit(values)} title="Create New Account" />}
   </View>
 );
 
@@ -63,12 +63,6 @@ export default reduxForm({
 
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 10,
-    paddingRight: 20,
-    paddingLeft: 20,
-    backgroundColor: '#FFF'
-  },
   errorTextStyle: {
     color: '#E64A19',
     alignSelf: 'center',
