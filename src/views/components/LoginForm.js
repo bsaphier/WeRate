@@ -1,7 +1,7 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import { Spinner, FormField } from '../components';
+import { View, Text, StyleSheet } from 'react-native';
+import { Btn, Spinner, FormField } from '../components';
 
 
 
@@ -24,7 +24,7 @@ const LoginForm = ({ err, values, isLoading, handleSubmit }) => (
         secureTextEntry
     />
     {err ? <Text style={styles.errorTextStyle}>{err}</Text> : null}
-    {isLoading ? <Spinner /> : <Button title="Sign In" onPress={() => handleSubmit(values)} />}
+    {isLoading ? <Spinner /> : <Btn title="Sign In" onPress={() => handleSubmit(values)} />}
   </View>
 );
 

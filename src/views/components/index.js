@@ -1,4 +1,5 @@
 import Tag from './Tag';
+import Btn from './Btn';
 import Sketch from './Sketch';
 import Spinner from './Spinner';
 import UserCard from './UserCard';
@@ -22,6 +23,7 @@ import FormMultiSelect from './FormMultiSelect';
 
 export {
   Tag,
+  Btn,
   Sketch,
   Spinner,
   ActionTag,

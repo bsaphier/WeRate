@@ -1,8 +1,8 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, ScrollView, Button, StyleSheet } from 'react-native';
-import { LoginForm, SignupForm, NewPasswordForm } from './components';
+import { View, ScrollView, StyleSheet } from 'react-native';
+import { Btn, LoginForm, SignupForm, NewPasswordForm } from './components';
 import { login, checkIfLoggedIn, firstTimeSignIn } from '../state/App/action-creators';
 import { signupRequest } from '../state/Auth/action-creators';
 
@@ -24,7 +24,7 @@ class Login extends Component<loginProps, loginState> {
 
   renderToggleFormBtn = () => {
     return (
-      <Button title={this.state.signup ? 'Cancel' : 'Sign Up'} onPress={this.toggleSignupForm} />
+      <Btn title={this.state.signup ? 'Cancel' : 'Sign Up'} onPress={this.toggleSignupForm} />
     );
   }
 
