@@ -1,6 +1,7 @@
 import { Navigation } from 'react-native-navigation';
-import Login from './Login';
 import HomeTab from './HomeTab';
+import Login from './Login';
+import Pending from './Pending';
 import MoreTab from './MoreTab';
 import PlacesTab from './PlacesTab';
 import ProfileTab from './ProfileTab';
@@ -15,6 +16,7 @@ import ProfileScreen from './ProfileScreen';
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
   Navigation.registerComponent('werate.Login', () => Login, store, Provider);
+  Navigation.registerComponent('werate.Pending', () => Pending, store, Provider);
   Navigation.registerComponent('werate.tab.home', () => HomeTab, store, Provider);
   Navigation.registerComponent('werate.tab.more', () => MoreTab, store, Provider);
   Navigation.registerComponent('werate.tab.places', () => PlacesTab, store, Provider);

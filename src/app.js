@@ -1,3 +1,4 @@
+/* globals console */
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
@@ -52,17 +53,9 @@ export default class App extends Component {
         Navigation.startSingleScreenApp({
           // TODO ...
           screen: {
-            screen: 'werate.Login',
-            title: 'Welcome',
-            navigatorStyle: {},
-            navigatorButtons: {
-              rightButtons: [
-                {
-                  title: 'sign up',
-                  id: 'login.event.toggleSignup'
-                }
-              ]
-            }
+            screen: 'werate.Pending',
+            // title: 'Welcome',
+            navigatorStyle: {}
           }
           // ^^^ TODO ^^^
         });
@@ -72,8 +65,8 @@ export default class App extends Component {
         Navigation.startTabBasedApp({
           tabs: [
             {
-              title: 'My Group', // In the future, when there are multiple groups, this title will be fetched before loading
-              label: 'Home',
+              title: 'Home',
+              label: 'My Group',  // In the future, when there are multiple groups, this title will be fetched before loading
               screen: 'werate.tab.home',
               icon: iconsMap['ios-home-outline'],
               overrideBackPress: false,
