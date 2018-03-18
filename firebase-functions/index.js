@@ -14,8 +14,8 @@ admin.initializeApp(functions.config().firebase);
 const getStore = () => admin.firestore();
 
 const generateTempPassword = () => {
-  // TODO ...
-  return 'admin123';
+  const randomAlphaNumericString = Math.random().toString(36).slice(-9);
+  return randomAlphaNumericString;
 };
 
 
