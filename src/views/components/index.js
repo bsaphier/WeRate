@@ -1,4 +1,5 @@
 import Tag from './Tag';
+import Txt from './Txt';
 import Btn from './Btn';
 import Sketch from './Sketch';
 import Spinner from './Spinner';
@@ -23,6 +24,7 @@ import FormMultiSelect from './FormMultiSelect';
 
 export {
   Tag,
+  Txt,
   Btn,
   Sketch,
   Spinner,

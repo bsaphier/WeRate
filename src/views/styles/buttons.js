@@ -13,6 +13,7 @@ export default StyleSheet.create({
     color: colors.SHADE.DARK,
     textAlign: 'center',
     fontSize: 16,
-    fontWeight: '200'
+    fontWeight: '600',
+    fontFamily: 'Hiragino Sans'
   }
 });
