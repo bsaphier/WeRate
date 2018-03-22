@@ -1,17 +1,17 @@
 import React from 'react';
-import { Button, StyleSheet } from 'react-native';
+import { Text, TouchableHighlight } from 'react-native';
+import style from '../styles/buttons';
+import colors from '../styles/colors';
 
 
 
 const Btn = ({ title, onPress }) => {
   return (
-    <Button title={title} onPress={onPress} />
+    <TouchableHighlight style={style.default} onPress={onPress} underlayColor={colors.BRAND_MAIN.LIGHT}>
+      <Text style={style.defaultText}>{ title.toUpperCase() }</Text>
+    </TouchableHighlight>
   );
 };
-
-
-const styles = StyleSheet.create({
-});
 
 
 export default Btn;

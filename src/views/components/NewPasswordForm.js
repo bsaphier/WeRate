@@ -1,7 +1,8 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import { Btn, Spinner, FormField } from '../components';
+import styles from '../styles/forms';
 
 
 
@@ -32,13 +33,3 @@ const NewPasswordForm = ({ err, values, isLoading, handleSubmit }) => (
 export default reduxForm({
   form: 'newPasswordForm'
 })(NewPasswordForm);
-
-
-const styles = StyleSheet.create({
-  errorTextStyle: {
-    color: '#E64A19',
-    alignSelf: 'center',
-    paddingTop: 10,
-    paddingBottom: 10
-  }
-});

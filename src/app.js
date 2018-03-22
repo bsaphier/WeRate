@@ -7,6 +7,7 @@ import { registerScreens } from './views/screens';
 import { iconsMap, loadIcons } from './utils/icons-loader';
 import { appInitialized } from './state/App/action-creators';
 import { APP_ROOT, LOGIN_ROOT, PENDING_SIGNUP_ROOT } from './state/App/types';
+import colors from './views/styles/colors';
 
 
 
@@ -35,8 +36,9 @@ export default class App extends Component {
         Navigation.startSingleScreenApp({
           screen: {
             screen: 'werate.Login',
-            title: 'Welcome',
-            navigatorStyle: {}
+            navigatorStyle: {
+              navBarBackgroundColor: colors.BRAND_DARK.BASE
+            }
           }
         });
         break;
@@ -45,7 +47,9 @@ export default class App extends Component {
         Navigation.startSingleScreenApp({
           screen: {
             screen: 'werate.Pending',
-            navigatorStyle: {}
+            navigatorStyle: {
+              navBarHidden: true
+            }
           }
         });
         break;
@@ -59,7 +63,8 @@ export default class App extends Component {
               screen: 'werate.tab.home',
               icon: iconsMap['ios-home-outline'],
               overrideBackPress: false,
-              navigatorStyle: {},
+              navigatorStyle: {
+              },
               navigatorButtons: {
                 leftButtons: [
                   {
@@ -74,7 +79,8 @@ export default class App extends Component {
               label: 'Places',
               screen: 'werate.tab.places',
               icon: iconsMap['ios-pin-outline'],
-              navigatorStyle: {},
+              navigatorStyle: {
+              },
               navigatorButtons: {
                 leftButtons: [
                   {
@@ -95,7 +101,8 @@ export default class App extends Component {
               label: 'Profile',
               screen: 'werate.tab.profile',
               icon: iconsMap['ios-body-outline'],
-              navigatorStyle: {},
+              navigatorStyle: {
+              },
               navigatorButtons: {
                 leftButtons: [
                   {

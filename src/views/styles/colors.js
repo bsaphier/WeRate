@@ -1,22 +1,26 @@
 export default {
-  GREEN_MAIN: {
+  BRAND_MAIN: {
     DARK: '#1D8C3A',
-    BASE: '#3F5F69',
-    LIGHT: '#90FFAD'
+    BASE: '#35FF69',
+    LIGHT: '#90FFAD',
+    LIGHTER: '#C7FFD6'
   },
-  GREEN_DARK: {
+  BRAND_DARK: {
     DARK: '#005438',
     BASE: '#009966',
-    LIGHT: '#73C7AB'
+    LIGHT: '#73C7AB',
+    LIGHTER: '#B9E3D5'
   },
-  BLUE: {
+  BRAND_ALT: {
     DARK: '#26708C',
     BASE: '#44CCFF',
-    LIGHT: '#99E3FF'
+    LIGHT: '#99E3FF',
+    LIGHTER: '#CCF1FF'
   },
   SHADE: {
     DARK: '#282827',
     BASE: '#494947',
-    LIGHT: '#9B9B9A'
+    LIGHT: '#9B9B9A',
+    LIGHTER: '#CDCDCC'
   }
 };

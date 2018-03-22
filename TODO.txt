@@ -35,7 +35,6 @@ U.I.
 ** Auth-guard -- Navigation
 
 
-** Register as a new user notifies admin for approval. The user is not verified until approved.
-    ** Working but currently aproving the user sets the new user's password to a hard-coded value 'admin123'
+√ Register as a new user notifies admin for approval. The user is not verified until approved.
     • generate a temporary password
     • request a password change on first log in

@@ -83,16 +83,13 @@ export default connect(mapState, mapDispatch)(Login);
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
-    justifyContent: 'center',
-    backgroundColor: '#F0F0F0'
+    height: '100%'
   },
   inputWrapper: {
     paddingTop: 10,
     paddingRight: 20,
     paddingBottom: 8,
-    paddingLeft: 20,
-    backgroundColor: '#FFF'
+    paddingLeft: 20
   }
 });
 
