@@ -1,12 +1,12 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
-import { View, Text } from 'react-native';
-import { Btn, Spinner, FormField } from '../components';
+import { View } from 'react-native';
+import { FormField, Txt } from '../components';
 import styles from '../styles/forms';
 
 
 
-const SignupForm = ({ err, values, isLoading, handleSubmit }) => (
+const SignupForm = ({ err }) => (
   <View>
     <FormField
         name="firstName"
@@ -51,8 +51,8 @@ const SignupForm = ({ err, values, isLoading, handleSubmit }) => (
         keyboardType="number-pad"
         placeholder="111 123 4567"
     />
-    {err ? <Text style={styles.errorTextStyle}>{err}</Text> : null}
-    {isLoading ? <Spinner /> : <Btn onPress={() => handleSubmit(values)} title="Create New Account" />}
+    {err ? <Txt style={styles.errorTextStyle}>{err}</Txt> : null}
+    {/* isLoading ? <Spinner /> : <Btn onPress={() => handleSubmit(values)} title="Create New Account" /> */}
   </View>
 );
 

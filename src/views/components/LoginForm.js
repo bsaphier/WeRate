@@ -1,12 +1,12 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
-import { View, Text } from 'react-native';
-import { Btn, Spinner, FormField, Txt } from '../components';
+import { View } from 'react-native';
+import { FormField, Txt } from '../components';
 import styles from '../styles/forms';
 
 
 
-const LoginForm = ({ err, values, isLoading, handleSubmit }) => (
+const LoginForm = ({ err }) => (
   <View>
     <FormField
         name="email"
@@ -24,8 +24,8 @@ const LoginForm = ({ err, values, isLoading, handleSubmit }) => (
         autoCapitalize="none"
         secureTextEntry
     />
-    {err ? (<Txt><Text style={styles.errorTextStyle}>{err}</Text></Txt>) : null}
-    {isLoading ? <Spinner /> : <Btn title="Sign In" onPress={() => handleSubmit(values)} />}
+    {err ? (<Txt style={styles.errorTextStyle}>{ err }</Txt>) : null}
+    {/* isLoading ? <Spinner /> : <Btn title="Sign In" onPress={() => handleSubmit(values)} />*/}
   </View>
 );
 

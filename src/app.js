@@ -37,7 +37,8 @@ export default class App extends Component {
           screen: {
             screen: 'werate.Login',
             navigatorStyle: {
-              navBarBackgroundColor: colors.PRIMARY.BASE
+              navBarHidden: true
+              // navBarBackgroundColor: colors.PRIMARY.BASE
             }
           }
         });

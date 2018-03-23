@@ -1,8 +1,9 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { submit } from 'redux-form';
 import { View, ScrollView, StyleSheet } from 'react-native';
-import { Btn, LoginForm, SignupForm, NewPasswordForm } from './components';
+import { Btn, Spinner, LoginForm, SignupForm, NewPasswordForm } from './components';
 import { login, checkIfLoggedIn, firstTimeSignIn } from '../state/App/action-creators';
 import { signupRequest } from '../state/Auth/action-creators';
 
@@ -22,9 +23,15 @@ class Login extends Component<loginProps, loginState> {
     this.setState({ signup: !this.state.signup });
   }
 
-  renderToggleFormBtn = () => {
+  renderButtons = () => {
+    const { signup, isLoading, isFetching, submitLogin, firstTimeUser, firstTimeSignIn } = this.props;
+    const submitTitle = this.state.signup ? 'Sign Up' : firstTimeUser ? 'Continue' : 'Sign In';
+    const submitAction = this.state.signup ? signup : firstTimeUser ? firstTimeSignIn : submitLogin;
     return (
-      <Btn title={this.state.signup ? 'Cancel' : 'Sign Up'} onPress={this.toggleSignupForm} />
+      <View>
+        {(isLoading || isFetching) ? <Spinner /> : <Btn title={submitTitle} onPress={submitAction} />}
+        <Btn title={this.state.signup ? 'Cancel' : 'Sign Up'} onPress={this.toggleSignupForm} />
+      </View>
     );
   }
 
@@ -55,7 +62,7 @@ class Login extends Component<loginProps, loginState> {
                 isLoading={this.props.isLoading || this.props.isFetching}
             />
           ) : (this.renderLogin())}
-          {this.renderToggleFormBtn()}
+          {this.renderButtons()}
         </ScrollView>
       </View>
     );
@@ -72,6 +79,9 @@ const mapState = ({ auth, fetch }) => ({
 
 const mapDispatch = dispatch => ({
   checkIfLoggedIn: () => dispatch(checkIfLoggedIn()),
+  submitLogin: () => dispatch(submit('loginForm')),
+  submitSignUp: () => dispatch(submit('signupForm')),
+  submitNewPassword: () => dispatch(submit('newPasswordForm')),
   signup: (newUser) => dispatch(signupRequest(newUser)),
   login: ({ email, password }) => dispatch(login({ email, password })),
   firstTimeSignIn: ({ password, confirmPassword }) => dispatch(firstTimeSignIn({ password, confirmPassword }))
@@ -87,9 +97,9 @@ const styles = StyleSheet.create({
   },
   inputWrapper: {
     paddingTop: 10,
-    paddingRight: 20,
+    paddingRight: 25,
     paddingBottom: 8,
-    paddingLeft: 20
+    paddingLeft: 25
   }
 });
 
@@ -97,6 +107,9 @@ const styles = StyleSheet.create({
 type loginProps = {
   err: any;
   login: any;
+  submitLogin: any;
+  submitSignUp: any;
+  submitNewPassword: any;
   signup: any;
   navigator: any;
   confirmSignup: any;

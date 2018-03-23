@@ -1,12 +1,12 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
-import { View, Text } from 'react-native';
-import { Txt, Btn, Spinner, FormField } from '../components';
+import { View } from 'react-native';
+import { Txt, FormField } from '../components';
 import styles from '../styles/forms';
 
 
 
-const NewPasswordForm = ({ err, values, isLoading, handleSubmit }) => (
+const NewPasswordForm = ({ err }) => (
   <View>
     <FormField
         name="password"
@@ -24,8 +24,8 @@ const NewPasswordForm = ({ err, values, isLoading, handleSubmit }) => (
         autoCorrect={false}
         secureTextEntry
     />
-    {err ? (<Txt><Text style={styles.errorTextStyle}>{err}</Text></Txt>) : null}
-    {isLoading ? <Spinner /> : <Btn title="Continue" onPress={() => handleSubmit(values)} />}
+    {err ? (<Txt style={styles.errorTextStyle}>{ err }</Txt>) : null}
+    {/* isLoading ? <Spinner /> : <Btn title="Continue" onPress={() => handleSubmit(values)} /> */}
   </View>
 );
 
