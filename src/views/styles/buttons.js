@@ -5,24 +5,20 @@ export default StyleSheet.create({
   container: {
     marginTop: 10,
     marginBottom: 10,
-    // padding: 10,
-    // borderRadius: 21,
-    // backgroundColor: colors.PRIMARY.LIGHT,
-    // justifyContent: 'center',
-    // alignItems: 'center' 
+    borderRadius: 8
   },
   backgroundFill: {
     flex: 1,
     paddingLeft: 15,
     paddingRight: 15,
-    borderRadius: 5
+    borderRadius: 8
   },
   buttonText: {
     fontSize: 18,
-    fontFamily: 'Gill Sans',
+    fontWeight: '600',
     textAlign: 'center',
-    margin: 10,
-    color: '#ffffff',
-    backgroundColor: 'transparent',
+    margin: 8,
+    color: 'white',
+    backgroundColor: 'transparent'
   }
 });

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text } from 'react-native';
-import style from '../styles/text';
+import styles from '../styles/text';
 
 
 
-const Txt = ({ children }) => {
+const Txt = ({ style, children }) => {
   return (
-      <Text style={style.default}>{ children }</Text>
+      <Text style={[styles.default, style]}>{ children }</Text>
   );
 };
 

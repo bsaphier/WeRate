@@ -1,14 +1,17 @@
 import React from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, TextInput } from 'react-native';
 import { Field } from 'redux-form';
 import styles from '../styles/forms';
+import colors from '../styles/colors';
+import Txt from './Txt';
 
 
 
 const _TextInput = ({ input: { onChange, ...inputProps }, ...props}) => (
   <TextInput
-      style={styles.inputStyle}
+      style={styles.formTextInput}
       onChangeText={onChange}
+      placeholderTextColor={colors.SHADE.LIGHTER}
       {...inputProps}
       {...props}
   />
@@ -17,7 +20,7 @@ const _TextInput = ({ input: { onChange, ...inputProps }, ...props}) => (
 
 const FormField = ({ label, ...props }) => (
   <View style={styles.inputContainerStyle}>
-    <Text style={styles.labelStyle}>{ label }</Text>
+    <Txt style={styles.labelStyle}>{ label }</Txt>
     <Field
         component={_TextInput}
         {...props}

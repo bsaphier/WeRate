@@ -15,7 +15,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     width: '100%',
-    borderColor: colors.SHADE.LIGHT,
+    borderColor: colors.SHADE.LIGHTER,
     borderBottomWidth: 1
   },
   labelStyle: {
@@ -24,13 +24,14 @@ export default StyleSheet.create({
     fontWeight: '800',
     flex: 0.8
   },
-  inputStyle: {
+  formTextInput: {
     paddingRight: 2,
     paddingLeft: 2,
     paddingBottom: 1,
-    color: colors.PRIMARY.DARK,
+    color: colors.PRIMARY.DARKER,
     fontSize: 26,
     fontWeight: '200',
+    fontFamily: 'Kohinoor Bangla',
     flex: 1.2,
     height: 59,
     width: '100%'
