@@ -1,21 +1,10 @@
 export default {
-  BRAND_MAIN: {
-    DARK: '#1D8C3A',
-    BASE: '#35FF69',
-    LIGHT: '#90FFAD',
-    LIGHTER: '#C7FFD6'
-  },
-  BRAND_DARK: {
-    DARK: '#005438',
-    BASE: '#009966',
-    LIGHT: '#73C7AB',
-    LIGHTER: '#B9E3D5'
-  },
-  BRAND_ALT: {
-    DARK: '#26708C',
-    BASE: '#44CCFF',
-    LIGHT: '#99E3FF',
-    LIGHTER: '#CCF1FF'
+  PRIMARY: {
+    DARKER: '#00330D',
+    DARK: '#00741F',
+    BASE: '#07A431',
+    LIGHT: '#3EBB5F',
+    LIGHTER: '#ABE3BA'
   },
   SHADE: {
     DARK: '#282827',

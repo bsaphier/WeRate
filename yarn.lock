@@ -4010,6 +4010,12 @@ react-native-firebase@^3.2.4:
     postinstall-build "^5.0.1"
     prop-types "^15.6.0"
 
+react-native-linear-gradient@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.4.0.tgz#51d8ea12bb72a59bede9edc87b694b16b64cf435"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-navigation@^1.1.281:
   version "1.1.348"
   resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.348.tgz#91e615eec9af32060f480c30342a3f3418110bb8"

@@ -20,7 +20,7 @@ export default StyleSheet.create({
   },
   labelStyle: {
     fontSize: 16,
-    color: colors.BRAND_DARK.BASE,
+    color: colors.PRIMARY.DARK,
     fontWeight: '800',
     flex: 0.8
   },
@@ -28,7 +28,7 @@ export default StyleSheet.create({
     paddingRight: 2,
     paddingLeft: 2,
     paddingBottom: 1,
-    color: colors.BRAND_DARK.BASE,
+    color: colors.PRIMARY.DARK,
     fontSize: 26,
     fontWeight: '200',
     flex: 1.2,
