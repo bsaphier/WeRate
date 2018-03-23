@@ -52,7 +52,6 @@ const SignupForm = ({ err }) => (
         placeholder="111 123 4567"
     />
     {err ? <Txt style={styles.errorTextStyle}>{err}</Txt> : null}
-    {/* isLoading ? <Spinner /> : <Btn onPress={() => handleSubmit(values)} title="Create New Account" /> */}
   </View>
 );
 

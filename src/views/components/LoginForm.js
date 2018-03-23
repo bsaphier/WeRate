@@ -25,7 +25,6 @@ const LoginForm = ({ err }) => (
         secureTextEntry
     />
     {err ? (<Txt style={styles.errorTextStyle}>{ err }</Txt>) : null}
-    {/* isLoading ? <Spinner /> : <Btn title="Sign In" onPress={() => handleSubmit(values)} />*/}
   </View>
 );
 

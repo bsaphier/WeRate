@@ -25,7 +25,6 @@ const NewPasswordForm = ({ err }) => (
         secureTextEntry
     />
     {err ? (<Txt style={styles.errorTextStyle}>{ err }</Txt>) : null}
-    {/* isLoading ? <Spinner /> : <Btn title="Continue" onPress={() => handleSubmit(values)} /> */}
   </View>
 );
 

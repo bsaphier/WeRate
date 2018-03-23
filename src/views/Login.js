@@ -28,7 +28,7 @@ class Login extends Component<loginProps, loginState> {
     const submitTitle = this.state.signup ? 'Sign Up' : firstTimeUser ? 'Continue' : 'Sign In';
     const submitAction = this.state.signup ? signup : firstTimeUser ? firstTimeSignIn : submitLogin;
     return (
-      <View>
+      <View style={styles.buttonWrapper}>
         {(isLoading || isFetching) ? <Spinner /> : <Btn title={submitTitle} onPress={submitAction} />}
         <Btn title={this.state.signup ? 'Cancel' : 'Sign Up'} onPress={this.toggleSignupForm} />
       </View>
@@ -37,17 +37,9 @@ class Login extends Component<loginProps, loginState> {
 
   renderLogin = () => {
     return this.props.firstTimeUser ? (
-      <NewPasswordForm
-          err={this.props.err}
-          onSubmit={this.props.firstTimeSignIn}
-          isLoading={this.props.isLoading || this.props.isFetching}
-      />
+      <NewPasswordForm err={this.props.err} onSubmit={this.props.firstTimeSignIn} />
     ) : (
-      <LoginForm
-          err={this.props.err}
-          onSubmit={this.props.login}
-          isLoading={this.props.isLoading || this.props.isFetching}
-      />
+      <LoginForm err={this.props.err} onSubmit={this.props.login} />
     );
   }
 
@@ -56,14 +48,10 @@ class Login extends Component<loginProps, loginState> {
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.inputWrapper} centerContent={true}>
           {this.state.signup ? (
-            <SignupForm
-                err={this.props.err}
-                onSubmit={this.props.signup}
-                isLoading={this.props.isLoading || this.props.isFetching}
-            />
+            <SignupForm err={this.props.err} onSubmit={this.props.signup} />
           ) : (this.renderLogin())}
-          {this.renderButtons()}
         </ScrollView>
+        {this.renderButtons()}
       </View>
     );
   }
@@ -93,7 +81,13 @@ export default connect(mapState, mapDispatch)(Login);
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%'
+    height: '100%',
+    // flex: 1,
+    justifyContent: 'space-between'
+  },
+  buttonWrapper: {
+    backgroundColor: 'red'
+    // height: '100%'
   },
   inputWrapper: {
     paddingTop: 10,
