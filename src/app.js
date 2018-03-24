@@ -7,7 +7,6 @@ import { registerScreens } from './views/screens';
 import { iconsMap, loadIcons } from './utils/icons-loader';
 import { appInitialized } from './state/App/action-creators';
 import { APP_ROOT, LOGIN_ROOT, PENDING_SIGNUP_ROOT } from './state/App/types';
-import colors from './views/styles/colors';
 
 
 
@@ -38,7 +37,6 @@ export default class App extends Component {
             screen: 'werate.Login',
             navigatorStyle: {
               navBarHidden: true
-              // navBarBackgroundColor: colors.PRIMARY.BASE
             }
           }
         });

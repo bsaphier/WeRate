@@ -36,21 +36,28 @@ class Login extends Component<loginProps, loginState> {
   }
 
   renderLogin = () => {
-    return this.props.firstTimeUser ? (
-      <NewPasswordForm err={this.props.err} onSubmit={this.props.firstTimeSignIn} />
-    ) : (
-      <LoginForm err={this.props.err} onSubmit={this.props.login} />
-    );
+    if (this.state.signup) {
+      return <SignupForm err={this.props.err} onSubmit={this.props.signup} />;
+    }
+    else if (this.props.firstTimeUser) {
+      return <NewPasswordForm err={this.props.err} onSubmit={this.props.firstTimeSignIn} />;
+    }
+    else {
+      return <LoginForm err={this.props.err} onSubmit={this.props.login} />;
+    }
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={styles.inputWrapper} centerContent={true}>
-          {this.state.signup ? (
-            <SignupForm err={this.props.err} onSubmit={this.props.signup} />
-          ) : (this.renderLogin())}
-        </ScrollView>
+        <View style={styles.header}>
+          {}
+        </View>
+        <View style={styles.container}>
+          <ScrollView contentContainerStyle={styles.inputWrapper} centerContent={true}>
+            {this.renderLogin()}
+          </ScrollView>
+        </View>
         {this.renderButtons()}
       </View>
     );
@@ -81,16 +88,26 @@ export default connect(mapState, mapDispatch)(Login);
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
-    // flex: 1,
-    justifyContent: 'space-between'
+    // height: '100%',
+    flex: 1,
+    // justifyContent: 'space-between'
+  },
+  header: {
+    flex: 0.06,
+    // backgroundColor: 'red'
   },
   buttonWrapper: {
-    backgroundColor: 'red'
+    flex: 0.1,
+    flexDirection: 'row',
+    alignContent: 'center',
+    paddingBottom: 15,
+    paddingRight: 10,
+    paddingLeft: 10
     // height: '100%'
   },
   inputWrapper: {
-    paddingTop: 10,
+    // flex: 0.5,
+    paddingTop: 20,
     paddingRight: 25,
     paddingBottom: 8,
     paddingLeft: 25

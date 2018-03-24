@@ -9,14 +9,11 @@ export default StyleSheet.create({
     paddingBottom: 10
   },
   inputContainerStyle: {
-    // height: 60,
     marginTop: 5,
     marginBottom: 21,
     flexDirection: 'column',
     alignItems: 'flex-start',
-    width: '100%',
-    // borderColor: colors.SHADE.LIGHTER,
-    // borderBottomWidth: 1
+    width: '100%'
   },
   labelStyle: {
     // marginBottom: 5,
