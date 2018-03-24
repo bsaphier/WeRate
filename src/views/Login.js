@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { submit } from 'redux-form';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { Btn, Spinner, LoginForm, SignupForm, NewPasswordForm } from './components';
 import { login, checkIfLoggedIn, firstTimeSignIn } from '../state/App/action-creators';
 import { signupRequest } from '../state/Auth/action-creators';
@@ -49,7 +49,7 @@ class Login extends Component<loginProps, loginState> {
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.header}>
           {}
         </View>
@@ -59,7 +59,7 @@ class Login extends Component<loginProps, loginState> {
           </ScrollView>
         </View>
         {this.renderButtons()}
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -88,28 +88,18 @@ export default connect(mapState, mapDispatch)(Login);
 
 const styles = StyleSheet.create({
   container: {
-    // height: '100%',
-    flex: 1,
-    // justifyContent: 'space-between'
+    flex: 1
   },
   header: {
-    flex: 0.06,
-    // backgroundColor: 'red'
+    height: '8%'
   },
   buttonWrapper: {
-    flex: 0.1,
-    flexDirection: 'row',
-    alignContent: 'center',
-    paddingBottom: 15,
-    paddingRight: 10,
-    paddingLeft: 10
-    // height: '100%'
+    flexDirection: 'row'
   },
   inputWrapper: {
-    // flex: 0.5,
-    paddingTop: 20,
+    flexGrow: 1,
+    justifyContent: 'center',
     paddingRight: 25,
-    paddingBottom: 8,
     paddingLeft: 25
   }
 });

@@ -17,7 +17,7 @@ export default StyleSheet.create({
   },
   labelStyle: {
     // marginBottom: 5,
-    fontSize: 16,
+    fontSize: 14,
     // fontFamily: 'Avenir Next',
     color: colors.PRIMARY.DARK,
     // fontWeight: '700',
@@ -25,7 +25,7 @@ export default StyleSheet.create({
   },
   formTextInput: {
     paddingBottom: 1,
-    color: colors.PRIMARY.DARKER,
+    color: colors.SHADE.BASE,
     fontSize: 25,
     // fontWeight: '100',
     fontFamily: 'Avenir Next',

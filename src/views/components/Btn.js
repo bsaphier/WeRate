@@ -13,7 +13,7 @@ const Btn = ({ title, onPress }) => {
       <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          colors={[colors.PRIMARY.LIGHTER, colors.PRIMARY.BASE]}
+          colors={[colors.PRIMARY.LIGHTER, colors.PRIMARY.BASE, colors.PRIMARY.LIGHT]}
           style={styles.backgroundFill}
       >
         <View style={styles.innerContainer}>
