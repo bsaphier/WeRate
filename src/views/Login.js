@@ -5,8 +5,9 @@ import { submit } from 'redux-form';
 import { View, ScrollView, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { Txt, Btn, Spinner, LoginForm, SignupForm, NewPasswordForm } from './components';
 import { login, checkIfLoggedIn, firstTimeSignIn } from '../state/App/action-creators';
-import { signupRequest } from '../state/Auth/action-creators';
+import { signupRequest, setAuthErrorMessage } from '../state/Auth/action-creators';
 import formStyles from './styles/forms';
+import colors from './styles/colors';
 
 
 
@@ -21,6 +22,7 @@ class Login extends Component<loginProps, loginState> {
   }
 
   toggleSignupForm = () => {
+    this.props.setAuthError('');
     this.setState({ signup: !this.state.signup });
   }
 
@@ -28,10 +30,13 @@ class Login extends Component<loginProps, loginState> {
     const { isLoading, isFetching, submitLogin, submitSignUp, firstTimeUser, submitNewPassword } = this.props;
     const submitTitle = this.state.signup ? 'Sign Up' : firstTimeUser ? 'Continue' : 'Sign In';
     const submitAction = this.state.signup ? submitSignUp : firstTimeUser ? submitNewPassword : submitLogin;
-    return (isLoading || isFetching) ? <Spinner large /> : (
+    return (
       <View style={styles.buttonWrapper}>
-        <Btn title={this.state.signup ? 'Cancel' : 'Sign Up'} onPress={this.toggleSignupForm} />
-        <Btn title={submitTitle} onPress={submitAction} />
+        {
+          (isLoading || isFetching)
+            ? <Spinner large />
+            : <Btn title={submitTitle} onPress={submitAction} />
+        }
       </View>
     );
   }
@@ -56,15 +61,20 @@ class Login extends Component<loginProps, loginState> {
         </View>
         <View style={styles.container}>
           <ScrollView contentContainerStyle={styles.inputWrapper} centerContent={true}>
-            {this.renderLogin()}
+            { this.renderLogin() }
+            <Txt style={styles.subText}>
+              {`${this.state.signup ? 'Already' : 'Don\'t'} have an account? `}
+              <Txt style={styles.subTextButton} onPress={this.toggleSignupForm}>Click here</Txt>
+              {` to sign ${this.state.signup ? 'in' : 'up'}.`}
+            </Txt>
             {
               this.props.err 
-              ? <Txt style={formStyles.errorTextStyle}>{this.props.err}</Txt> 
-              : null
+                ? <Txt style={formStyles.errorTextStyle}>{this.props.err}</Txt> 
+                : null
             }
           </ScrollView>
         </View>
-        {this.renderButtons()}
+        { this.renderButtons() }
       </KeyboardAvoidingView>
     );
   }
@@ -85,6 +95,7 @@ const mapDispatch = dispatch => ({
   submitNewPassword: () => dispatch(submit('newPasswordForm')),
   signup: (newUser) => dispatch(signupRequest(newUser)),
   login: ({ email, password }) => dispatch(login({ email, password })),
+  setAuthError: (errMessage) => dispatch(setAuthErrorMessage(errMessage)),
   firstTimeSignIn: ({ password, confirmPassword }) => dispatch(firstTimeSignIn({ password, confirmPassword }))
 });
 
@@ -98,6 +109,14 @@ const styles = StyleSheet.create({
   },
   header: {
     height: '8%'
+  },
+  subText: {
+    fontSize: 12,
+    textAlign: 'center',
+    color: colors.PRIMARY.BASE
+  },
+  subTextButton: {
+    textDecorationLine: 'underline'
   },
   buttonWrapper: {
     flexDirection: 'row'
@@ -117,6 +136,7 @@ type loginProps = {
   submitLogin: any;
   submitSignUp: any;
   submitNewPassword: any;
+  setAuthError: any;
   signup: any;
   navigator: any;
   confirmSignup: any;

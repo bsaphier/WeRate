@@ -4,9 +4,9 @@ import styles from '../styles/text';
 
 
 
-const Txt = ({ style, children }) => {
+const Txt = ({ style, children, ...props }) => {
   return (
-      <Text style={[styles.default, style]}>{ children }</Text>
+      <Text style={[styles.default, style]} {...props}>{ children }</Text>
   );
 };
 
