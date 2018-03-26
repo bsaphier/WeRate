@@ -1,12 +1,11 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
 import { View } from 'react-native';
-import { Txt, FormField } from '../components';
-import styles from '../styles/forms';
+import { FormField } from '../components';
 
 
 
-const NewPasswordForm = ({ err }) => (
+const NewPasswordForm = () => (
   <View>
     <FormField
         name="password"
@@ -24,7 +23,6 @@ const NewPasswordForm = ({ err }) => (
         autoCorrect={false}
         secureTextEntry
     />
-    {err ? (<Txt style={styles.errorTextStyle}>{ err }</Txt>) : null}
   </View>
 );
 

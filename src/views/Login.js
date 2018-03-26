@@ -3,9 +3,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { submit } from 'redux-form';
 import { View, ScrollView, StyleSheet, KeyboardAvoidingView } from 'react-native';
-import { Btn, Spinner, LoginForm, SignupForm, NewPasswordForm } from './components';
+import { Txt, Btn, Spinner, LoginForm, SignupForm, NewPasswordForm } from './components';
 import { login, checkIfLoggedIn, firstTimeSignIn } from '../state/App/action-creators';
 import { signupRequest } from '../state/Auth/action-creators';
+import formStyles from './styles/forms';
 
 
 
@@ -24,13 +25,13 @@ class Login extends Component<loginProps, loginState> {
   }
 
   renderButtons = () => {
-    const { signup, isLoading, isFetching, submitLogin, firstTimeUser, firstTimeSignIn } = this.props;
+    const { isLoading, isFetching, submitLogin, submitSignUp, firstTimeUser, submitNewPassword } = this.props;
     const submitTitle = this.state.signup ? 'Sign Up' : firstTimeUser ? 'Continue' : 'Sign In';
-    const submitAction = this.state.signup ? signup : firstTimeUser ? firstTimeSignIn : submitLogin;
-    return (
+    const submitAction = this.state.signup ? submitSignUp : firstTimeUser ? submitNewPassword : submitLogin;
+    return (isLoading || isFetching) ? <Spinner large /> : (
       <View style={styles.buttonWrapper}>
-        {(isLoading || isFetching) ? <Spinner /> : <Btn title={submitTitle} onPress={submitAction} />}
         <Btn title={this.state.signup ? 'Cancel' : 'Sign Up'} onPress={this.toggleSignupForm} />
+        <Btn title={submitTitle} onPress={submitAction} />
       </View>
     );
   }
@@ -58,6 +59,7 @@ class Login extends Component<loginProps, loginState> {
             {this.renderLogin()}
           </ScrollView>
         </View>
+        {this.props.err ? <Txt style={formStyles.errorTextStyle}>{this.props.err}</Txt> : null}
         {this.renderButtons()}
       </KeyboardAvoidingView>
     );

@@ -6,8 +6,3 @@ export default StyleSheet.create({
     fontFamily: 'Futura'
   }
 });
-
-// Bodoni 72
-// Didot
-// Gurmukhi MN
-// Avenir Next

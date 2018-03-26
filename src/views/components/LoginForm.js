@@ -1,12 +1,11 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
 import { View } from 'react-native';
-import { FormField, Txt } from '../components';
-import styles from '../styles/forms';
+import { FormField } from '../components';
 
 
 
-const LoginForm = ({ err }) => (
+const LoginForm = () => (
   <View>
     <FormField
         name="email"
@@ -24,7 +23,6 @@ const LoginForm = ({ err }) => (
         autoCapitalize="none"
         secureTextEntry
     />
-    {err ? (<Txt style={styles.errorTextStyle}>{ err }</Txt>) : null}
   </View>
 );
 

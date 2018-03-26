@@ -1,12 +1,11 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
 import { View } from 'react-native';
-import { FormField, Txt } from '../components';
-import styles from '../styles/forms';
+import { FormField } from '../components';
 
 
 
-const SignupForm = ({ err }) => (
+const SignupForm = () => (
   <View>
     <FormField
         name="firstName"
@@ -51,7 +50,6 @@ const SignupForm = ({ err }) => (
         keyboardType="number-pad"
         placeholder="111 123 4567"
     />
-    {err ? <Txt style={styles.errorTextStyle}>{err}</Txt> : null}
   </View>
 );
 
