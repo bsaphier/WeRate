@@ -57,9 +57,13 @@ class Login extends Component<loginProps, loginState> {
         <View style={styles.container}>
           <ScrollView contentContainerStyle={styles.inputWrapper} centerContent={true}>
             {this.renderLogin()}
+            {
+              this.props.err 
+              ? <Txt style={formStyles.errorTextStyle}>{this.props.err}</Txt> 
+              : null
+            }
           </ScrollView>
         </View>
-        {this.props.err ? <Txt style={formStyles.errorTextStyle}>{this.props.err}</Txt> : null}
         {this.renderButtons()}
       </KeyboardAvoidingView>
     );

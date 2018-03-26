@@ -2,9 +2,9 @@
 /* globals console */
 import type { ActionCreator } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
-import type { Err, Login, LoginRequestAction, LoginPendingAction, LogoutRequestAction, LoginRequestFailAction, LoginRequestSuccessAction } from './types';
+import type { Err, Login, LoginRequestAction, LoginPendingAction, LogoutRequestAction, SetErrorMessageAction, LoginRequestFailAction, LoginRequestSuccessAction } from './types';
 import type { User } from '../Users/types';
-import { LOGIN_REQUEST, LOGOUT_REQUEST, LOGIN_PENDING, LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS } from './types';
+import { LOGIN_REQUEST, LOGOUT_REQUEST, LOGIN_PENDING, LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS, SET_ERROR_MESSAGE } from './types';
 import { whoAmI, logoutUser, signInWithEmailAndPassword } from '../../utils/auth-actions';
 import { getUserFromDb, createPendingUserInDb } from '../../utils/firestore-actions';
 import { signupResquestPending } from '../App/action-creators';
@@ -31,6 +31,11 @@ export const loginFail: ActionCreator = (err: Err): LoginRequestFailAction => ({
 export const loginSuccess: ActionCreator = (user: User): LoginRequestSuccessAction => ({
   type: LOGIN_REQUEST_SUCCESS,
   payload: user
+});
+
+export const setAuthErrorMessage: ActionCreator = (err: Err): SetErrorMessageAction => ({
+  type: SET_ERROR_MESSAGE,
+  payload: err
 });
 
 

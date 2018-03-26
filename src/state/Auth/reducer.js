@@ -1,5 +1,5 @@
 // @flow
-import { LOGIN_REQUEST, LOGOUT_REQUEST, LOGIN_REQUEST_FAIL, LOGIN_REQUEST_SUCCESS, LOGIN_PENDING } from './types';
+import { LOGIN_REQUEST, LOGOUT_REQUEST, LOGIN_REQUEST_FAIL, SET_ERROR_MESSAGE, LOGIN_REQUEST_SUCCESS, LOGIN_PENDING } from './types';
 import type { Action, authState } from './types';
 
 
@@ -70,6 +70,15 @@ export default function(state: authState = initialState, action: Action): authSt
         isLoading: false,
         err: '',
         user: { ...initialState.user }
+      };
+
+    case SET_ERROR_MESSAGE:
+      return {
+        isLoggedIn: state.isLoggedIn,
+        hasError: action.payload.length > 0,
+        isLoading: state.isLoading,
+        err: action.payload,
+        user: { ...state.user }
       };
 
     default:
