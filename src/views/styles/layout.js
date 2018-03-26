@@ -15,6 +15,7 @@ export default StyleSheet.create({
     paddingLeft: 25
   },
   buttonWrapper: {
+    justifyContent: 'center',
     flexDirection: 'row'
   }
 });

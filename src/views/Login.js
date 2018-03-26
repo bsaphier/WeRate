@@ -63,15 +63,19 @@ class Login extends Component<loginProps, loginState> {
         <View style={layoutStyles.container}>
           <ScrollView contentContainerStyle={layoutStyles.contentContainer} centerContent={true}>
             { this.renderLogin() }
-            <Txt style={textStyles.subTitle}>
-              {`${this.state.signup ? 'Already' : 'Don\'t'} have an account? `}
-              <Txt style={textStyles.subTitleButton} onPress={this.toggleSignupForm}>Click here</Txt>
-              {` to sign ${this.state.signup ? 'in' : 'up'}.`}
-            </Txt>
             {
-              this.props.err 
-                ? <Txt style={formStyles.errorTextStyle}>{this.props.err}</Txt> 
+              this.props.err
+                ? <Txt style={formStyles.errorTextStyle}>{this.props.err}</Txt>
                 : null
+            }
+            {
+              !this.props.firstTimeUser && (
+                <Txt style={textStyles.subTitle}>
+                  {`${this.state.signup ? 'Already' : 'Don\'t'} have an account? `}
+                  <Txt style={textStyles.subTitleButton} onPress={this.toggleSignupForm}>Click here</Txt>
+                  {` to sign ${this.state.signup ? 'in' : 'up'}.`}
+                </Txt>
+              )
             }
           </ScrollView>
         </View>

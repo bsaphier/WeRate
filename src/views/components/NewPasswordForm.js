@@ -9,7 +9,7 @@ const NewPasswordForm = () => (
   <View>
     <FormField
         name="password"
-        label="Password"
+        label="New Password"
         placeholder="*******"
         autoCapitalize="none"
         autoCorrect={false}
@@ -17,7 +17,7 @@ const NewPasswordForm = () => (
     />
     <FormField
         name="confirmPassword"
-        label="ConfirmPassword"
+        label="Confirm New Password"
         placeholder="*******"
         autoCapitalize="none"
         autoCorrect={false}
