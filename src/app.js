@@ -67,11 +67,11 @@ export default class App extends Component {
           tabsStyle: {
             tabBarTextFontFamily: 'Futura',
             tabBarBackgroundColor: 'white',
-            tabBarButtonColor: colors.PRIMARY.LIGHT,
+            tabBarButtonColor: colors.PRIMARY.DARKER,
             tabBarHideShadow: true, // iOS only
-            tabBarLabelColor: colors.PRIMARY.LIGHT, // iOS only
-            tabBarSelectedButtonColor: colors.PRIMARY.DARKER, // iOS only
-            tabBarSelectedTextColor: colors.PRIMARY.DARKER // iOS only
+            tabBarLabelColor: colors.PRIMARY.DARKER, // iOS only
+            tabBarSelectedButtonColor: colors.PRIMARY.LIGHT, // iOS only
+            tabBarSelectedTextColor: colors.PRIMARY.LIGHT // iOS only
           },
           tabs: [
             {
