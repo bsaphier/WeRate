@@ -5,6 +5,7 @@ import { submit } from 'redux-form';
 import { View } from 'react-native';
 import { editUser } from '../state/Users/action-creators';
 import { Btn, ProfileForm } from './components';
+import { navigatorStyle } from './styles/navigation';
 import layoutStyles from './styles/layout';
 
 
@@ -14,6 +15,8 @@ const CLOSE_MODAL_EVENT = 'modal.profile.event.cancel';
 
 class ProfileModal extends Component {
 
+  static navigatorStyle = navigatorStyle;
+  
   static navigatorButtons = {
     rightButtons: [
       {
