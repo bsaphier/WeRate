@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View } from 'react-native';
 import { logout } from '../state/App/action-creators';
-import { LabeledValue } from './components';
+import { UserProfile } from './components';
 
 
 
@@ -38,16 +37,8 @@ class ProfileTab extends Component {
   }
 
   render() {
-    const { email, firstName, lastName, business, phone, website } = this.props.user;
     return (
-      <View style={styles.container}>
-        <LabeledValue label="First Name" value={firstName} />
-        <LabeledValue label="Last Name" value={lastName} />
-        <LabeledValue label="Email" value={email} />
-        <LabeledValue label="Business" value={business} />
-        <LabeledValue label="Phone" value={phone} />
-        <LabeledValue label="Website" value={website} />
-      </View>
+      <UserProfile user={this.props.user} />
     );
   }
 }
@@ -62,13 +53,3 @@ const mapDispatch = dispatch => ({
 
 
 export default connect(mapState, mapDispatch)(ProfileTab);
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  }
-});

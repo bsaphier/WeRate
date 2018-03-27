@@ -7,8 +7,17 @@ import { registerScreens } from './views/screens';
 import { iconsMap, loadIcons } from './utils/icons-loader';
 import { appInitialized } from './state/App/action-creators';
 import { APP_ROOT, LOGIN_ROOT, PENDING_SIGNUP_ROOT } from './state/App/types';
+import colors from './views/styles/colors';
 
 
+
+const navigatorStyle = {
+  navBarNoBorder: true,
+  navBarBackgroundColor: 'white',
+  navBarTextColor: colors.PRIMARY.DARK,
+  navBarButtonColor: colors.PRIMARY.BASE,
+  disabledButtonColor: colors.PRIMARY.LIGHTER
+};
 
 loadIcons();
 registerScreens(store, Provider);
@@ -55,6 +64,15 @@ export default class App extends Component {
 
       case APP_ROOT:
         Navigation.startTabBasedApp({
+          tabsStyle: {
+            tabBarTextFontFamily: 'Futura',
+            tabBarBackgroundColor: 'white',
+            tabBarButtonColor: colors.PRIMARY.LIGHT,
+            tabBarHideShadow: true, // iOS only
+            tabBarLabelColor: colors.PRIMARY.LIGHT, // iOS only
+            tabBarSelectedButtonColor: colors.PRIMARY.DARKER, // iOS only
+            tabBarSelectedTextColor: colors.PRIMARY.DARKER // iOS only
+          },
           tabs: [
             {
               title: 'Home',
@@ -62,8 +80,7 @@ export default class App extends Component {
               screen: 'werate.tab.home',
               icon: iconsMap['ios-home-outline'],
               overrideBackPress: false,
-              navigatorStyle: {
-              },
+              navigatorStyle,
               navigatorButtons: {
                 leftButtons: [
                   {
@@ -78,8 +95,7 @@ export default class App extends Component {
               label: 'Places',
               screen: 'werate.tab.places',
               icon: iconsMap['ios-pin-outline'],
-              navigatorStyle: {
-              },
+              navigatorStyle,
               navigatorButtons: {
                 leftButtons: [
                   {
@@ -100,8 +116,7 @@ export default class App extends Component {
               label: 'Profile',
               screen: 'werate.tab.profile',
               icon: iconsMap['ios-body-outline'],
-              navigatorStyle: {
-              },
+              navigatorStyle,
               navigatorButtons: {
                 leftButtons: [
                   {

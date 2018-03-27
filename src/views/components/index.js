@@ -12,6 +12,7 @@ import ReviewCard from './ReviewCard';
 import SignupForm from './SignupForm';
 import ReviewForm from './ReviewForm';
 import ProfileForm from './ProfileForm';
+import UserProfile from './UserProfile';
 import MultiSelect from './MultiSelect';
 import LabeledValue from './LabeledValue';
 import ExternalLink from './ExternalLink';
@@ -39,6 +40,7 @@ export {
   SignupForm,
   ReviewForm,
   ProfileForm,
+  UserProfile,
   MultiSelect,
   LabeledValue,
   ExternalLink,
