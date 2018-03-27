@@ -1,6 +1,6 @@
 import React from 'react';
-import { reduxForm } from 'redux-form';
 import { View } from 'react-native';
+import { reduxForm } from 'redux-form';
 import { FormField } from '../components';
 
 

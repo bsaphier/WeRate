@@ -1,13 +1,13 @@
 import React from 'react';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { View, Button, StyleSheet } from 'react-native';
 import { FormField } from '../components';
 
 
 
-const ProfileForm = ({ values, handleSubmit }) => (
-  <View style={styles.containerStyle}>
+const ProfileForm = () => (
+  <View>
     <FormField
         name="firstName"
         label="First Name"
@@ -42,9 +42,6 @@ const ProfileForm = ({ values, handleSubmit }) => (
         keyboardType="number-pad"
         placeholder="111 123 4567"
     />
-    <View style={styles.buttonWrapper}>
-      <Button title="submit" onPress={() => handleSubmit(values)} />
-    </View>
   </View>
 );
 
@@ -64,17 +61,3 @@ const mapState = (state, { user }) => ({
 export default connect(mapState)(reduxForm({
   form: 'profileForm'
 })(ProfileForm));
-
-
-const styles = StyleSheet.create({
-  containerStyle: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    width: '100%',
-  },
-  buttonWrapper: {
-    width: '100%',
-    alignItems: 'center'
-  },
-});

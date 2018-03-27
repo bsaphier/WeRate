@@ -1,17 +1,24 @@
+/* globals console */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View } from 'react-native';
+import { submit } from 'redux-form';
+import { View } from 'react-native';
 import { editUser } from '../state/Users/action-creators';
-import { ProfileForm } from './components';
+import { Btn, ProfileForm } from './components';
+import layoutStyles from './styles/layout';
 
+
+// TODO: move all events (like this) to a single file of event constants
+const CLOSE_MODAL_EVENT = 'modal.profile.event.cancel';
 
 
 class ProfileModal extends Component {
+
   static navigatorButtons = {
     rightButtons: [
       {
         title: 'cancel',
-        id: 'modal.profile.event.cancel'
+        id: CLOSE_MODAL_EVENT
       }
     ]
   }
@@ -23,7 +30,7 @@ class ProfileModal extends Component {
 
   onNavigatorEvent = (event) => {
     if (event.type == 'NavBarButtonPress') {
-      if (event.id == 'modal.profile.event.cancel') {
+      if (event.id == CLOSE_MODAL_EVENT) {
         this.props.navigator.dismissModal();
       }
     }
@@ -41,11 +48,13 @@ class ProfileModal extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ProfileForm
-            user={this.props.user}
-            onSubmit={this.handleSubmit}
-        />
+      <View style={layoutStyles.container}>
+        <View style={layoutStyles.contentContainer}>
+          <ProfileForm user={this.props.user} onSubmit={this.handleSubmit} />
+        </View>
+        <View style={layoutStyles.buttonWrapper}>
+          <Btn title="submit" onPress={this.props.submitProfileForm} />
+        </View>
       </View>
     );
   }
@@ -53,16 +62,8 @@ class ProfileModal extends Component {
 
 
 const mapDispatch = dispatch => ({
+  submitProfileForm: () => dispatch(submit('profileForm')),
   handleEditUser: async (user) => await dispatch(editUser(user))
 });
 
-
 export default connect(null, mapDispatch)(ProfileModal);
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5FCFF'
-  }
-});

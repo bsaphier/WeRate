@@ -7,17 +7,9 @@ import { registerScreens } from './views/screens';
 import { iconsMap, loadIcons } from './utils/icons-loader';
 import { appInitialized } from './state/App/action-creators';
 import { APP_ROOT, LOGIN_ROOT, PENDING_SIGNUP_ROOT } from './state/App/types';
-import colors from './views/styles/colors';
+import { tabsStyle, navigatorStyle } from './views/styles/navigation';
 
 
-
-const navigatorStyle = {
-  navBarNoBorder: true,
-  navBarBackgroundColor: 'white',
-  navBarTextColor: colors.PRIMARY.DARK,
-  navBarButtonColor: colors.PRIMARY.BASE,
-  disabledButtonColor: colors.PRIMARY.LIGHTER
-};
 
 loadIcons();
 registerScreens(store, Provider);
@@ -64,15 +56,7 @@ export default class App extends Component {
 
       case APP_ROOT:
         Navigation.startTabBasedApp({
-          tabsStyle: {
-            tabBarTextFontFamily: 'Futura',
-            tabBarBackgroundColor: 'white',
-            tabBarButtonColor: colors.PRIMARY.DARKER,
-            tabBarHideShadow: true, // iOS only
-            tabBarLabelColor: colors.PRIMARY.DARKER, // iOS only
-            tabBarSelectedButtonColor: colors.PRIMARY.LIGHT, // iOS only
-            tabBarSelectedTextColor: colors.PRIMARY.LIGHT // iOS only
-          },
+          tabsStyle,
           tabs: [
             {
               title: 'Home',
