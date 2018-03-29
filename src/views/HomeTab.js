@@ -26,19 +26,11 @@ class HomeTab extends Component {
   }
 
   renderUserCard = ({ item: { userId } }) => {
-    const { admin, firstName, lastName, email, phone, business, website, reviewIds } = this.props.usersById[userId];
     return this.props.loaded && (
       <UserCard
           key={userId + 'userCard'}
           icon={'ios-images-outline'}
-          admin={admin}
-          email={email}
-          phone={phone}
-          website={website}
-          business={business}
-          lastName={lastName}
-          firstName={firstName}
-          reviewCount={reviewIds.length}
+          user={this.props.usersById[userId]}
       />
     );
   }
@@ -46,7 +38,7 @@ class HomeTab extends Component {
   render() {
     const { loaded, loggedIn, allUserIds } = this.props;
     return loggedIn && loaded ? (
-      <View>
+      <View style={styles.contentContainer}>
         <FlatList
             data={allUserIds.map(userId => ({ key: userId, userId }))}
             renderItem={this.renderUserCard}

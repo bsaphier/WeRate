@@ -1,13 +1,14 @@
 // @flow
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import styles from '../styles/forms';
+import Txt from './Txt';
 
 
 const LabeledValue = ({ label, value }: LabeledValueProps) => (
   <View style={styles.inputContainerStyle}>
-    <Text style={styles.labelStyle}>{label}</Text>
-    <Text style={styles.formTextInput}>{value}</Text>
+    <Txt style={styles.labelStyle}>{label}</Txt>
+    <Txt style={styles.formTextInput}>{value}</Txt>
   </View>
 );
 

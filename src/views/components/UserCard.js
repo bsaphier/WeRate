@@ -21,34 +21,36 @@ const UserCard = ({ icon, user }) => (
 
     <View style={styles.bodyContainer}>
 
-      <Txt style={styles.detailContainer}>Email: </Txt>
-      <ExternalLink
-          contentStyle={styles.detailContent}
-          content={user.email}
-          url={'mailto:' + user.email}
-      />
+      <View style={styles.cardDataContainer}>
+        <Txt style={styles.cardDataLabel}>Email: </Txt>
+        <ExternalLink url={'mailto:' + user.email}>
+          <Txt style={styles.cardData}>{user.email}</Txt>
+        </ExternalLink>
+      </View>
 
-      <Txt style={styles.detailContainer}>Phone: </Txt>
-      <ExternalLink
-          contentStyle={styles.detailContent}
-          content={user.phone}
-          url={'sms:' + user.phone}
-      />
+      <View style={styles.cardDataContainer}>
+        <Txt style={styles.cardDataLabel}>Phone: </Txt>
+        <ExternalLink url={'sms:' + user.phone}>
+          <Txt style={styles.cardData}>{user.phone}</Txt>
+        </ExternalLink>
+      </View>
 
-      <Txt style={styles.detailContainer}>Website: </Txt>
-      <ExternalLink
-          contentStyle={styles.detailContent}
-          content={user.website}
-          url={'http://' + user.website}
-      />
+      <View style={styles.cardDataContainer}>
+        <Txt style={styles.cardDataLabel}>Website: </Txt>
+        <ExternalLink url={'http://' + user.website}>
+          <Txt style={styles.cardData}>{user.website}</Txt>
+        </ExternalLink>
+      </View>
 
-      <Txt style={styles.detailContainer}>Business:
-        <Txt style={styles.detailContent}>{user.business}</Txt>
-      </Txt>
-      
-      <Txt style={styles.detailContainer}>Reviews Written:
-        <Txt style={styles.detailContent}>{user.reviewIds.length}</Txt>
-      </Txt>
+      <View style={styles.cardDataContainer}>      
+        <Txt style={styles.cardDataLabel}>Business: </Txt>
+        <Txt style={styles.cardData}>{user.business}</Txt>
+      </View>
+
+      <View style={styles.cardDataContainer}>      
+        <Txt style={styles.cardDataLabel}>Reviews Written: </Txt>
+        <Txt style={styles.cardData}>{user.reviewIds.length}</Txt>
+      </View>
     </View>
   </View>
 );
