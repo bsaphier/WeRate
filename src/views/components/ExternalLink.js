@@ -1,5 +1,6 @@
+/* globals console */
 import React from 'react';
-import { Text, Linking, TouchableOpacity, StyleSheet } from 'react-native';
+import { Linking, TouchableOpacity } from 'react-native';
 
 
 
@@ -14,21 +15,13 @@ function handleLink(url) {
 }
 
 
-const ExternalLink = ({ url, content, contentStyle }) => {
+const ExternalLink = ({ url, children }) => {
   return (
-    <TouchableOpacity style={styles.contentContainer} onPress={() => handleLink(url)}>
-      <Text style={contentStyle}>{content}</Text>
+    <TouchableOpacity onPress={() => handleLink(url)}>
+      { children }
     </TouchableOpacity>
   );
 };
 
 
 export default ExternalLink;
-
-
-const styles = StyleSheet.create({
-  contentContainer: {
-  }
-});
-
-
