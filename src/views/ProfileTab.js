@@ -37,14 +37,18 @@ class ProfileTab extends Component {
   }
 
   render() {
-    return (
-      <UserProfile user={this.props.user} />
+    const { user, loggedIn } = this.props;
+    return loggedIn && (
+      <UserProfile user={user} />
     );
   }
 }
 
 
-const mapState = ({ auth }) => ({ user: auth.user });
+const mapState = ({ auth }) => ({
+  user: auth.user,
+  loggedIn: auth.isLoggedIn
+});
 
 
 const mapDispatch = dispatch => ({

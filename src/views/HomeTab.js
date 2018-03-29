@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, FlatList, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { logout } from '../state/App/action-creators';
 import { UserCard, Spinner } from './components';
+import styles from './styles/layout';
 
 
 
@@ -43,17 +44,16 @@ class HomeTab extends Component {
   }
 
   render() {
-    const { loaded, allUserIds } = this.props;
-    return loaded ? (
-      <View style={styles.viewContainer}>
+    const { loaded, loggedIn, allUserIds } = this.props;
+    return loggedIn && loaded ? (
+      <View>
         <FlatList
-            style={styles.listContainer}
             data={allUserIds.map(userId => ({ key: userId, userId }))}
             renderItem={this.renderUserCard}
         />
       </View>
     ) : (
-      <View style={styles.spinnerContainter}>
+      <View style={styles.contentContainer}>
         <Spinner large />
       </View>
     );
@@ -64,6 +64,7 @@ class HomeTab extends Component {
 const mapState = (state) => ({
   usersById: state.users.byId,
   allUserIds: state.users.allIds,
+  loggedIn: state.auth.isLoggedIn,
   loaded: state.fetch.initialStateLoaded
 });
 
@@ -74,17 +75,3 @@ const mapDispatch = dispatch => ({
 
 
 export default connect(mapState, mapDispatch)(HomeTab);
-
-
-const styles = StyleSheet.create({
-  viewContainer: {
-    height: '100%'
-  },
-  spinnerContainter: {
-    flex: 1,
-    justifyContent: 'space-around'
-  },
-  listContainer: {
-    paddingBottom: 100
-  }
-});
