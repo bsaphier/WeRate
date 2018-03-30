@@ -3,34 +3,37 @@ import colors from './colors';
 
 export default StyleSheet.create({
   container: {
-    // display: 'flex',
-    // marginBottom: 21,
-    // borderBottomColor: '#e5e5e5',
-    // borderBottomWidth: 3,
-    // padding: 13
+    marginBottom: 21,
+    padding: 13,
+    borderColor: colors.SHADE.LIGHT,
+    borderWidth: 1,
+    borderRadius: 8
   },
   headerContainer: {
-    // display: 'flex',
-    // flexDirection: 'row',
-    // marginBottom: 13
+    marginBottom: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   headerTitle: {
-    // color: '#222',
+    fontSize: 14,
+    color: colors.PRIMARY.DARKER,
+    alignSelf: 'center'
+    // textAlign: 'center',
+    // textAlignVertical: 'bottom'
     // marginTop: 13,
     // marginLeft: 21,
     // marginRight: 21,
     // fontWeight: 'bold'
   },
-  tagContainer: {
+  subHeaderContainer: {
     // marginBottom: 6,
     // paddingLeft: 8,
     // paddingRight: 8,
-    // flexWrap: 'wrap',
-    // flexDirection: 'row',
-    // justifyContent: 'flex-start'
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
   },
   bodyContainer: {
-    // display: 'flex',
     // borderTopColor: '#fafafa',
     // borderTopWidth: 2,
     // padding: 8,
@@ -43,22 +46,30 @@ export default StyleSheet.create({
     justifyContent: 'space-between'
   },
   cardDataLabel: {
-    fontSize: 12,
+    fontSize: 13,
     color: colors.PRIMARY.DARK
-    // display: 'flex',
-    // marginTop: 5,
-    // flexDirection: 'row',
-    // justifyContent: 'space-around'
   },
   cardData: {
     color: colors.SHADE.DARK,
-    fontSize: 12,
-    fontFamily: 'Avenir Next',
-    // fontWeight: 'bold',
-    // marginLeft: 5
+    fontSize: 13,
+    fontFamily: 'Avenir Next'
   },
   icon: {
     width: 34,
     height: 34
+  },
+  tagWrapper: {
+    alignSelf: 'center',
+    borderRadius: 3,
+    padding: 2,
+    backgroundColor: colors.PRIMARY.LIGHTER
+  },
+  tagContent: {
+    marginLeft: 6,
+    marginRight: 6,
+    color: colors.SHADE.DARK,
+    fontSize: 11,
+    fontWeight: '600',
+    fontFamily: 'Avenir Next',
   }
 });

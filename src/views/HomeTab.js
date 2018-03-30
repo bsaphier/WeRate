@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View } from 'react-native';
 import { logout } from '../state/App/action-creators';
+import { selectUser } from '../state/Users/action-creators';
 import { UserCard, Spinner } from './components';
 import styles from './styles/layout';
 
@@ -25,12 +26,21 @@ class HomeTab extends Component {
     }
   }
 
+  handleSelectUser = (userId) => {
+    const { onSelectUser, navigator } = this.props;
+    onSelectUser(userId);
+    navigator.push({
+      screen: 'werate.screen.profile'
+    });
+  }
+
   renderUserCard = ({ item: { userId } }) => {
     return this.props.loaded && (
       <UserCard
           key={userId + 'userCard'}
           icon={'ios-images-outline'}
           user={this.props.usersById[userId]}
+          onSelectUser={() => this.handleSelectUser(userId)}
       />
     );
   }
@@ -62,7 +72,8 @@ const mapState = (state) => ({
 
 
 const mapDispatch = dispatch => ({
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
+  onSelectUser: (userId) => dispatch(selectUser(userId)),
 });
 
 

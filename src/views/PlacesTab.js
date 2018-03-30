@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Button, FlatList, StyleSheet } from 'react-native';
+import { View, Button, FlatList } from 'react-native';
 import { resetPlaceFilter, orderPlacesByNameAsc, orderPlacesByNameDes, orderPlacesByReviewAvgAsc, orderPlacesByReviewAvgDsc } from '../state/Filter/action-creators';
 import { FILTER_ALPH_ASCENDING, FILTER_ALPH_DESCENDING, FILTER_RATING_ASCENDING, FILTER_RATING_DESCENDING } from '../state/Filter/types';
 import { getReviewAvgs, getFilteredPlaces } from '../state/Filter/selectors';
@@ -10,6 +10,7 @@ import { PlaceCard } from './components';
 
 
 class PlacesTab extends Component {
+  
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
@@ -60,7 +61,7 @@ class PlacesTab extends Component {
     const place = this.props.allPlaces[placeId];
     const { tagIds, createdBy } = place;
     const tags = tagIds.length ? tagIds.map(tagId => this.props.tagsById[tagId]) : [];
-    return this.props.loading && (
+    return this.props.loaded && (
       <PlaceCard
           icon={'ios-images-outline'}
           tags={tags}
@@ -79,7 +80,7 @@ class PlacesTab extends Component {
     const filterRtngAsc = filterBy === FILTER_RATING_ASCENDING;
     const filterRtngDes = filterBy === FILTER_RATING_DESCENDING;
     return loggedIn && (
-      <View style={styles.viewContainer}>
+      <View style={styles.contentContainer}>
         <View style={styles.buttonContainer}>
           <Button title="show all" onPress={onResetPlaceFilter} />
           <Button title={`abc ${filterAlphAsc ? '>' : '<'}`} onPress={filterAlphDes ? orderPlacesByNameAsc : orderPlacesByNameDes} />
@@ -87,7 +88,6 @@ class PlacesTab extends Component {
           <Button title="search" onPress={this.showSearchDrawer} />
         </View>
         <FlatList
-            style={styles.listContainer}
             data={placesById.map(placeId => ({ key: placeId, placeId }))}
             renderItem={this.renderPlaceCard}
         />
@@ -99,7 +99,7 @@ class PlacesTab extends Component {
 
 const mapState = (state) => ({
   loggedIn: state.auth.isLoggedIn,
-  loading: state.fetch.initialStateLoaded,
+  loaded: state.fetch.initialStateLoaded,
   tagsById: state.tags.byId,
   usersById: state.users.byId,
   allPlaces: state.places.byId,
@@ -120,17 +120,3 @@ const mapDispatch = dispatch => ({
 
 
 export default connect(mapState, mapDispatch)(PlacesTab);
-
-
-const styles = StyleSheet.create({
-  viewContainer: {
-    height: '100%'
-  },
-  listContainer: {
-    paddingBottom: 100
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  }
-});

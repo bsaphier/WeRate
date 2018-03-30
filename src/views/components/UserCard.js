@@ -6,16 +6,15 @@ import styles from '../styles/cards';
 
 
 
-const UserCard = ({ icon, user }) => (
+const UserCard = ({ icon, user, onSelectUser }) => (
   <View style={styles.container}>
 
     <View style={styles.headerContainer}>
+      <Txt style={styles.headerTitle} onPress={onSelectUser}>{`${user.firstName} ${user.lastName}`}</Txt>
       <Image style={styles.icon} source={iconsMap[icon]} />
-      {/* TODO: make the name clickeable to open the user's profile */}
-      <Txt style={styles.headerTitle}>{`${user.firstName} ${user.lastName}`}</Txt>
     </View>
 
-    <View style={styles.tagContainer}>
+    <View style={styles.subHeaderContainer}>
       {user.admin ? <Tag name="Admin" /> : null}
     </View>
 
