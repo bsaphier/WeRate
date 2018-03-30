@@ -14,17 +14,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  headerTitle: {
-    fontSize: 14,
-    color: colors.PRIMARY.DARKER,
-    alignSelf: 'center'
-    // textAlign: 'center',
-    // textAlignVertical: 'bottom'
-    // marginTop: 13,
-    // marginLeft: 21,
-    // marginRight: 21,
-    // fontWeight: 'bold'
-  },
   headerLeft: {
     flex: 1,
     display: 'flex',
@@ -36,6 +25,17 @@ export default StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
+  },
+  headerTitle: {
+    fontSize: 14,
+    color: colors.PRIMARY.DARKER,
+    alignSelf: 'center'
+    // textAlign: 'center',
+    // textAlignVertical: 'bottom'
+    // marginTop: 13,
+    // marginLeft: 21,
+    // marginRight: 21,
+    // fontWeight: 'bold'
   },
   subHeaderContainer: {
     // marginBottom: 6,
