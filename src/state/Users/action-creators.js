@@ -2,6 +2,7 @@
 /* globals console */
 import { ADD_USERS, RESET_USERS, UPDATE_USER, SELECTED_USER } from './types';
 import { modifyUserInDb } from '../../utils/firestore-actions';
+import { checkAuth } from '../Auth/action-creators';
 import type { Id, User, Users, AddUsersAction, ResetUsersAction, SelectUserAction, UpdateUserAction } from './types';
 import type { ThunkAction } from 'redux-thunk';
 import type { ActionCreator } from 'redux';
@@ -33,6 +34,7 @@ export const editUser: ThunkAction = (user: User) => {
     try {
       await modifyUserInDb(user);
       dispatch(modifyUser(user));
+      await dispatch(checkAuth); // this updates the signed in user state in the auth reducer
     } catch (error) {
       console.log('editUser', error);
     }

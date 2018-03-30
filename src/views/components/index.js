@@ -16,11 +16,13 @@ import UserProfile from './UserProfile';
 import MultiSelect from './MultiSelect';
 import LabeledValue from './LabeledValue';
 import ExternalLink from './ExternalLink';
+import EditableValue from './EditableValue';
 import NewPasswordForm from './NewPasswordForm';
 
 import FormField from './FormField';
 import FormSlider from './FormSlider';
 import FormMultiSelect from './FormMultiSelect';
+import FormFieldTextInput from './FormFieldTextInput';
 
 
 export {
@@ -44,6 +46,8 @@ export {
   MultiSelect,
   LabeledValue,
   ExternalLink,
+  EditableValue,
   FormMultiSelect,
-  NewPasswordForm
+  NewPasswordForm,
+  FormFieldTextInput
 };

@@ -1,21 +1,66 @@
 import React from 'react';
 import { View } from 'react-native';
-import LabeledValue from './LabeledValue';
-import styles from '../styles/layout';
+import { reduxForm } from 'redux-form';
+import EditableValue from './EditableValue';
 
 
-const UserProfile = ({ user }) => {
+
+const UserProfile = ({ user, canEdit, handleToggleEditState }) => {
   const { email, firstName, lastName, business, phone, website } = user;
   return (
-    <View style={styles.contentContainer}>
-      <LabeledValue label="First Name" value={firstName} />
-      <LabeledValue label="Last Name" value={lastName} />
-      <LabeledValue label="Email" value={email} />
-      <LabeledValue label="Business" value={business} />
-      <LabeledValue label="Phone" value={phone} />
-      <LabeledValue label="Website" value={website} />
+    <View>
+      <EditableValue
+          name="firstName"
+          label="First Name"
+          value={firstName}
+          canEdit={canEdit['firstName']}
+          onToggleEditState={() => handleToggleEditState('firstName')}
+      />
+      <EditableValue
+          name="lastName"
+          label="Last Name"
+          value={lastName}
+          canEdit={canEdit['lastName']}
+          onToggleEditState={() => handleToggleEditState('lastName')}
+      />
+      <EditableValue
+          name="email"
+          label="Email"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          value={email}
+          canEdit={canEdit['email']}
+          onToggleEditState={() => handleToggleEditState('email')}
+      />
+      <EditableValue
+          name="business"
+          label="Business"
+          value={business}
+          canEdit={canEdit['business']}
+          onToggleEditState={() => handleToggleEditState('business')}
+      />
+      <EditableValue
+          name="phone"
+          label="Phone"
+          keyboardType="number-pad"
+          value={phone}
+          canEdit={canEdit['phone']}
+          onToggleEditState={() => handleToggleEditState('phone')}
+      />
+      <EditableValue
+          name="website"
+          label="Website"
+          keyboardType="url"
+          autoCapitalize="none"
+          value={website}
+          canEdit={canEdit['website']}
+          onToggleEditState={() => handleToggleEditState('website')}
+      />
     </View>
   );
 };
 
-export default UserProfile;
+
+export default reduxForm({
+  form: 'editUserProfileForm'
+})(UserProfile);

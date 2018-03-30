@@ -108,12 +108,12 @@ export default class App extends Component {
                     id: 'global.event.logout'
                   }
                 ],
-                rightButtons: [
-                  {
-                    title: 'edit',
-                    id: 'tab.profile.event.edit'
-                  }
-                ]
+                // rightButtons: [
+                //   {
+                //     title: 'edit',
+                //     id: 'tab.profile.event.edit'
+                //   }
+                // ]
               }
             } /*,
             {

@@ -8,9 +8,12 @@ export default StyleSheet.create({
   inputContainerStyle: {
     marginTop: 8,
     marginBottom: 13,
-    width: '100%'
+  },
+  labelWrapper: {
+    flexDirection: 'row'
   },
   labelStyle: {
+    flex: 1,
     fontSize: 12,
     color: colors.PRIMARY.DARK
   },
@@ -19,6 +22,12 @@ export default StyleSheet.create({
     color: colors.SHADE.BASE,
     fontSize: 18,
     fontFamily: 'Avenir Next',
-    width: '100%'
+    // width: '100%'
+  },
+  toggleEditableField: {
+    fontSize: 12,
+    paddingRight: 5,
+    alignSelf: 'flex-end',
+    color: colors.PRIMARY.DARK
   }
 });
