@@ -70,11 +70,15 @@ class Login extends Component<loginProps, loginState> {
             }
             {
               !this.props.firstTimeUser && (
-                <Txt style={textStyles.subTitle}>
-                  {`${this.state.signup ? 'Already' : 'Don\'t'} have an account? `}
-                  <Txt style={textStyles.subTitleButton} onPress={this.toggleSignupForm}>Click here</Txt>
-                  {` to sign ${this.state.signup ? 'in' : 'up'}.`}
-                </Txt>
+                <View>
+                  <Txt style={textStyles.subTitle}>
+                    {`${this.state.signup ? 'Already' : 'Don\'t'} have an account? `}
+                  </Txt>
+                  <Txt style={textStyles.subTitle}>
+                    <Txt style={textStyles.subTitleButton} onPress={this.toggleSignupForm}>Click here</Txt>
+                    {` to sign ${this.state.signup ? 'in' : 'up'}.`}
+                  </Txt>
+                </View>
               )
             }
           </ScrollView>
