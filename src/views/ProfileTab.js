@@ -3,27 +3,36 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { submit } from 'redux-form';
 import { connect } from 'react-redux';
-import { Btn, UserProfile } from './components';
+import { Btn, Spinner, UserProfile } from './components';
 import { logout } from '../state/App/action-creators';
+import { checkAuth } from '../state/Auth/action-creators';
 import { editUser } from '../state/Users/action-creators';
 import styles from './styles/layout';
 
 
 
+// TODO: move to constants
+const PROFILE_VALUES = ['firstName', 'lastName', 'email', 'business', 'phone', 'website'];
+
+const canEdit = (() => {
+  const canEditObj = {};
+  PROFILE_VALUES.forEach(value => {
+    canEditObj[value] = false;
+  });
+  return canEditObj;
+})();
+
+
 class ProfileTab extends Component {
+  
   constructor(props) {
     super(props);
-    this.state = {
-      canEdit: {
-        firstName: false,
-        lastName: false,
-        email: false,
-        business: false,
-        phone: false,
-        website: false
-      }
-    };
+    this.state = { canEdit };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+  }
+
+  componentWillReceiveProps() {
+    this.props.checkAuth(); // this updates the sign in user state
   }
 
   onNavigatorEvent = (event) => {
@@ -45,6 +54,7 @@ class ProfileTab extends Component {
     } catch (err) {
       console.log('handleSubmitForm', err);
     }
+    this.setState({ canEdit });
   }
 
   onToggleEditState = (fieldName) => {
@@ -69,8 +79,8 @@ class ProfileTab extends Component {
   }
 
   render() {
-    const { user, loggedIn, initialValues } = this.props;
-    return loggedIn && (
+    const { user, loggedIn, isLoading, initialValues } = this.props;
+    return loggedIn && !isLoading ? (
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           <UserProfile
@@ -83,6 +93,10 @@ class ProfileTab extends Component {
         </View>
         { this.renderSubmitButton() }
       </View>
+    ) : (
+      <View style={styles.contentContainer}>
+        <Spinner large />
+      </View>
     );
   }
 }
@@ -91,19 +105,21 @@ class ProfileTab extends Component {
 const mapState = ({ auth }) => ({
   user: auth.user,
   loggedIn: auth.isLoggedIn,
+  isLoading: auth.isLoading,
   initialValues: {
+    firstName: auth.user.firstName,
+    lastName: auth.user.lastName,
     email: auth.user.email,
+    business: auth.user.business,
     phone: auth.user.phone,
     website: auth.user.website,
-    business: auth.user.business,
-    lastName: auth.user.lastName,
-    firstName: auth.user.firstName
   }
 });
 
 
 const mapDispatch = dispatch => ({
   logout: () => dispatch(logout()),
+  checkAuth: () => dispatch(checkAuth()),
   handleEditUserProfile: async (user) => await dispatch(editUser(user)),
   submitProfileEdit: () => dispatch(submit('editUserProfileForm'))
 });
