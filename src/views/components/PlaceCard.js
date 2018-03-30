@@ -72,18 +72,6 @@ const _styles = StyleSheet.create({
   //   flexDirection: 'row',
   //   marginBottom: 13
   // },
-  headerLeft: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  headerRight: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
   // headerTitle: {
   //   color: '#222',
   //   marginTop: 13,
@@ -117,10 +105,6 @@ const _styles = StyleSheet.create({
   //   padding: 8,
   //   flexDirection: 'column',
   //   justifyContent: 'space-between'
-  // },
-  // icon: {
-  //   width: 34,
-  //   height: 34
   // },
   star: {
     width: 16,

@@ -6,6 +6,7 @@ import { FILTER_ALPH_ASCENDING, FILTER_ALPH_DESCENDING, FILTER_RATING_ASCENDING,
 import { getReviewAvgs, getFilteredPlaces } from '../state/Filter/selectors';
 import { logout } from '../state/App/action-creators';
 import { PlaceCard } from './components';
+import styles from './styles/layout';
 
 
 
@@ -81,7 +82,7 @@ class PlacesTab extends Component {
     const filterRtngDes = filterBy === FILTER_RATING_DESCENDING;
     return loggedIn && (
       <View style={styles.contentContainer}>
-        <View style={styles.buttonContainer}>
+        <View style={styles.buttonWrapper}>
           <Button title="show all" onPress={onResetPlaceFilter} />
           <Button title={`abc ${filterAlphAsc ? '>' : '<'}`} onPress={filterAlphDes ? orderPlacesByNameAsc : orderPlacesByNameDes} />
           <Button title={`avg. ${filterRtngAsc ? '>' : '<'}`} onPress={filterRtngDes ? orderPlacesByReviewAvgAsc : orderPlacesByReviewAvgDsc} />

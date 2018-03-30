@@ -25,6 +25,18 @@ export default StyleSheet.create({
     // marginRight: 21,
     // fontWeight: 'bold'
   },
+  headerLeft: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  headerRight: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
   subHeaderContainer: {
     // marginBottom: 6,
     // paddingLeft: 8,
@@ -57,6 +69,12 @@ export default StyleSheet.create({
   icon: {
     width: 34,
     height: 34
+  },
+  star: {
+    // width: 16,
+    // height: 16,
+    // marginBottom: 3,
+    // alignSelf: 'center'
   },
   tagWrapper: {
     alignSelf: 'center',
