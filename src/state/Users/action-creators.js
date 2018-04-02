@@ -35,7 +35,7 @@ export const editUser: ThunkAction = (user: User) => {
       await modifyUserInDb(user);
       dispatch(modifyUser(user));
       // update the signed in user state of the auth reducer
-      await dispatch(checkAuth);
+      await dispatch(checkAuth());
     } catch (error) {
       console.log('editUser', error);
     }

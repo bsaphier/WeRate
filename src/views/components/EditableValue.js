@@ -9,20 +9,12 @@ import styles from '../styles/forms';
 
 class EditableValue extends Component<EditableValueProps> {
 
-  saveNewValue = () => {}
-
-  renderSaveButton = () => {
-    return this.props.canEdit ? (
-      <Txt style={styles.toggleEditableField} onPress={this.saveNewValue}>save</Txt>
-    ) : null;
-  }
-
   renderField = () => {
     const { canEdit, value, ...props } = this.props;
     return canEdit ? (
       <Field component={FormFieldTextInput} {...props} />
     ) : (
-      <Txt style={styles.formTextInput}> { value }</Txt>
+      <Txt style={styles.formTextInput}>{ value }</Txt>
     );
   }
 
@@ -32,9 +24,11 @@ class EditableValue extends Component<EditableValueProps> {
       <View style={styles.inputContainerStyle}>
         <View style={styles.labelWrapper}>
           <Txt style={styles.labelStyle}>{label}</Txt>
-          <Txt style={styles.toggleEditableField} onPress={onToggleEditState}>
-            {canEdit ? 'cancel' : 'edit'}
-          </Txt>
+          {(canEdit !== undefined) && (
+            <Txt style={styles.toggleEditableField} onPress={onToggleEditState}>
+              {canEdit ? 'cancel' : 'edit'}
+            </Txt>
+          )}
         </View>
         { this.renderField() }
       </View>
@@ -50,8 +44,8 @@ type EditableValueProps = {
   name: string;
   label: string;
   value: string;
-  canEdit: boolean;
-  onToggleEditState: () => {};
+  canEdit?: boolean;
+  onToggleEditState?: () => {};
   placeholder?: string;
   keyboardType?: string;
   autoCapitalize?: string;

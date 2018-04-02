@@ -7,7 +7,8 @@ import EditableValue from './EditableValue';
 
 // TODO: make a HOC to create UserProfile by passing the form name and the props for the fields, etc..
 
-const UserProfile = ({ user, canEdit, handleToggleEditState }) => {
+// If this component is imported (instead of the default export), it will not be registered as a form.
+export const UserProfile = ({ user, canEdit = {}, handleToggleEditState = () => {} }) => {
   const { email, firstName, lastName, business, phone, website } = user;
   return (
     <View>

@@ -1,9 +1,9 @@
 /* globals console */
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import { submit } from 'redux-form';
 import { connect } from 'react-redux';
-import { Btn, Spinner, UserProfile } from './components';
+import { View, KeyboardAvoidingView } from 'react-native';
+import { Btn, Spinner, UserProfile as UserProfileForm } from './components';
 import { logout } from '../state/App/action-creators';
 import { checkAuth } from '../state/Auth/action-creators';
 import { editUser } from '../state/Users/action-creators';
@@ -29,10 +29,6 @@ class ProfileTab extends Component {
     super(props);
     this.state = { canEdit };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-  }
-
-  componentWillReceiveProps() {
-    this.props.checkAuth(); // this updates the sign in user state
   }
 
   onNavigatorEvent = (event) => {
@@ -81,9 +77,9 @@ class ProfileTab extends Component {
   render() {
     const { user, loggedIn, isLoading, initialValues } = this.props;
     return loggedIn && !isLoading ? (
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.contentContainer}>
-          <UserProfile
+          <UserProfileForm
               user={user}
               canEdit={this.state.canEdit}
               onSubmit={this.handleSubmit}
@@ -92,7 +88,7 @@ class ProfileTab extends Component {
           />
         </View>
         { this.renderSubmitButton() }
-      </View>
+      </KeyboardAvoidingView>
     ) : (
       <View style={styles.contentContainer}>
         <Spinner large />
