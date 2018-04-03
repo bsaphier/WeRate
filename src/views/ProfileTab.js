@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { submit } from 'redux-form';
 import { connect } from 'react-redux';
-import { View, KeyboardAvoidingView } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Btn, Spinner, UserProfile as UserProfileForm } from './components';
 import { logout } from '../state/App/action-creators';
 import { checkAuth } from '../state/Auth/action-creators';
@@ -77,8 +77,12 @@ class ProfileTab extends Component {
   render() {
     const { user, loggedIn, isLoading, initialValues } = this.props;
     return loggedIn && !isLoading ? (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <View style={styles.contentContainer}>
+      <KeyboardAvoidingView
+          behavior="padding"
+          keyboardVerticalOffset={64}
+          style={styles.container}
+      >
+        <ScrollView contentContainerStyle={styles.contentContainer} centerContent={true}>
           <UserProfileForm
               user={user}
               canEdit={this.state.canEdit}
@@ -86,7 +90,7 @@ class ProfileTab extends Component {
               initialValues={initialValues}
               handleToggleEditState={this.onToggleEditState}
           />
-        </View>
+        </ScrollView>
         { this.renderSubmitButton() }
       </KeyboardAvoidingView>
     ) : (
