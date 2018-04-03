@@ -1,17 +1,32 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { TextInput } from 'react-native';
 import styles from '../styles/forms';
 import colors from '../styles/colors';
 
 
-const FormFieldTextInput = ({ input: { onChange, ...inputProps }, ...props }) => (
-  <TextInput
-      style={styles.formTextInput}
-      onChangeText={onChange}
-      placeholderTextColor={colors.SHADE.LIGHTER}
-      {...inputProps}
-      {...props}
-  />
-);
+
+class FormFieldTextInput extends PureComponent {
+
+  componentDidMount() {
+    const { onMounted } = this.props;
+    if (onMounted) { onMounted(); }
+  }
+
+  render() {
+    const { input: { onChange, value, ...inputProps }, inputRef, ...props } = this.props;
+    return (
+      <TextInput
+          style={styles.formTextInput}
+          value={value}
+          onChangeText={onChange}
+          placeholderTextColor={colors.SHADE.LIGHTER}
+          ref={(r) => inputRef && inputRef(r)}
+          {...inputProps}
+          {...props}
+      />
+    );
+  }
+}
+
 
 export default FormFieldTextInput;

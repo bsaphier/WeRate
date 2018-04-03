@@ -9,23 +9,42 @@ import styles from '../styles/forms';
 
 class EditableValue extends Component<EditableValueProps> {
 
+  formFieldRef: any;
+
+  handleToggleEditState = () => {
+    const { name, onToggleEditState } = this.props;
+    if (onToggleEditState) {
+      onToggleEditState(name);
+    }
+  }
+  
+  handleFormFieldMounted = () => {
+    this.formFieldRef && this.formFieldRef.focus();
+  }
+
   renderField = () => {
     const { canEdit, value, ...props } = this.props;
     return canEdit ? (
-      <Field component={FormFieldTextInput} {...props} />
+      <Field
+          component={FormFieldTextInput}
+          onMounted={this.handleFormFieldMounted}
+          inputRef={(ref) => this.formFieldRef = ref}
+          withRef
+          {...props}
+      />
     ) : (
       <Txt style={styles.formTextInput}>{ value }</Txt>
     );
   }
 
   render() {
-    const { label, canEdit, onToggleEditState } = this.props;
+    const { label, canEdit } = this.props;
     return (
       <View style={styles.inputContainerStyle}>
         <View style={styles.labelWrapper}>
           <Txt style={styles.labelStyle}>{label}</Txt>
           {(canEdit !== undefined) && (
-            <Txt style={styles.toggleEditableField} onPress={onToggleEditState}>
+            <Txt style={styles.toggleEditableField} onPress={this.handleToggleEditState}>
               {canEdit ? 'cancel' : 'edit'}
             </Txt>
           )}
@@ -45,7 +64,7 @@ type EditableValueProps = {
   label: string;
   value: string;
   canEdit?: boolean;
-  onToggleEditState?: () => {};
+  onToggleEditState?: (string) => {};
   placeholder?: string;
   keyboardType?: string;
   autoCapitalize?: string;

@@ -8,6 +8,7 @@ import styles from './styles/layout';
 
 
 class ProfileScreen extends Component {
+  
   componentWillMount() {
     const { user, navigator } = this.props;
     navigator.setTitle({

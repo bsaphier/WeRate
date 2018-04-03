@@ -17,14 +17,14 @@ export const UserProfile = ({ user, canEdit = {}, handleToggleEditState = () => 
           label="First Name"
           value={firstName}
           canEdit={canEdit['firstName']}
-          onToggleEditState={() => handleToggleEditState('firstName')}
+          onToggleEditState={handleToggleEditState}
       />
       <EditableValue
           name="lastName"
           label="Last Name"
           value={lastName}
           canEdit={canEdit['lastName']}
-          onToggleEditState={() => handleToggleEditState('lastName')}
+          onToggleEditState={handleToggleEditState}
       />
       <EditableValue
           name="email"
@@ -33,14 +33,14 @@ export const UserProfile = ({ user, canEdit = {}, handleToggleEditState = () => 
           keyboardType="email-address"
           value={email}
           canEdit={canEdit['email']}
-          onToggleEditState={() => handleToggleEditState('email')}
+          onToggleEditState={handleToggleEditState}
       />
       <EditableValue
           name="business"
           label="Business"
           value={business}
           canEdit={canEdit['business']}
-          onToggleEditState={() => handleToggleEditState('business')}
+          onToggleEditState={handleToggleEditState}
       />
       <EditableValue
           name="phone"
@@ -48,7 +48,7 @@ export const UserProfile = ({ user, canEdit = {}, handleToggleEditState = () => 
           keyboardType="number-pad"
           value={phone}
           canEdit={canEdit['phone']}
-          onToggleEditState={() => handleToggleEditState('phone')}
+          onToggleEditState={handleToggleEditState}
       />
       <EditableValue
           name="website"
@@ -57,7 +57,7 @@ export const UserProfile = ({ user, canEdit = {}, handleToggleEditState = () => 
           autoCapitalize="none"
           value={website}
           canEdit={canEdit['website']}
-          onToggleEditState={() => handleToggleEditState('website')}
+          onToggleEditState={handleToggleEditState}
       />
     </View>
   );
