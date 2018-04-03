@@ -8,24 +8,19 @@ import { logout } from '../state/App/action-creators';
 import { checkAuth } from '../state/Auth/action-creators';
 import { editUser } from '../state/Users/action-creators';
 import { PROFILE_VALUES } from '../utils/constants';
+import { objFromKeys } from '../utils/helpers';
 import styles from './styles/layout';
 
 
+const canEditState = objFromKeys(PROFILE_VALUES);
 
-const canEdit = (() => {
-  const canEditObj = {};
-  PROFILE_VALUES.forEach(value => {
-    canEditObj[value] = false;
-  });
-  return canEditObj;
-})();
 
 
 class ProfileTab extends Component {
   
   constructor(props) {
     super(props);
-    this.state = { canEdit };
+    this.state = { canEdit: canEditState };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
@@ -48,7 +43,7 @@ class ProfileTab extends Component {
     } catch (err) {
       console.log('handleSubmitForm', err);
     }
-    this.setState({ canEdit });
+    this.setState({ canEdit: canEditState });
   }
 
   onToggleEditState = (fieldName) => {

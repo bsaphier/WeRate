@@ -7,7 +7,7 @@
  * @param {Array<string>} keys 
  * @param {*} defaultValue 
  */
-export const objFromKeys = (keys: string[], defaultValue: boolean | any = false) => {
+export const objFromKeys = (keys: string[], defaultValue?: boolean | any = false) => {
   const returnObj = {};
   keys.forEach(keyName => {
     returnObj[keyName] = defaultValue;
