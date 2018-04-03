@@ -7,3 +7,12 @@ export const FIRESTORE = {
   REVIEWS: 'reviews',
   REQ_ACCOUNT: '_users_'
 };
+
+export const PROFILE_VALUES = [
+  'firstName',
+  'lastName',
+  'email',
+  'business',
+  'phone',
+  'website'
+];

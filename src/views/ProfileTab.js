@@ -7,12 +7,10 @@ import { Btn, Spinner, UserProfile as UserProfileForm } from './components';
 import { logout } from '../state/App/action-creators';
 import { checkAuth } from '../state/Auth/action-creators';
 import { editUser } from '../state/Users/action-creators';
+import { PROFILE_VALUES } from '../utils/constants';
 import styles from './styles/layout';
 
 
-
-// TODO: move to constants
-const PROFILE_VALUES = ['firstName', 'lastName', 'email', 'business', 'phone', 'website'];
 
 const canEdit = (() => {
   const canEditObj = {};
@@ -61,12 +59,7 @@ class ProfileTab extends Component {
   }
 
   renderSubmitButton = () => {
-    let shouldRender = false;
-    Object.keys(this.state.canEdit).forEach(field => {
-      if (this.state.canEdit[field]) {
-        shouldRender = true;
-      }
-    });
+    const shouldRender = Object.keys(this.state.canEdit).some(field => this.state.canEdit[field]);
     return shouldRender ? (
       <View style={styles.buttonWrapper}>
         <Btn title="Save Changes" onPress={this.props.submitProfileEdit} />
