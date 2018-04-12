@@ -26,6 +26,7 @@ class EditableValue extends Component<EditableValueProps> {
     const { canEdit, value, ...props } = this.props;
     return canEdit ? (
       <Field
+          style={styles.formTextInputSelected}
           component={FormFieldTextInput}
           onMounted={this.handleFormFieldMounted}
           inputRef={(ref) => this.formFieldRef = ref}
@@ -39,10 +40,11 @@ class EditableValue extends Component<EditableValueProps> {
 
   render() {
     const { label, canEdit } = this.props;
+    const labelStyle = canEdit ? styles.labelStyleSelected : styles.labelStyle;
     return (
       <View style={styles.inputContainerStyle}>
         <View style={styles.labelWrapper}>
-          <Txt style={styles.labelStyle}>{label}</Txt>
+          <Txt style={labelStyle}>{label}</Txt>
           {(canEdit !== undefined) && (
             <Txt style={styles.toggleEditableField} onPress={this.handleToggleEditState}>
               {canEdit ? 'cancel' : 'edit'}

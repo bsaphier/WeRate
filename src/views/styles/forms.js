@@ -17,12 +17,22 @@ export default StyleSheet.create({
     fontSize: 12,
     color: colors.PRIMARY.DARK
   },
+  labelStyleSelected: {
+    flex: 1,
+    fontSize: 16,
+    color: colors.PRIMARY.DARK
+  },
   formTextInput: {
     paddingBottom: 1,
     color: colors.SHADE.BASE,
     fontSize: 18,
     fontFamily: 'Avenir Next',
-    // width: '100%'
+  },
+  formTextInputSelected: {
+    paddingBottom: 1,
+    color: colors.SHADE.DARK,
+    fontSize: 23,
+    fontFamily: 'Avenir Next',
   },
   toggleEditableField: {
     fontSize: 12,

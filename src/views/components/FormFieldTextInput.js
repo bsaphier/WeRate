@@ -16,7 +16,7 @@ class FormFieldTextInput extends PureComponent {
     const { input: { onChange, value, ...inputProps }, inputRef, ...props } = this.props;
     return (
       <TextInput
-          style={styles.formTextInput}
+          style={props.style ? props.style : styles.formTextInput}
           value={value}
           onChangeText={onChange}
           placeholderTextColor={colors.SHADE.LIGHTER}
